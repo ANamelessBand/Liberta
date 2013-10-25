@@ -1,7 +1,6 @@
 class WebsiteController < ApplicationController
   get '/' do
-    @title = "Website"
-    @name = "Unknown"
+    @title = "Liberta"
     erb :'index.html'
   end
 end
