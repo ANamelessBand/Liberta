@@ -4,6 +4,14 @@
   background-color: #eee;
 }
 
+.from-left-1 {
+  margin-left: 1em;
+}
+
+.from-right-5 {
+  margin-right: 5em;
+}
+
 h3.user-name {
   word-wrap: break-word;
 }
@@ -15,6 +23,14 @@ h3.user-name {
 .popover {
   min-width: 500px;
   max-width: 700px;
+}
+
+.free-copies {
+  font-size: 3em;
+}
+
+table.book-details {
+  min-width: 400px !important;
 }
 
 /**
