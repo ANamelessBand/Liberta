@@ -8,6 +8,10 @@ h3.user-name {
   word-wrap: break-word;
 }
 
+.navbar-nav.navbar-right {
+  margin-right: 0.1em !important;
+}
+
 .popover {
   min-width: 500px;
   max-width: 700px;
