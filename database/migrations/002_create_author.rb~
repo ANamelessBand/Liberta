@@ -1,8 +1,0 @@
-Sequel.migration do
-  change do
-    create_table(:authors) do
-      Integer :id, primary_key: true, auto_increment: true, index: true
-      String :name, null: false
-    end
-  end
-end
