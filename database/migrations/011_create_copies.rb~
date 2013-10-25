@@ -1,0 +1,17 @@
+Sequel.migration do
+  up do
+    #Create Copies table
+    create_table(:copies) do
+      Integer :id, :primary_key=>true, :auto_increment=>true, :index=>true
+      Integer :inventory_number, :null=>false
+      TrueClass :taken, :default=>false
+      foreign_key :prints_id, :prints
+    end
+  end
+
+  down do
+    drop_table(:copies)
+  end
+end
+
+    

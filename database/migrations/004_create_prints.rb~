@@ -13,6 +13,7 @@ Sequel.migration do
       TrueClass :is_loanable, default: true, null: false
       foreign_key :publisher_id, :publishers
       foreign_key :author_print_id, :authors_prints
+      constraint(:name_min_length) {name.length >= 2}
     end
   end
 end
