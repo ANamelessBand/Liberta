@@ -1,4 +1,4 @@
-Sequel.migrations do
+Sequel.migration do
   up do
     create_table(:publishers) do
       Integer :id, :primary_key=>true
