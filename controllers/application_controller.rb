@@ -11,4 +11,6 @@ class ApplicationController < Sinatra::Base
   helpers ApplicationHelpers
  
   set :views, File.expand_path('../../views', __FILE__)
+
+  not_found{ erb :'not_found.html' }
 end
