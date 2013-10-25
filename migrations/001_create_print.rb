@@ -9,8 +9,6 @@ Sequel.migration do
       String :language, :null=>false
       String :isbn, :null=>false, :unique=>true, :index=>true
       String :Description, :text => true, :null=>false
-      constraint(:name_min_length){char_length(name) >= 2}
-      constraint(:isbn_min_length){char_length(isbn) >= 9}
     end
   end
 
