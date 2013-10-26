@@ -5,5 +5,5 @@ class Print < Sequel::Model
   many_to_one :publisher
   one_to_many :copies
   one_to_many :recommendations
-  one_to_one :wishlist
+  one_to_many :wishlists
 end
