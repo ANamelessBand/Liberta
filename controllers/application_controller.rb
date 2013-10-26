@@ -1,22 +1,16 @@
-require 'rubygems'
-require 'sequel'
-require 'sinatra/base'
-require 'sinatra/reloader'
-
 class ApplicationController < Sinatra::Base
   attr_reader :navigation_links
   helpers ApplicationHelpers
 
   before do
     @navigation_links = [NavigationLink.new(NavigationLink.news_id, "/news", "Новини"),
-                        NavigationLink.new(NavigationLink.books_id, "/books", "Библиотека"),
-                        NavigationLink.new(NavigationLink.most_liked_id, "/books/most-liked", "Най-харесвани"),
+                        NavigationLink.new(NavigationLink.prints_id, "/prints", "Библиотека"),
+                        NavigationLink.new(NavigationLink.most_liked_id, "/prints/most-liked", "Най-харесвани"),
                         NavigationLink.new(NavigationLink.users_id, "/users", "Потребители")]
   end
 
   configure :development do
     register Sinatra::Reloader
-    DB = Sequel.sqlite('../database/liberta.db')
   end
 
   configure :production do
