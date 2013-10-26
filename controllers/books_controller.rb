@@ -1,18 +1,17 @@
 class BooksController < ApplicationController
   helpers BooksHelpers
 
-  before do
-    set_active_navigation_link(NavigationLink.books_id)
-  end
-
   get '/' do
-    @title = "News"
-    @my_array = ["ads", "as", "asdas"]
+    set_active_navigation_link(NavigationLink.books_id)
+    @title = "books"
+
     erb :'index.html'
   end
 
   get '/most-liked' do
+    set_active_navigation_link(NavigationLink.most_liked_id)
     @title = "Most Liked"
+
     erb :'index.html'
   end
 end
