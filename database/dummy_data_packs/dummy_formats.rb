@@ -1,10 +1,11 @@
-require 'sequel'
+formats = [
+            'book',
+            'magazine',
+            'newspaper',
+            'publication',
+          ]
 
-Sequel.sqlite('liberta.db')
-
-require './../models/sequel/format'
-
-Format.create(:name=>"book")
-Format.create(:name=>"magazine")
-Format.create(:name=>"newspaper")
-Format.create(:name=>"publication")
+formats.each do |format_name|
+  dummy_format = Format.new name: format_name
+  dummy_format.save if dummy_format.valid?
+end

@@ -1,28 +1,29 @@
-require 'sequel'
+tags = [
+        'Roman',
+        'Novel',
+        'Programming',
+        'Art',
+        'Music',
+        'Java',
+        'C#',
+        'Ruby',
+        'Python',
+        'SciFi',
+        'Crime fiction',
+        'Adventure',
+        'Stories',
+        'Audiobook',
+        'Poetry',
+        'Classic',
+        'Fiction',
+        'Fantasy',
+        'Science',
+        'Health',
+        'History',
+        'Horror',
+       ]
 
-Sequel.sqlite('liberta.db')
-
-require './../models/sequel/tag'
-
-Tag.create(:name=>'Roman')
-Tag.create(:name=>'Novel')
-Tag.create(:name=>'Programming')
-Tag.create(:name=>'Art')
-Tag.create(:name=>'Music')
-Tag.create(:name=>'Java')
-Tag.create(:name=>'C#')
-Tag.create(:name=>'Ruby')
-Tag.create(:name=>'Python')
-Tag.create(:name=>'SciFi')
-Tag.create(:name=>'Crime fiction')
-Tag.create(:name=>'Adventure')
-Tag.create(:name=>'Stories')
-Tag.create(:name=>'Audiobook')
-Tag.create(:name=>'Poetry')
-Tag.create(:name=>'Classic')
-Tag.create(:name=>'Fiction')
-Tag.create(:name=>'Fantasy')
-Tag.create(:name=>'Science')
-Tag.create(:name=>'Health')
-Tag.create(:name=>'History')
-Tag.create(:name=>'Horror')
+tags.each do |tag_name|
+  dummy_tag = Tag.new name: tag_name
+  dummy_tag.save if dummy_tag.valid?
+end

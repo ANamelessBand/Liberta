@@ -1,16 +1,17 @@
-require 'sequel'
+authors = [
+            'J. J. Martin',
+            'J. R. R. Talkien',
+            'Terry Pratchet',
+            'Ivan Vazov',
+            'Hristo Botev',
+            'J. K. Rowling',
+            'Douglas Addams',
+            'Paulo Coelho',
+            'Elin Pelin',
+            'Atanas Dalchev',
+          ]
 
-Sequel.sqlite('liberta.db')
-
-require './../models/sequel/author'
-
-Author.create(:name=>'J. J. Martin')
-Author.create(:name=>'J. R. R. Talkien')
-Author.create(:name=>'Terry Pratchet')
-Author.create(:name=>'Ivan Vazov')
-Author.create(:name=>'Hristo Botev')
-Author.create(:name=>'J. K. Rowling')
-Author.create(:name=>'Douglas Addams')
-Author.create(:name=>'Paulo Coelho')
-Author.create(:name=>'Elin Pelin')
-Author.create(:name=>'Atanas Dalchev')
+authors.each do |author_name|
+  dummy_author = Author.new name: author_name
+  dummy_author.save if dummy_author.valid?
+end
