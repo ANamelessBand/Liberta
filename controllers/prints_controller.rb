@@ -1,9 +1,9 @@
-class BooksController < ApplicationController
-  helpers BooksHelpers
+class PrintsController < ApplicationController
+  helpers PrintsHelpers
 
   get '/' do
-    set_active_navigation_link(NavigationLink.books_id)
-    @title = "books"
+    set_active_navigation_link(NavigationLink.prints_id)
+    @title = "Prints"
 
     erb :'index.html'
   end

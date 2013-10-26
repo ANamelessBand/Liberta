@@ -9,8 +9,8 @@ class ApplicationController < Sinatra::Base
 
   before do
     @navigation_links = [NavigationLink.new(NavigationLink.news_id, "/news", "Новини"),
-                        NavigationLink.new(NavigationLink.books_id, "/books", "Библиотека"),
-                        NavigationLink.new(NavigationLink.most_liked_id, "/books/most-liked", "Най-харесвани"),
+                        NavigationLink.new(NavigationLink.prints_id, "/prints", "Библиотека"),
+                        NavigationLink.new(NavigationLink.most_liked_id, "/prints/most-liked", "Най-харесвани"),
                         NavigationLink.new(NavigationLink.users_id, "/users", "Потребители")]
   end
 
