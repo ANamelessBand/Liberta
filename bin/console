@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+
+require 'sequel'
+Sequel.sqlite('liberta.db')
+
+require './models/sequel/print'
+require './models/sequel/publisher'
+require './models/sequel/author'
+require './models/sequel/tag'
+require 'irb'
+
+IRB.start
