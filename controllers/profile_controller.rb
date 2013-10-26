@@ -1,6 +1,10 @@
 class ProfileController < ApplicationController
   helpers ProfileHelpers
 
+  before do
+    set_active_navigation_link(NavigationLink.books_id)
+  end
+
   get '/' do
     redirect '/login' unless session['user']
     show_for_user session['user']  
@@ -13,6 +17,7 @@ class ProfileController < ApplicationController
 
   def show_for_user(user)
     @user = user
+    @title = "#{user}'s Profile"
     erb :'profile.html'
   end
 end
