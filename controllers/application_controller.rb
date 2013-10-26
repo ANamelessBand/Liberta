@@ -4,12 +4,14 @@ require 'sinatra/base'
 require 'sinatra/reloader'
 
 class ApplicationController < Sinatra::Base
-  attr_accessor :navigation_links
+  attr_reader :navigation_links
   helpers ApplicationHelpers
 
   before do
     @navigation_links = [NavigationLink.new(NavigationLink.news_id, "/news", "Новини"),
-                        NavigationLink.new(NavigationLink.books_id, "/books", "Книги")]
+                        NavigationLink.new(NavigationLink.books_id, "/books", "Библиотека"),
+                        NavigationLink.new(NavigationLink.most_liked_id, "/books/most-liked", "Най-харесвани"),
+                        NavigationLink.new(NavigationLink.users_id, "/users", "Потребители")]
   end
 
   configure :development do

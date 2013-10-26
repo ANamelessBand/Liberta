@@ -1,15 +1,23 @@
 class NavigationLink
   def self.news_id() 1; end
   def self.books_id() 2; end
-  attr_accessor :id
-  attr_accessor :href
-  attr_accessor :title
-  attr_accessor :active 
+  def self.most_liked_id() 3; end
+  def self.users_id() 4; end
 
-  def initialize(id, href, title)
+  attr_reader :id
+  attr_reader :href
+  attr_reader :title
+  attr_accessor :active
+
+  def requires_logged?
+    @requires_logged
+  end
+
+  def initialize(id, href, title, requires_logged = false)
     @id = id
     @href = href
     @title = title
+    @requires_logged = requires_logged
     @active = false
   end
 end
