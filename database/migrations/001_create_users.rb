@@ -8,7 +8,6 @@ Sequel.migration do
       Integre :authorization_level, null: false
       TrueClass :is_active, default: true, null: false
       File :avatar
-      constraint(:authorization_level_is_in_range) { (0..2).include? authorization_level }
     end
   end
 end
