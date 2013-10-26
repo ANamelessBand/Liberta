@@ -15,5 +15,6 @@ Copy.all.each_with_index do |copy, index|
                           date_returned: date_returned,
                           user: User.all.sample,
                           copy: copy
+    dummy_loan.save
   end
 end
