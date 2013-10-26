@@ -8,6 +8,10 @@ class PrintsController < ApplicationController
     erb :'index.html'
   end
 
+  get '/:id' do
+    erb :'index.html'
+  end
+
   get '/most-liked' do
     set_active_navigation_link(NavigationLink.most_liked_id)
     @title = "Most Liked"

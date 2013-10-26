@@ -1,6 +1,6 @@
 class NavigationLink
   def self.news_id() 1; end
-  def self.books_id() 2; end
+  def self.prints_id() 2; end
   def self.most_liked_id() 3; end
   def self.users_id() 4; end
 
