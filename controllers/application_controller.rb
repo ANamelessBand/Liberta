@@ -8,7 +8,7 @@ class ApplicationController < Sinatra::Base
   helpers ApplicationHelpers
 
   before do
-    navigation_links = [NavigationLink.new(NavigationLink.news_id, "/news", "Новини"),
+    @navigation_links = [NavigationLink.new(NavigationLink.news_id, "/news", "Новини"),
                         NavigationLink.new(NavigationLink.books_id, "/books", "Книги")]
   end
 

@@ -1,6 +1,6 @@
 class ProfileController < ApplicationController
   helpers ProfileHelpers
-
+  
   before do
     set_active_navigation_link(NavigationLink.books_id)
   end
