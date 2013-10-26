@@ -12,7 +12,8 @@ tables = [
                 'users',
                 'notifications',
                 'publishers',
-                'prints'
+                'prints',
+                'recommendations'
                ]
 
 tables.each do |table|
