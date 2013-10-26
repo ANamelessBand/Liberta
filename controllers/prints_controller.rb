@@ -9,7 +9,9 @@ class PrintsController < ApplicationController
   end
 
   get '/:id' do
-    erb :'index.html'
+    @title = "Яката работа"
+    @print = Print.find(id: 1)
+    erb :'print.html'
   end
 
   get '/most-liked' do
