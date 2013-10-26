@@ -27,7 +27,7 @@ class ApplicationController < Sinatra::Base
   enable :sessions, :method_override
 
   not_found do
-    @title = "404: droid not found"
+    @title = "404: Droid not found"
     erb :'not_found.html'
   end
 end
