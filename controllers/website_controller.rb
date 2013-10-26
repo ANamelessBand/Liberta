@@ -7,6 +7,7 @@ class WebsiteController < ApplicationController
 
   get /(^\/$|^\/news$)/ do
     @title = "Liberta"
+    @last_added = Print.all.sort{ |x, y| y.date_added <=> x.date_added }.take(5)
     erb :'index.html'
   end
 
