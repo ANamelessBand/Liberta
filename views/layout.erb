@@ -35,15 +35,19 @@
           <button type="submit" class="btn btn-default">Търси</button>
         </form>
         <ul class="nav navbar-nav navbar-right">
+          <% if logged? %>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Чичо Гошo<b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li><a href="#">Моите Книги</a></li>
               <li><a href="#">Настройки</a></li>
               <li class="divider"></a>
-              <li><a href="#">Изход</a></li>
+              <li><a href="/logout">Изход</a></li>
             </ul>
           </li>
+          <% else %>
+          <li><a href="/login">Влез</a></li>
+          <% end %>
         </ul>
       </div>
     </nav>

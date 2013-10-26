@@ -1,5 +1,15 @@
-<form action="/login_user" method="post">
-	<input name="username" />
-	<input type="password" name="password" />
-	<input type="submit"/>
-</form>
+<div class="row">
+  <div class="col-md-4">
+    <form method="post">
+      <div class="form-group">
+        <label for="username">Потребител:</label>
+        <input type="text" class="form-control" id="username" name="username" />
+      </div>
+      <div class="form-group">
+        <label for="password">Парола:</label>
+        <input type="password" class="form-control" id="password" name="password" />
+      </div>
+      <input type="submit" class="btn btn-primary" value="Влез" />
+    </form>
+  </div>
+</div>

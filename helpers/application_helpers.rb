@@ -8,12 +8,15 @@ module ApplicationHelpers
   end
 
   def stars_span(rating)
-    rounded = (rating * 2).round / 2.0
-    rounded = rounded.to_i if rounded == rounded.ceil
-    "<span class='stars s-#{rounded}' data-default='#{rounded}'> #{rounded} stars </span>"
+    rounded_rating = (rating * 2).round / 2.0
+    "<span class='stars s-#{rounded_rating}' data-default='#{rounded_rating}'> #{rounded_rating} stars </span>"
   end
 
   def to_link(href, title)
     "<a href='#{href}'>#{title}</a>"
+  end
+
+  def logged?
+    not session[:user].nil?
   end
 end

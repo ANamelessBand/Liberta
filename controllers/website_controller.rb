@@ -12,16 +12,25 @@ class WebsiteController < ApplicationController
   end
 
   get '/login' do
-    @title = "Login"
+    @title = "Вход"
     erb :'login.html'
   end
 
   post '/login' do
     username = params[:username]
     password = params[:password]
+
+    @user = User.find(username: username)
+    redirect '/login' if @user.nil?
+
     #Auth logic here, currently we skip it
     session[:user] = username
-    @user = username
-    erb :'profile.html'
+    redirect '/'
   end
+
+  get '/logout' do
+    session[:user] = nil
+    redirect '/'
+  end
+
 end
