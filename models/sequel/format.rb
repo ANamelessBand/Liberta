@@ -1,3 +1,9 @@
 class Format < Sequel::Model
-  many_to_many :prints
+  plugin :validation_helpers
+
+  one_to_many :prints
+
+  def validate
+    validates_presence :name
+  end
 end
