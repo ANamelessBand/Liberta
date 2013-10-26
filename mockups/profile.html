@@ -11,8 +11,7 @@
     <script src="js/liberta.js"></script>
   </head>
   <body>
-    <nav class="navbar navbar-default" role="navigation">
-    <!-- Brand and toggle get grouped for better mobile display -->
+    <nav class="navbar navbar-inverse" role="navigation">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
           <span class="sr-only">Покажи менюто</span>
@@ -24,8 +23,9 @@
       </div>
       <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav">
-          <li><a href="#">Новини</a></li>
-          <li class="active"><a href="#">Профил</a></li>
+          <li class="active"><a href="#">Новини</a></li>
+          <li><a href="#">Книги</a></li>
+          <li><a href="#">Автори</a></li>
           <li><a href="#">Моите Книги</a></li>
           <li><a href="#">Моите опашки</a></li>
         </ul>
@@ -36,8 +36,15 @@
           <button type="submit" class="btn btn-default">Търси</button>
         </form>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="#">Чичо гошо</a></li>
-          <li><a href="#">Изход</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Чичо Гошo<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Профил</a></li>
+              <li><a href="#">Промяна на парола</a></li>
+              <li class="divider"></a>
+              <li><a href="#">Изход</a></li>
+            </ul>
+          </li>
         </ul>
       </div>
     </nav>
