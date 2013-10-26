@@ -12,7 +12,6 @@ Sequel.migration do
       File :cover
       TrueClass :is_loanable, default: true, null: false
       foreign_key :publisher_id, :publishers
-      foreign_key :author_print_id, :authors_prints
     end
   end
 end
