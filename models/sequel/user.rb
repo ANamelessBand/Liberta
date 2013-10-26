@@ -1,4 +1,3 @@
-#maybe done
 class User < Sequel::Model
   plugin :validation_helpers
 

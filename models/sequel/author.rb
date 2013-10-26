@@ -1,8 +1,7 @@
-#maybe done
 class Author < Sequel::Model
-  many_to_many :prints
-
   plugin :validation_helpers
+
+  many_to_many :prints
 
   def validate
     super
