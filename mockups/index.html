@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Liberta :: Текуща Страница</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen" />
+    <link href="css/liberta.css" rel="stylesheet" media="screen" />
+    <script src="http://code.jquery.com/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/liberta.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse" role="navigation">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+          <span class="sr-only">Покажи менюто</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Liberta</a>
+      </div>
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Новини</a></li>
+          <li><a href="#">Библиотека</a></li>
+          <li><a href="#">Най-харесвани</a></li>
+          <li><a href="#">Потребители</a></li>
+        </ul>
+        <form class="navbar-form navbar-left" role="search">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="A Song of Ice and Fire">
+          </div>
+          <button type="submit" class="btn btn-default">Търси</button>
+        </form>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="active dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Чичо Гошo<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Моите Книги</a></li>
+              <li><a href="#">Настройки</a></li>
+              <li class="divider"></a>
+              <li><a href="#">Изход</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container container-body">
+      <div class="row">
+        <ol class="breadcrumb">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Library</a></li>
+          <li class="active">Data</li>
+        </ol>
+        <div class="col-md-6">
+          <div class="panel panel-default">
+            <div class="panel-heading">Новини</div>
+            <div class="panel-body">
+              <h4>Име на новина</h4>
+              <span><em>08.10.2013</em></span>
+              <p>Текст на новината. Lorem Ipsum dolor sit amet...</p>
+              <br />
+              <h4>Име на новина</h4>
+              <span><em>08.10.2013</em></span>
+              <p>Текст на новината. Lorem Ipsum dolor sit amet...</p>
+              <br />
+              <h4>Име на новина</h4>
+              <span><em>08.10.2013</em></span>
+              <p>Текст на новината. Lorem Ipsum dolor sit amet...</p>
+              <br />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="panel panel-default">
+            <div class="panel-heading">Най-нови книги</div>
+            <div class="panel-body">
+              <table class="table table-striped table-hover table-responsive">
+                <thead>
+                  <tr>
+                    <th>Книга</th>
+                    <th>Автор</th>
+                    <th>Действие</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><a href="#">A song of ice and fire</a></td>
+                    <td><a href="#">JJ Martin</a></td>
+                    <td>
+                      <a href="#modal_1" class="btn btn-xs btn-primary" data-toggle="modal">описание</a>
+                      <a href="#" class="btn btn-xs btn-success"><span class="glyphicon glyphicon-plus"></span> желани</a>
+                      <div class="modal fade" id="modal_1">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                              <h4 class="modal-title">А Song Of Ice and Fire</h4>
+                            </div>
+                            <div class="modal-body">
+                              <p>
+                              <div class="pull-left from-right-1">
+                                <img src="./img/lord-of-the-rings-book-cover.jpg" />
+                              </div>
+                              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                              </p>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-primary" data-dismiss="modal">Затвори</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><a href="#">Lord of the Rings</a></td>
+                    <td><a href="#">JJ Martin</a></td>
+                    <td>
+                      <a href="#" class="btn btn-xs btn-primary">описание</a>
+                      <a href="#" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-minus"></span> желани</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><a href="#">Lord of the Rings</a></td>
+                    <td><a href="#">JJ Martin</a></td>
+                    <td>
+                      <a href="#" class="btn btn-xs btn-primary">описание</a>
+                      <a href="#" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-minus"></span> желани</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><a href="#">Lord of the Rings</a></td>
+                    <td><a href="#">JJ Martin</a></td>
+                    <td>
+                      <a href="#" class="btn btn-xs btn-primary">описание</a>
+                      <a href="#" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-minus"></span> желани</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><a href="#">Lord of the Rings</a></td>
+                    <td><a href="#">JJ Martin</a></td>
+                    <td>
+                      <a href="#" class="btn btn-xs btn-primary">описание</a>
+                      <a href="#" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-minus"></span> желани</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><a href="#">Lord of the Rings</a></td>
+                    <td><a href="#">JJ Martin</a></td>
+                    <td>
+                      <a href="#" class="btn btn-xs btn-primary">описание</a>
+                      <a href="#" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-minus"></span> желани</a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer id="footer" class="row">
+        <p>
+          Liberta - from FMI for FMI thanks to HackFMI
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>
+
