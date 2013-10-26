@@ -6,7 +6,7 @@
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen" />
     <link href="css/liberta.css" rel="stylesheet" media="screen" />
-    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="http://code.jquery.com/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/liberta.js"></script>
   </head>
@@ -24,10 +24,9 @@
       <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav">
           <li><a href="#">Новини</a></li>
-          <li><a href="#">Книги</a></li>
-          <li><a href="#">Автори</a></li>
-          <li><a href="#">Моите Книги</a></li>
-          <li><a href="#">Моите опашки</a></li>
+          <li><a href="#">Библиотека</a></li>
+          <li><a href="#">Най-харесвани</a></li>
+          <li><a href="#">Потребители</a></li>
         </ul>
         <form class="navbar-form navbar-left" role="search">
           <div class="form-group">
@@ -36,11 +35,11 @@
           <button type="submit" class="btn btn-default">Търси</button>
         </form>
         <ul class="nav navbar-nav navbar-right">
-          <li class="dropdown">
+          <li class="active dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Чичо Гошo<b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><a href="#">Профил</a></li>
-              <li><a href="#">Промяна на парола</a></li>
+              <li><a href="#">Моите Книги</a></li>
+              <li><a href="#">Настройки</a></li>
               <li class="divider"></a>
               <li><a href="#">Изход</a></li>
             </ul>
@@ -77,7 +76,29 @@
               <td>Английски</td>
               <td>12</td>
               <td>
-                <a href="#" class="btn btn-xs btn-success">добави ме в опашка</a>
+                <a href="#modal_1" class="btn btn-xs btn-primary" data-toggle="modal">описание</a>
+                <a href="#" class="btn btn-xs btn-success"><span class="glyphicon glyphicon-plus"></span> желани</a>
+                <div class="modal fade" id="modal_1">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">А Song Of Ice and Fire</h4>
+                      </div>
+                      <div class="modal-body">
+                        <p>
+                          <div class="pull-left from-right-1">
+                            <img src="./img/lord-of-the-rings-book-cover.jpg" />
+                          </div>
+                          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        </p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Затвори</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </td>
             </tr>
             <tr>
@@ -87,7 +108,8 @@
               <td>Български</td>
               <td>15</td>
               <td>
-                <a href="#" class="btn btn-xs btn-danger">махни ме от опашка</a>
+                <a href="#" class="btn btn-xs btn-primary">описание</a>
+                <a href="#" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-minus"></span> желани</a>
               </td>
             </tr>
             <tr>
@@ -97,7 +119,8 @@
               <td>Български</td>
               <td>15</td>
               <td>
-                <a href="#" class="btn btn-xs btn-danger">махни ме от опашка</a>
+                <a href="#" class="btn btn-xs btn-primary">описание</a>
+                <a href="#" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-minus"></span> желани</a>
               </td>
             </tr>
             <tr>
@@ -107,7 +130,8 @@
               <td>Български</td>
               <td>15</td>
               <td>
-                <a href="#" class="btn btn-xs btn-danger">махни ме от опашка</a>
+                <a href="#" class="btn btn-xs btn-primary">описание</a>
+                <a href="#" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-minus"></span> желани</a>
               </td>
             </tr>
             <tr>
@@ -117,7 +141,8 @@
               <td>Български</td>
               <td>15</td>
               <td>
-                <a href="#" class="btn btn-xs btn-danger">махни ме от опашка</a>
+                <a href="#" class="btn btn-xs btn-primary">описание</a>
+                <a href="#" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-minus"></span> желани</a>
               </td>
             </tr>
             <tr>
@@ -127,7 +152,8 @@
               <td>Български</td>
               <td>15</td>
               <td>
-                <a href="#" class="btn btn-xs btn-danger">махни ме от опашка</a>
+                <a href="#" class="btn btn-xs btn-primary">описание</a>
+                <a href="#" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-minus"></span> желани</a>
               </td>
             </tr>
           </tbody>
