@@ -1,11 +1,9 @@
+require_relative '../models/navigation_link'
+
 module ApplicationHelpers
-  def css(*stylesheets)
-      stylesheets.map do |stylesheet|
-        "<link href=\"#{stylesheet}.css\" media=\"screen, projection\" rel=\"stylesheet\" />"
-    end.join
+  def set_active_navigation_link(active_id)
+    self.navigation_links = [NavigationLink.new(NavigationLink.news_id, "/news", "Новини"),
+                        NavigationLink.new(NavigationLink.books_id, "/books", "Книги")]
+    self.navigation_links.each { |link| link.active = link.id == active_id }
   end
- 
- def current?(path='/')
-   request.path_info==path ? "current": nil
- end
 end
