@@ -11,7 +11,7 @@ Sequel.migration do
       String :Description, text: true, null: false
       File :cover
       TrueClass :is_loanable, default: true, null: false
-      foreign_key :publisher_id, :publishers
+      foreign_key :publisher_id, :publishers, null: false
     end
   end
 end
