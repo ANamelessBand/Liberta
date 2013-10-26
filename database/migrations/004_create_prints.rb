@@ -8,7 +8,7 @@ Sequel.migration do
       String :name, null: false, index: true
       String :language, null: false
       String :isbn, null: false, unique: true, index: true
-      String :Description, text: true, null: false
+      String :description, text: true, null: false
       File :cover
       TrueClass :is_loanable, default: true, null: false
       foreign_key :publisher_id, :publishers, null: false
