@@ -1,8 +1,8 @@
 class Recommendation < Sequel::Model
   plugin :validation_helpers
 
-  many_to_one :users
-  many_to_one :prints
+  many_to_one :user
+  many_to_one :print
 
   def validate
     super

@@ -6,7 +6,6 @@ Sequel.migration do
       foreign_key :print_id, :prints
       Integer :rating
       String :comment
-      constraint(:rating_is_in_range) { (1..5).include? rating }
     end
   end
 end

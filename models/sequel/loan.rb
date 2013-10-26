@@ -1,4 +1,6 @@
 class Loan < Sequel::Model
-  one_to_one :copies
-  one_to_one :users
+  one_to_one :copie
+  many_to_one :user
 end
+
+
