@@ -16,6 +16,7 @@ class ApplicationController < Sinatra::Base
 
   configure :development do
     register Sinatra::Reloader
+    DB = Sequel.sqlite('../database/liberta.db')
   end
 
   configure :production do
