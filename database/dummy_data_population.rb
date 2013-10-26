@@ -1,6 +1,15 @@
 require 'sequel'
 require 'date'
 
+
+puts "Deleting database..."
+system 'rm ./liberta.db'
+puts "done"
+
+puts "Creating database"
+system 'sequel -m ./migrations sqlite://./liberta.db'
+puts "done"
+
 Sequel.sqlite('./liberta.db')
 
 
