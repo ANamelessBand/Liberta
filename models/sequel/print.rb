@@ -6,4 +6,9 @@ class Print < Sequel::Model
   one_to_many :copies
   one_to_many :recommendations
   one_to_many :wishlists
+
+  def rating
+    return 0 if recommendations.empty?
+    recommendations.map(&:rating).reduce(:+) / recommendations.size
+  end
 end

@@ -1,4 +1,4 @@
-tittles = [
+titles = [
            'Game of Thrones',
            'Pod Igoto',
            'Introduction to Algorithms',
@@ -34,11 +34,11 @@ publishers = Publisher.all
 tags = Tag.all
 authors = Author.all
 
-tittles.each_with_index do |tittle, index|
+titles.each_with_index do |title, index|
   dummy_print = Print.new pages: index * 100,
                           price: index * 7.55,
                           date_added: Date.today - (1..200).to_a.sample,
-                          tittle: tittle,
+                          title: title,
                           language: ['english', 'bulgarian'].sample,
                           isbn: 10000 + index,
                           description: descriptions.sample,
