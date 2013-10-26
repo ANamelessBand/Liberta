@@ -46,7 +46,12 @@
   </table>
 </div>
 <div class="pull-left from-left-1">
-  <div class="well well-sm text-center">Свободни копия<div class="free-copies">13</div></div>
+  <div class="well well-sm text-center">
+    Свободни копия
+    <div class="free-copies">
+      <%= @print.free_copies_count %> от <%= @print.copies_count %>
+    </div>
+  </div>
   <a href="#" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> добави в желани</a>
 </div>
 <div class="clearfix"></div>
