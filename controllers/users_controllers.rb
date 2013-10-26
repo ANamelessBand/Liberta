@@ -15,8 +15,4 @@ class UsersController < ApplicationController
     @title = "#{@user}'s Profile"
     erb :'profile.html'
   end
-
-  def show_profile(user)
-    
-  end
 end

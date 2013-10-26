@@ -12,6 +12,15 @@ class WebsiteController < ApplicationController
 
   get '/login' do
     @title = "Login"
-    erb :'index.html'
+    erb :'login.html'
+  end
+
+  post '/login_user' do
+    username = params[:username]
+    password = params[:password]
+    #Auth logic here, currently we skip it
+    session[:user] = username
+    @user = username
+    erb :'profile.html'
   end
 end
