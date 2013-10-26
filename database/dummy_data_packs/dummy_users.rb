@@ -13,7 +13,7 @@ names.each_with_index do |name, index|
   username = three_names[0][0].concat(three_names[1][0]).concat(three_names[2]).downcase
   dummy_user = User.new username: username,
                         name: name,
-                        faculty_number: (80700 + index),
+                        faculty_number: 80700 + index,
                         email: "#{username}@duneparadise.com",
                         authorization_level: (index.remainder 3),
                         is_active: index.odd?

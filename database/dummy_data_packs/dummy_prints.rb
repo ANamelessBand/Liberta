@@ -43,8 +43,8 @@ tittles.each_with_index do |tittle, index|
                           isbn: 10000 + index,
                           description: descriptions.sample,
                           is_loanable: [true, false].sample,
-                          publisher_id: publishers[index.remainder publishers.count].id,
-                          format_id: formats[index.remainder formats.count].id
+                          publisher: publishers[index.remainder publishers.count],
+                          format: formats[index.remainder formats.count]
   dummy_print.save if dummy_print.valid?
   dummy_print.add_tag tags.sample
   dummy_print.add_author authors.sample
