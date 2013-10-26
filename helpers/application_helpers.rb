@@ -1,5 +1,3 @@
-require_relative '../models/navigation_link'
-
 module ApplicationHelpers
   def set_active_navigation_link(active_id)
     self.navigation_links = [NavigationLink.new(NavigationLink.news_id, "/news", "Новини"),
