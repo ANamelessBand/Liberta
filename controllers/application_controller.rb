@@ -1,8 +1,3 @@
-require 'rubygems'
-require 'sequel'
-require 'sinatra/base'
-require 'sinatra/reloader'
-
 class ApplicationController < Sinatra::Base
   attr_reader :navigation_links
   helpers ApplicationHelpers
