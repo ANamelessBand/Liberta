@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+require 'sequel'
+Sequel.sqlite('liberta.db')
+
+Dir['./{models}/**/*.rb'].each { |file| require file }
+require 'irb'
+
+IRB.start
