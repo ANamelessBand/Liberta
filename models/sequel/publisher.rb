@@ -1,5 +1,5 @@
 class Publisher < Sequel::Model
-  plugin validation_helpers:
+  plugin :validation_helpers
 
   def validate
     validates_presence :name
