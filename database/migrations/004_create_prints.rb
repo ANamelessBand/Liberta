@@ -6,7 +6,7 @@ Sequel.migration do
       Integer :pages, null: false
       Date :date_added, null: false
       Float :price, null: false
-      String :tittle, null: false, index: true
+      String :title, null: false, index: true
       String :language, null: false
       String :isbn, null: false, unique: true, index: true
       String :description, text: true, null: false

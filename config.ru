@@ -3,6 +3,8 @@ require 'sequel'
 require 'sinatra/base'
 require 'sinatra/reloader'
 
+SEARCH_RESULT_BY_PAGE = 10
+
 Sequel.sqlite("database/liberta.db")
 
 Dir.glob('./{models,helpers}/**/*.rb').each { |file| require file }
