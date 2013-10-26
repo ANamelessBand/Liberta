@@ -11,4 +11,12 @@ class Print < Sequel::Model
     return 0 if recommendations.empty?
     recommendations.map(&:rating).reduce(:+) / recommendations.size
   end
+
+  def copies_count
+    copies.size
+  end
+
+  def free_copies_count
+    copies.reject(&:is_taken).size
+  end
 end
