@@ -21,9 +21,13 @@ class ApplicationController < Sinatra::Base
   configure :production do
     disable :show_exceptions
   end
- 
+
   set :views, File.expand_path('../../views', __FILE__)
+  set :public, File.expand_path('../../public', __FILE__)
   enable :sessions, :method_override
 
-  not_found { erb :'not_found.html' }
+  not_found do
+    @title = "404: droid not found"
+    erb :'not_found.html'
+  end
 end

@@ -7,6 +7,7 @@ class BooksController < ApplicationController
 
   get '/' do
     @title = "News"
+    @my_array = ["ads", "as", "asdas"]
     erb :'index.html'
   end
 
