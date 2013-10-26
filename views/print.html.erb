@@ -5,45 +5,48 @@
   <table class="table table-striped book-details">
     <tr>
       <th>Автори</th>
-      <td><a href="#">George RR MarGin</a></td>
+      <td>
+        <% @print.authors.each do |author| %>
+          <a href="<%= author.id %>"><%= author.name %></a><br />
+        <% end %>
+      </td>
     </tr>
     <tr>
       <th>Издателство</th>
-      <td>Издателство ФМИ</td>
+      <td><%= @print.publisher.name %></td>
     </tr>
     <tr>
       <th>Формат</th>
-      <td>Книга</td>
+      <td><%= @print.format.name %></td>
     </tr>
     <tr>
       <th>Език</th>
-      <td>Български</td>
+      <td><%= @print.language %></td>
     </tr>
     <tr>
       <th>Страници</th>
-      <td>800</td>
+      <td><%= @print.pages %></td>
     </tr>
     <tr>
       <th>Цена</th>
-      <td>40</td>
+      <td><%= @print.price.round(2) %></td>
     </tr>
     <tr>
       <th>Тагове</th>
-      <td>Вътре във Филма, <br />Фантастика, <br />Якия булшит</td>
+      <td>
+        <%= @print.tags.map(&:name).join(", ") %>
+      </td>
     </tr>
     <tr>
       <th>Рейтинг</th>
       <td>
-        <span class="stars s-2.5" data-default='2.5'>
-          2.5 stars
-        </span>
+        <%= stars_span @print.rating %>
       </td>
     </tr>
   </table>
 </div>
 <div class="pull-left from-left-1">
   <div class="well well-sm text-center">Свободни копия<div class="free-copies">13</div></div>
-  <a href="#" class="btn btn-primary">резервирай</a>
   <a href="#" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> добави в желани</a>
 </div>
 <div class="clearfix"></div>
@@ -52,11 +55,10 @@
     <h3 class="panel-title">Описание</h3>
   </div>
   <div class="panel-body">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam tincidunt semper condimentum. Donec rutrum ipsum non turpis interdum porta. Ut tempor interdum ullamcorper. Donec ultrices laoreet lacinia. Mauris bibendum, leo vel accumsan mattis, felis mauris aliquet tortor, sed suscipit dui quam id nisi. In a cursus sapien. Curabitur vitae tortor nisi. Fusce varius erat id gravida iaculis.
-
-    Vestibulum fermentum felis sed lorem fermentum, vitae scelerisque nisl scelerisque. Etiam tincidunt auctor eros, viverra lobortis velit scelerisque vel. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Cras fermentum urna sapien, nec placerat lorem pharetra non. Quisque ac metus mauris. Sed a iaculis diam, sed tincidunt nisi. Fusce sed risus a nulla laoreet ultricies. Maecenas viverra metus mi, sit amet commodo purus mattis eleifend.
+    <%= @print.description %>
   </div>
 </div>
+<% unless @print.recommendations.empty? %>
 <div class="panel panel-primary">
   <div class="panel-heading">
     <h3 class="panel-title">Препоръки</h3>
@@ -71,43 +73,17 @@
         </tr>
       </thead>
       <tbody>
+        <% @print.recommendations.each do |recommendation| %>
         <tr>
-          <td><a href="#">Чичо Гошо</a></td>
+          <td><a href="#"><%= recommendation.user.name %></a></td>
           <td>
-            <span class="stars s-2.5" data-default='2.5'>
-              2.5 stars
-            </span>
+            <%= stars_span recommendation.rating %>
           </td>
-          <td>Мега яката книга пичуе</td>
+          <td><%= recommendation.comment %></td>
         </tr>
-        <tr>
-          <td><a href="#">Чичо Гошо</a></td>
-          <td>
-            <span class="stars s-2.5" data-default='2.5'>
-              2.5 stars
-            </span>
-          </td>
-          <td>Мега яката книга пичуе</td>
-        </tr>
-        <tr>
-          <td><a href="#">Чичо Гошо</a></td>
-          <td>
-            <span class="stars s-2.5" data-default='2.5'>
-              2.5 stars
-            </span>
-          </td>
-          <td>Мега яката книга пичуе</td>
-        </tr>
-        <tr>
-          <td><a href="#">Чичо Гошо</a></td>
-          <td>
-            <span class="stars s-1.5" data-default='1.5'>
-              1.5 stars
-            </span>
-          </td>
-          <td>Мега яката книга пичуе</td>
-        </tr>
+        <% end %>
       </tbody>
     </table>
   </div>
 </div>
+<% end %>

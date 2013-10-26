@@ -16,7 +16,7 @@ class WebsiteController < ApplicationController
     erb :'login.html'
   end
 
-  post '/login_user' do
+  post '/login' do
     username = params[:username]
     password = params[:password]
     #Auth logic here, currently we skip it

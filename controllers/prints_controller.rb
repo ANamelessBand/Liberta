@@ -32,8 +32,8 @@ class PrintsController < ApplicationController
   end
 
   get '/:id' do
-    @title = "Яката работа"
-    @print = Print.find(id: 1)
+    @print = Print.find(id: params[:id])
+    @title = @print.title
     erb :'print.html'
   end
 
