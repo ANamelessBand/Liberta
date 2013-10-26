@@ -1,3 +1,8 @@
+require 'rubygems'
+require 'sequel'
+require 'sinatra/base'
+require 'sinatra/reloader'
+
 Dir.glob('./{models,helpers}/*.rb').each { |file| require file }
 require './controllers/application_controller'
 
