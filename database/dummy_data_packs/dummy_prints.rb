@@ -32,11 +32,13 @@ descriptions = ['To keep doing what you love, you need to maintain your own syst
 formats = Format.all
 publishers = Publisher.all
 tags = Tag.all
+authors = Author.all
 
-tittles.each_with_index do |title, index|
+tittles.each_with_index do |tittle, index|
   dummy_print = Print.new pages: index * 100,
                           price: index * 7.55,
-                          name: title,
+                          date_added: Date.today - (1..200).to_a.sample,
+                          tittle: tittle,
                           language: ['english', 'bulgarian'].sample,
                           isbn: 10000 + index,
                           description: descriptions.sample,
@@ -45,4 +47,5 @@ tittles.each_with_index do |title, index|
                           format_id: formats[index.remainder formats.count].id
   dummy_print.save if dummy_print.valid?
   dummy_print.add_tag tags.sample
+  dummy_print.add_author authors.sample
 end
