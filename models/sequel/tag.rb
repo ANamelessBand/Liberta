@@ -1,2 +1,2 @@
-class Tags < Sequel::Model
+class Tag < Sequel::Model
 end
