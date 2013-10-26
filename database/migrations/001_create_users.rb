@@ -5,7 +5,7 @@ Sequel.migration do
       Integer :faculty_number, uniq: true, index: true
       String :name, null: false
       String :email, null: false, unique: true
-      Integre :authorization_level, null: false
+      Integer :authorization_level, null: false
       TrueClass :is_active, default: true, null: false
       File :avatar
     end
