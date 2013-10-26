@@ -19,4 +19,8 @@ module ApplicationHelpers
   def logged?
     not session[:user].nil?
   end
+
+  def logged_user
+    logged? ? session[:user] : nil
+  end
 end

@@ -23,8 +23,8 @@ class WebsiteController < ApplicationController
     @user = User.find(username: username)
     redirect '/login' if @user.nil?
 
-    #Auth logic here, currently we skip it
-    session[:user] = username
+    # Auth logic here, currently we skip it
+    session[:user] = @user
     redirect '/'
   end
 
