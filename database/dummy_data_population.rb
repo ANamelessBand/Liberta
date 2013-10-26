@@ -27,6 +27,7 @@ tables = [
           'wishlists',
           'copies',
           'loans',
+          'news',
          ]
 
 tables.each do |table|
