@@ -7,13 +7,13 @@
       <th>Автори</th>
       <td>
         <% @print.authors.each do |author| %>
-          <a href="<%= author.id %>"><%= author.name %></a><br />
+          <a href="/authors/<%= author.id %>"><%= author.name %></a><br />
         <% end %>
       </td>
     </tr>
     <tr>
       <th>Издателство</th>
-      <td><%= @print.publisher.name %></td>
+      <td><a href="/publishers/<%=@print.publisher.id%>"><%= @print.publisher.name %></a></td>
     </tr>
     <tr>
       <th>Формат</th>

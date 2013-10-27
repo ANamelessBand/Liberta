@@ -49,27 +49,27 @@ class WebsiteController < ApplicationController
     @title = @contributor.name
   end
 
-  get '/author/:id/all' do
+  get '/authors/:id/all' do
     @breadcrumbs << NavigationLink.new(0, "/author/#{params[:id]}", "Автор")
     @breadcrumbs << NavigationLink.new(0, "/author/#{params[:id]}/all", "Всички публикации")
     set_data Author, params[:id]
     erb :'contributor_all.html'
   end
 
-  get '/author/:id' do
+  get '/authors/:id' do
     @breadcrumbs << NavigationLink.new(0, "/author/#{params[:id]}", "Автор")
     set_data Author, params[:id]
     erb :'contributor.html'
   end
 
-  get '/publisher/:id/all' do
+  get '/publishers/:id/all' do
     @breadcrumbs << NavigationLink.new(0, "/publisher/#{params[:id]}/all", "Издател")
     @breadcrumbs << NavigationLink.new(0, "/author/#{params[:id]}", "Всички публикации")
     set_data Publisher, params[:id]
     erb :'contributor_all.html'
   end
 
-  get '/publisher/:id' do
+  get '/publishers/:id' do
     @breadcrumbs << NavigationLink.new(0, "/publisher/#{params[:id]}/all", "Издател")
     set_data Publisher, params[:id]
     erb :'contributor.html'
