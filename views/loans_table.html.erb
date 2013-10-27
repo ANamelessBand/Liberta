@@ -6,6 +6,9 @@
       <th>Автор</th>
       <th>Рейтинг</th>
       <th>Действия</th>
+      <% if @supposed_return %>
+        <th>Дата на връщане</th>
+      <% end %>
       <% if @returned %>
         <th>Върната на</th>
       <% end %>
@@ -14,7 +17,7 @@
   <tbody>
     <% @loans.each do |loan| %>
       <tr>
-        <td class="cover"><img src=<%= "/img/prints/#{@print.id}.png" %> /></td>
+        <td class="cover"><img src=<%= "/img/prints/#{loan.copy.print.id}.png" %> /></td>
         <td><%= to_link "/prints/#{loan.copy.print.id}", loan.copy.print.title %></a></td>
         <td><%= authors_html loan.copy.print %></a></td>
         <td><%= stars_span(loan.copy.print.rating @ratings_last_month) %></td>
@@ -51,7 +54,7 @@
               <div class="modal-body">
                 <p>
                   <div class="pull-left from-right-1">
-                    <img src=<%= "/img/prints/#{@print.id}.png" %> />
+                    <img src=<%= "/img/prints/#{loan.copy.print.id}.png" %> />
                   </div>
                   <%= loan.copy.print.description %>
                 </p>
