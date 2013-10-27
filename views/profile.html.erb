@@ -83,28 +83,7 @@
 	  </div>
 	  <div class="tab-pane col-md-6" id="wishlist">
   		<h3>Желани книги</h3>
-			<table class="table table-striped table-hover">
-				<thead>
-				  <tr>
-				    <th>Книга</th>
-				    <% if @own_profile %>
-					    <th>Действия</th>
-					   <% end %>
-				  </tr>
-				</thead>
-				<tbody>
-					<% @user.wishes.each do |print| %>
-				  <tr>
-				    <td>
-					  	<%= to_link("../prints/#{print.id}", print.title) %>
-					  </td>
-					<% if @own_profile %>
-				    <td><a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-minus"></span> премахни</a></td>
-				    <% end %>
-				  </tr>
-				  <% end %>
-				</tbody>
-			</table>
+			<%= show_print_table @user.wishes, false, false %>
 			<a href='<%= "./#{@user.id}/wishlist" %>' class="btn btn-info">всички желани</a>
 		</div>
 	</div>
