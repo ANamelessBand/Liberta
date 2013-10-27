@@ -26,6 +26,10 @@ module ApplicationHelpers
     User.find(id: session[:user]) if logged?
   end
 
+  def admin?
+    logged? and logged_user.authorization_level == 0
+  end
+
   def unread_notifications
     Notification.where(user_id: logged_user.id, is_read: false).to_a if logged?
   end
