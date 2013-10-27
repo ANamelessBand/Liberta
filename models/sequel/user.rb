@@ -12,4 +12,16 @@ class User < Sequel::Model
     validates_unique :username, :faculty_number, :email
     validates_includes [0, 1, 2], :authorization_level
   end
+
+  def read
+    loans.select(&:date_returned)
+  end
+
+  def last_recommendations(number)
+    recommendations ? recommendations[-number..-1] : []
+  end
+
+  def wishes
+    wishlists.map(&:print)
+  end
 end

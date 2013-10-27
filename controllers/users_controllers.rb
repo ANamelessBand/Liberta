@@ -11,8 +11,18 @@ class UsersController < ApplicationController
   end
 
   get '/:id' do
-    @user = params[:id]
-    @title = "#{@user}'s Profile"
+    @user = User.find id: params[:id]
+    @title = "#{@user.name}'s Profile"
     erb :'profile.html'
+  end
+
+  get '/:id/recommendations' do
+    @user = User.find id: params[:id]
+    # erb :'recommendations.html'
+  end
+
+  get '/:id/read' do
+    @user = User.find id: params[:id]
+    # erb :'read.html'
   end
 end

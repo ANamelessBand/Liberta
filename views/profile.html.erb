@@ -1,1 +1,98 @@
-Welcome, <%= @user %>!<br />
+Welcome, <%= @user.name %>!<br />
+
+<% request_user = logged? and @user == logged_user %>
+
+<div class="col-md-2">
+  <a href="#" class="thumbnail"><img src="./img/profile.png" alt="..." /></a>
+  <h3 class="text-center user-name"><%= @user.name %></h3>
+</div>
+<div class="col-md-6">
+  <h3>Препоръчани книги</h3>
+	<table class="table table-striped">
+		<thead>
+		  <tr>
+		    <th>Книга</th>
+		    <th>Рейтинг</th>
+		    <th>Коментар</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <tr>
+		  	<% @user.last_recommendations(5).each do |recommendation| %>
+		    <td><%= to_link("../print/#{recommendation.print.id}", recommendation.print.title) %></td>
+		    <td><%= stars_span recommendation.rating %></td>
+		    <td><%= recommendation.comment %></td>
+		  </tr>
+		 
+		 <% if recommendation.comment and recommendation.comment.length > 30 %>
+		  <tr>
+		    <div class="modal fade" id="modal_<%=recommendation.id%>">
+			    <div class="modal-dialog">
+			      <div class="modal-content">
+			        <div class="modal-header">
+			          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			          <h4 class="modal-title">"Коментар"</h4>
+			        </div>
+			        <div class="modal-body">
+			          <p>
+			          <%= recommendation.comment %>
+			          </p>
+			        </div>
+			        <div class="modal-footer">
+			          <button type="button" class="btn btn-primary" data-dismiss="modal">Затвори</button>
+			        </div>
+			      </div>
+			    </div>
+			  </div>
+		  </tr>
+		  <% end %>
+		  <% end %>
+		</tbody>
+		</table>
+	<a href='<%= "./#{@user.id}/recommendations" %>' class="btn btn-info">всички препоръки</a>
+
+	<h3>Прочетени книги</h3>
+	<table class="table table-striped">
+		<thead>
+		  <tr>
+		    <th>Книга</th>
+		    <th>Взета на</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <% @user.read.each do |loan|%>
+		  <tr>
+		    <td><%= to_link("../print/#{loan.copy.print.id}", loan.copy.print.title) %></td>
+		    <td><%= loan.date_loaned %></td>
+		  </tr>
+		  <% end %>
+		</tbody>
+	</table>
+	<a href='<%= "./#{@user.id}/read" %>' class="btn btn-info">всички прочетени</a>
+	</div>
+	<div class="col-md-4">
+		<h3>Желани книги</h3>
+		<table class="table table-striped">
+		<thead>
+		  <tr>
+		    <th>Книга</th>
+		    <% if request_user %>
+			    <th>Действия</th>
+			   <% end %>
+		  </tr>
+		</thead>
+		<tbody>
+			<% @user.wishes.each do |print| %>
+		  <tr>
+		    <td>
+			  	<%= to_link("../print/#{print.id}", print.title) %>
+			  </td>
+			<% if request_user %>
+		    <td><a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-minus"></span> премахни</a></td>
+		    <% end %>
+		  </tr>
+		  <% end %>
+		</tbody>
+		</table>
+	</div>
+</div>
