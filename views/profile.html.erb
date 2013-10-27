@@ -34,7 +34,9 @@
 	  <li class="active"><a href="#recommended" data-toggle="tab">Препоръчани</a></li>
 	  <li><a href="#read" data-toggle="tab">Прочетени</a></li>
 	  <li><a href="#wishlist" data-toggle="tab">Желани</a></li>
-	  <li><a href="#loaned" data-toggle="tab">Невърнати</a></li>
+	  <% if @own_profile or admin? %>
+		  <li><a href="#loaned" data-toggle="tab">Невърнати</a></li>
+		<% end %>
 	</ul>
 	<div class="tab-content">
 	  <div class="tab-pane active col-md-12" id="recommended">
@@ -96,9 +98,11 @@
 			<%= show_print_table @user.wishes.take(5), false, false %>
 			<a href='<%= "./#{@user.id}/wishlist" %>' class="btn btn-info">всички желани</a>
 		</div>
-		<div class="tab-pane col-md-12" id="loaned">
+		<% if @own_profile or admin? %>
+			<div class="tab-pane col-md-12" id="loaned">
 		  	<%= show_loans_table @user.currently_loaned.take(5), false, true %> 
 		  	<a href='<%= "./#{@user.id}/loaned" %>' class="btn btn-info">всички невърнати</a>
-		</div>
+			</div>
+		<% end %>
 	</div>
 </div>

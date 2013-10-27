@@ -88,6 +88,7 @@ class UsersController < ApplicationController
 
   get '/:id/loaned' do
     @user = User.find id: params[:id]
+    @own_profile = logged? and logged_user.equal? @user
     @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}", "#{@user.name}")
     @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}/wishlist", "Невърнати Книги")
     erb :'loaned.html'
