@@ -5,6 +5,20 @@ class UsersController < ApplicationController
     set_active_navigation_link(NavigationLink.users_id)
   end
 
+  get '/settings' do
+    redirect '/login' unless logged?
+    @title = "Настройки"
+    erb :'settings.html'
+  end
+
+  post '/settings' do
+    email = params[:email]
+    avatar = params[:avatar]
+
+    logged_user.update({email: email})
+    redirect 'users/settings'
+  end
+
   post '/search' do
     session[:last_user_search_name] = params[:name].split(' ')
     session[:last_user_search_fn] = params[:fn]
