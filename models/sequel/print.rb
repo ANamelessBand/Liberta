@@ -37,4 +37,8 @@ class Print < Sequel::Model
   def searchables_string
     [title, authors_string, tags_string, publisher.name].join(' ')
   end
+
+  def self.take_last(count)
+    all.sort{ |x, y| y.date_added <=> x.date_added }.take(count)
+  end
 end
