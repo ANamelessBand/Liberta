@@ -39,6 +39,10 @@
               <%= glyphicon_span('plus') %>
             </a>
           <% end %>
+        <% else %>
+            <a href="/login" class="btn btn-xs btn-success" data-for="<%=result.id %>" title="добави в желани">
+              <%= glyphicon_span('plus') %>
+            </a>
         <% end %>
         <div class="modal fade" id="modal_1">
           <div class="modal-dialog">

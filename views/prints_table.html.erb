@@ -19,11 +19,6 @@
           <a href="#modal_<%=print.id%>" class="btn btn-xs btn-primary" title="описание" data-toggle="modal">
             <%= glyphicon_span('info-sign') %>
           </a>
-        <% if @to_wishlist %>
-          <a href="#" class="btn btn-xs btn-success" title="добави в желани">
-            <%= glyphicon_span('plus') %>
-          </a>
-        <% end %>
           <% if logged? %>
             <% if logged_user.has_wish(print) %>
               <a class="btn btn-xs btn-danger remove-wish-xs" data-for="<%= print.id %>" title="премахни от желани">
@@ -34,29 +29,33 @@
                 <%= glyphicon_span('plus') %>
               </a>
             <% end %>
+          <% else %>
+              <a class="btn btn-xs btn-success" href="/login" title="добави в желани">
+                <%= glyphicon_span('plus') %>
+              </a>
           <% end %>
-        <div class="modal fade" id="modal_<%=print.id%>">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"><%= print.title %></h4>
-              </div>
-              <div class="modal-body">
-                <p>
-                  <div class="pull-left from-right-1">
-                    <img src="/img/lord-of-the-rings-book-cover.jpg" />
-                  </div>
-                  <%= print.description %>
-                </p>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Затвори</button>
+          <div class="modal fade" id="modal_<%=print.id%>">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title"><%= print.title %></h4>
+                </div>
+                <div class="modal-body">
+                  <p>
+                    <div class="pull-left from-right-1">
+                      <img src="/img/lord-of-the-rings-book-cover.jpg" />
+                    </div>
+                    <%= print.description %>
+                  </p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">Затвори</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </td>
+        </td>
       </tr>
     <% end %>
   </tbody>

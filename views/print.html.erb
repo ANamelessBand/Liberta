@@ -53,15 +53,17 @@
     </div>
   </div>
   <% if logged? %>
-    <% if @in_wishlist %>
-      <a href="./<%= @print.id %>/remove-wishlist" class="btn btn-danger">
-        <span class="glyphicon glyphicon-minus"></span> премахни от желани</a>
+    <% if logged_user.has_wish(@print) %>
+      <a class="btn btn-danger remove-wish" data-for="<%= @print.id %>">
+        <%= glyphicon_span('minus') %> премахни от желани
+      </a>
     <% else %>
-      <a href="./<%= @print.id %>/add-wishlist" class="btn btn-success">
-        <span class="glyphicon glyphicon-plus"></span> добави в желани</a>
+      <a class="btn btn-success add-wish" data-for="<%= @print.id %>">
+        <%= glyphicon_span('plus') %> добави в желани
+      </a>
     <% end %>
   <% else %>
-    <a class="btn btn-success" href="/login"><span class="glyphicon glyphicon-plus"></span> добави в желани</a>
+    <a class="btn btn-success" href="/login"><%= glyphicon_span('plus') %> добави в желани</a>
   <% end %>
 </div>
 <div class="clearfix"></div>
@@ -139,7 +141,7 @@
     <% end %>
   </div>
 </div>
-<% unless @print.copies.empty? %>
+<% if not @print.copies.empty? and admin? %>
 <div class="panel panel-primary">
   <div class="panel-heading">
     <h3 class="panel-title">Копия</h3>
