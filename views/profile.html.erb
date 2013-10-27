@@ -34,6 +34,7 @@
 	  <li class="active"><a href="#recommended" data-toggle="tab">Препоръчани</a></li>
 	  <li><a href="#read" data-toggle="tab">Прочетени</a></li>
 	  <li><a href="#wishlist" data-toggle="tab">Желани</a></li>
+	  <li><a href="#loaned" data-toggle="tab">Невърнати</a></li>
 	</ul>
 	<div class="tab-content">
 	  <div class="tab-pane active col-md-10" id="recommended">
@@ -88,14 +89,17 @@
 			</table>
 			<a href='<%= "./#{@user.id}/recommendations" %>' class="btn btn-info">всички препоръки</a>
 	  </div>
-	  <div class="tab-pane col-md-6" id="read">
-  		<%= show_loans_table @user.read, true, false %>
+	  <div class="tab-pane col-md-12" id="read">
+  		<%= show_loans_table @user.read.take(5), true, false %>
 			<a href='<%= "./#{@user.id}/read" %>' class="btn btn-info">всички прочетени</a>
 	  </div>
-	  <div class="tab-pane col-md-6" id="wishlist">
-  		<h3>Желани книги</h3>
-			<%= show_print_table @user.wishes, false, false %>
+	  <div class="tab-pane col-md-12" id="wishlist">
+			<%= show_print_table @user.wishes.take(5), false, false %>
 			<a href='<%= "./#{@user.id}/wishlist" %>' class="btn btn-info">всички желани</a>
+		</div>
+		<div class="tab-pane col-md-12" id="loaned">
+		  	<%= show_loans_table @user.currently_loaned.take(5), false, true %> 
+		  	<a href='<%= "./#{@user.id}/loaned" %>' class="btn btn-info">всички невърнати</a>
 		</div>
 	</div>
 </div>

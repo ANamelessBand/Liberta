@@ -44,6 +44,9 @@
           <% if @returned %>
             <td><%= loan.date_returned %>
           <% end %>
+          <% if @supposed_return %>
+            <td><%= loan.date_supposed_return %>
+          <% end %>
         <div class="modal fade" id="modal_<%=loan.copy.print.id%>">
           <div class="modal-dialog">
             <div class="modal-content">

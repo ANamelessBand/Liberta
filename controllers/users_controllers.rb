@@ -85,4 +85,11 @@ class UsersController < ApplicationController
 
     redirect "/users/#{@user.id}"
   end
+
+  get '/:id/loaned' do
+    @user = User.find id: params[:id]
+    @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}", "#{@user.name}")
+    @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}/wishlist", "Невърнати Книги")
+    erb :'loaned.html'
+  end
 end
