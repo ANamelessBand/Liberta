@@ -19,33 +19,36 @@ Welcome, <%= @user.name %>!<br />
 		<tbody>
 		  <tr>
 		  	<% @user.last_recommendations(5).each do |recommendation| %>
-		    <td><%= to_link("../print/#{recommendation.print.id}", recommendation.print.title) %></td>
+		    <td><%= to_link("../prints/#{recommendation.print.id}", recommendation.print.title) %></td>
 		    <td><%= stars_span recommendation.rating %></td>
-		    <td><%= recommendation.comment %></td>
-		  </tr>
-		 
-		 <% if recommendation.comment and recommendation.comment.length > 30 %>
-		  <tr>
-		    <div class="modal fade" id="modal_<%=recommendation.id%>">
-			    <div class="modal-dialog">
-			      <div class="modal-content">
-			        <div class="modal-header">
-			          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			          <h4 class="modal-title">"Коментар"</h4>
-			        </div>
-			        <div class="modal-body">
-			          <p>
-			          <%= recommendation.comment %>
-			          </p>
-			        </div>
-			        <div class="modal-footer">
-			          <button type="button" class="btn btn-primary" data-dismiss="modal">Затвори</button>
-			        </div>
-			      </div>
-			    </div>
-			  </div>
-		  </tr>
-		  <% end %>
+		    <td>
+		    	<% if recommendation.comment and recommendation.comment.length > 30 %>
+				    	<%= recommendation.comment[0..30] %>
+							 <a href="#modal_<%=recommendation.id%>"data-toggle="modal">Виж още...
+				      </a>
+				  <% else %>
+					 <% recommendation.comment %>
+				  <% end %>
+				</td>
+			    <div class="modal fade" id="modal_<%=recommendation.id%>">
+				    <div class="modal-dialog">
+				      <div class="modal-content">
+				        <div class="modal-header">
+				          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				          <h4 class="modal-title">"Коментар"</h4>
+				        </div>
+				        <div class="modal-body">
+				          <p>
+				          <%= recommendation.comment %>
+				          </p>
+				        </div>
+				        <div class="modal-footer">
+				          <button type="button" class="btn btn-primary" data-dismiss="modal">Затвори</button>
+				        </div>
+				      </div>
+				    </div>
+				  </div>
+			  </tr>
 		  <% end %>
 		</tbody>
 		</table>
@@ -62,7 +65,7 @@ Welcome, <%= @user.name %>!<br />
 		<tbody>
 		  <% @user.read.each do |loan|%>
 		  <tr>
-		    <td><%= to_link("../print/#{loan.copy.print.id}", loan.copy.print.title) %></td>
+		    <td><%= to_link("../prints/#{loan.copy.print.id}", loan.copy.print.title) %></td>
 		    <td><%= loan.date_loaned %></td>
 		  </tr>
 		  <% end %>
@@ -85,7 +88,7 @@ Welcome, <%= @user.name %>!<br />
 			<% @user.wishes.each do |print| %>
 		  <tr>
 		    <td>
-			  	<%= to_link("../print/#{print.id}", print.title) %>
+			  	<%= to_link("../prints/#{print.id}", print.title) %>
 			  </td>
 			<% if request_user %>
 		    <td><a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-minus"></span> премахни</a></td>
@@ -94,5 +97,6 @@ Welcome, <%= @user.name %>!<br />
 		  <% end %>
 		</tbody>
 		</table>
+		<a href='<%= "./#{@user.id}/wishlist" %>' class="btn btn-info">всички желани</a>
 	</div>
 </div>

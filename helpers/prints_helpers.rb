@@ -18,4 +18,10 @@ module PrintsHelpers
                           is_read: false
     end
   end
+
+  def show_print_table(prints, ratings_last_month = false)
+    @prints_collection = prints
+    @ratings_last_month = ratings_last_month
+    erb :'prints_table.html'
+  end
 end

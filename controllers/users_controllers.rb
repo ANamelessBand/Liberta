@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  helpers UsersHelpers
 
   before do
     set_active_navigation_link(NavigationLink.users_id)
@@ -18,11 +17,16 @@ class UsersController < ApplicationController
 
   get '/:id/recommendations' do
     @user = User.find id: params[:id]
-    # erb :'recommendations.html'
+    erb :'recommendations.html'
   end
 
   get '/:id/read' do
     @user = User.find id: params[:id]
-    # erb :'read.html'
+    erb :'read.html'
+  end
+
+   get '/:id/wishlist' do
+    @user = User.find id: params[:id]
+    erb :'wishlist.html'
   end
 end

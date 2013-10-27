@@ -1,5 +1,4 @@
 class WebsiteController < ApplicationController
-  helpers WebsiteHelpers
 
   before do
     set_active_navigation_link(NavigationLink.news_id)
@@ -32,6 +31,15 @@ class WebsiteController < ApplicationController
   get '/logout' do
     session[:user] = nil
     redirect '/'
+  end
+
+  get '/notification/:id' do
+    @notification = Notification.find(id: params[:id])
+    @notification.is_read = true
+    @notification.save
+
+    @title = "Грешка"
+    erb "You should not be here. Please go home"
   end
 
 end

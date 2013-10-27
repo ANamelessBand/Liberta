@@ -15,16 +15,28 @@
       <td><%= to_link("/prints/#{result.id}", result.title) %></td>
       <td><%= authors_html result %></td>
       <td>
-        <%= 
-          publisher = Publisher.find(id: result.publisher_id) 
+        <%=
+          publisher = Publisher.find(id: result.publisher_id)
           to_link("/publishers/#{publisher.id}", publisher.name)
         %>
       </td>
       <td><%= stars_span result.rating %></td>
       <td><%= "#{result.free_copies_count} от #{result.copies_count}" %></td>
       <td>
-        <a href="#modal_1" class="btn btn-xs btn-primary" data-toggle="modal">описание</a>
-        <a href="#" class="btn btn-xs btn-success"><span class="glyphicon glyphicon-plus"></span> желани</a>
+        <a href="#modal_1" class="btn btn-xs btn-primary" data-toggle="modal" title="описание">
+          <%= glyphicon_span('info-sign') %>
+        </a>
+        <% if logged? %>
+          <% if logged_user.has_wish(result) %>
+            <a href="#" class="btn btn-xs btn-danger remove-wish-xs" data-for="<%=result.id %>" title="премахни от желани">
+              <%= glyphicon_span('minus') %>
+            </a>
+          <% else %>
+            <a href="#" class="btn btn-xs btn-success add-wish-xs" data-for="<%=result.id %>" title="добави в желани">
+              <%= glyphicon_span('plus') %>
+            </a>
+          <% end %>
+        <% end %>
         <div class="modal fade" id="modal_1">
           <div class="modal-dialog">
             <div class="modal-content">

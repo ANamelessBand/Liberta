@@ -19,18 +19,19 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">Liberta</a>
+        <a class="navbar-brand" href="/">Liberta</a>
       </div>
       <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav">
-          <%= @navigation_links.map do |link|
-            class_string = " class=\"active\"" if link.active
-            "<li#{class_string}><a href=\"#{link.href}\">#{link.title}</a></li>"
-          end.join %>
+          <%  @navigation_links.each do |link| %>
+            <li <%= link.active ? "class='active'" : "" %>>
+              <%= to_link link.href, link.title %>
+            </li>
+          <% end %>
         </ul>
         <form class="navbar-form navbar-left" role="search" method="post" action="/prints/search">
           <div class="form-group">
-            <input type="text" class="form-control" placeholder="Search..." name="searchables">
+            <input type="text" class="form-control" placeholder="Търсене в базата" name="searchables">
           </div>
           <button type="submit" class="btn btn-default">Търси</button>
         </form>
@@ -38,13 +39,15 @@
           <% if logged? %>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <span class="glyphicon glyphicon-flag"></span>
-            </a>
-            <ul class="dropdown-menu">
+              <%= glyphicon_span("flag") %>
               <% if unread_notifications? %>
-                <% unread_notifications.each do |notification| %>
-                  <li><a href="#"><%= notification.message %></a></li>
-                  <li class="divider" />
+                <span class="label label-danger" id="notifications-count"><%= unread_notifications.count %></span>
+              <% end %>
+            </a>
+            <ul class="dropdown-menu" id="notification-dropdown">
+              <% if unread_notifications? %>
+                <% unread_notifications.each_with_index do |notification, i| %>
+                  <li><a class="notification" data-for="<%= notification.id %>"><%= notification.message %></a></li>
                 <% end %>
               <% else %>
                 <li><a href="#">Нямате непрочетени известия</a></li>
@@ -73,9 +76,11 @@
     <div class="container container-body">
       <div class="row">
         <ol class="breadcrumb">
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Library</a></li>
-          <li class="active">Data</li>
+          <%  @breadcrumbs.each_with_index do |link, i| %>
+            <li <%= i + 1 == @breadcrumbs.size ? "class='active'" : "" %>>
+              <%= i + 1 == @breadcrumbs.size ? link.title : to_link(link.href, link.title)%>
+            </li>
+          <% end %>
         </ol>
         <div class="page-header">
           <h1><%= @title %></h1>
