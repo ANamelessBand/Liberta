@@ -86,6 +86,18 @@ class PrintsController < ApplicationController
     erb :'print.html'
   end
 
+  post '/:id/add-recommendation' do
+    puts "in in in"
+    #rating = params[:recommendation_rating]
+    rating = 2.5
+    comment = params[:recommendation_comment]
+    current_user = logged_user
+    current_print = Print.find(id: params[:id])
+    date = Date.today
+    Recommendation.create rating: rating, comment: comment, date_of_comment: date, user: current_user, print: current_print
+    redirect "/prints/#{params[:id]}"
+  end
+
   get '/:id/add-wishlist' do
     @print = Print.find(id: params[:id])
 
@@ -135,3 +147,4 @@ class PrintsController < ApplicationController
     redirect back
   end
 end
+

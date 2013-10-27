@@ -74,4 +74,12 @@ class WebsiteController < ApplicationController
     set_data Publisher, params[:id]
     erb :'contributor.html'
   end
+
+  post '/add-news' do
+    title = params[:news_title]
+    content = params[:news_content]
+    date = Date.today
+    News.create title: title, content: content, date_of_publication: date
+    redirect '/'
+  end
 end
