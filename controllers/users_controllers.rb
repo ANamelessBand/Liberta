@@ -6,6 +6,7 @@ class UsersController < ApplicationController
   end
 
   get '/settings' do
+    @breadcrumbs << NavigationLink.new(0, "/settings", "Настройки")
     redirect '/login' unless logged?
     @title = "Настройки"
     erb :'settings.html'
