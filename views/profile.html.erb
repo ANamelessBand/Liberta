@@ -39,70 +39,30 @@
 		<% end %>
 	</ul>
 	<div class="tab-content">
+
 	  <div class="tab-pane active col-md-12" id="recommended">
-			<table class="table table-striped table-hover">
-				<thead>
-				  <tr>
-				    <th>Книга</th>
-				    <th>Рейтинг</th>
-				    <th>Коментар</th>
-				  </tr>
-				</thead>
-				<tbody>
-				  <tr>
-				  	<% @user.last_recommendations(5).each do |recommendation| %>
-				    <td>
-				    	<%= to_link("../prints/#{recommendation.print.id}", recommendation.print.title) %>
-				    </td>
-				    <td>
-				    	<%= stars_span recommendation.rating %>
-				    </td>
-				    <td>
-				    	<% if recommendation.comment and recommendation.comment.length > 30 %>
-						    	<%= recommendation.comment[0..30] %>...
-									 <a href="#modal_<%=recommendation.id%>"data-toggle="modal">виж още
-						      </a>
-						  <% else %>
-							 <%= recommendation.comment %>
-						  <% end %>
-						</td>
-					    <div class="modal fade" id="modal_<%=recommendation.id%>">
-						    <div class="modal-dialog">
-						      <div class="modal-content">
-						        <div class="modal-header">
-						          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						          <h4 class="modal-title">Коментар</h4>
-						        </div>
-						        <div class="modal-body">
-						          <p>
-						          <%= recommendation.comment %>
-						          </p>
-						        </div>
-						        <div class="modal-footer">
-						          <button type="button" class="btn btn-primary" data-dismiss="modal">Затвори</button>
-						        </div>
-						      </div>
-						    </div>
-						  </div>
-					  </tr>
-				  <% end %>
-				</tbody>
-			</table>
+      <%= show_recommendations_table @user.last_recommendations(5) %>
 			<a href='<%= "./#{@user.id}/recommendations" %>' class="btn btn-info">всички препоръки</a>
 	  </div>
+
 	  <div class="tab-pane col-md-12" id="read">
   		<%= show_loans_table @user.read.take(5), true, false %>
 			<a href='<%= "./#{@user.id}/read" %>' class="btn btn-info">всички прочетени</a>
 	  </div>
+
 	  <div class="tab-pane col-md-12" id="wishlist">
 			<%= show_print_table @user.wishes.take(5), false, false %>
 			<a href='<%= "./#{@user.id}/wishlist" %>' class="btn btn-info">всички желани</a>
 		</div>
 		<% if @own_profile or admin? %>
 			<div class="tab-pane col-md-12" id="loaned">
-		  	<%= show_loans_table @user.currently_loaned.take(5), false, true %> 
-		  	<a href='<%= "./#{@user.id}/loaned" %>' class="btn btn-info">всички невърнати</a>
-			</div>
+		  	<%= show_loans_table @user.currently_loaned.take(5), false, true %>
+      </div>
+
+		<div class="tab-pane col-md-12" id="loaned">
+	  	<%= show_loans_table @user.currently_loaned.take(5), false, true %>
+	  	<a href='<%= "./#{@user.id}/loaned" %>' class="btn btn-info">всички невърнати</a>
+		</div>
 		<% end %>
 	</div>
 </div>

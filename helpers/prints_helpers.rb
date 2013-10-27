@@ -32,4 +32,9 @@ module PrintsHelpers
     @supposed_return = supposed_return
     erb :'loans_table.html'
   end
+
+  def show_recommendations_table(prints)
+    @prints = prints
+    erb :'recommendations_table.html'
+  end
 end
