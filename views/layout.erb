@@ -39,13 +39,15 @@
           <% if logged? %>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <span class="glyphicon glyphicon-flag"></span>
-            </a>
-            <ul class="dropdown-menu">
+              <%= glyphicon_span("flag") %>
               <% if unread_notifications? %>
-                <% unread_notifications.each do |notification| %>
-                  <li><a href="#"><%= notification.message %></a></li>
-                  <li class="divider" />
+                <span class="label label-danger" id="notifications-count"><%= unread_notifications.count %></span>
+              <% end %>
+            </a>
+            <ul class="dropdown-menu" id="notification-dropdown">
+              <% if unread_notifications? %>
+                <% unread_notifications.each_with_index do |notification, i| %>
+                  <li><a class="notification" data-for="<%= notification.id %>"><%= notification.message %></a></li>
                 <% end %>
               <% else %>
                 <li><a href="#">Нямате непрочетени известия</a></li>

@@ -1,7 +1,7 @@
 class ApplicationController < Sinatra::Base
   attr_reader :navigation_links
   attr_reader :breadcrumbs
-  
+
   helpers ApplicationHelpers
   helpers WebsiteHelpers
   helpers PrintsHelpers

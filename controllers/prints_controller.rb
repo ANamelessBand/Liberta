@@ -81,7 +81,7 @@ class PrintsController < ApplicationController
 
     @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}", "#{@print.title}")
 
-    @in_wishlist = logged_user.has_wish(@print)
+    @in_wishlist = logged_user.has_wish(@print) if logged?
 
     erb :'print.html'
   end
@@ -108,4 +108,30 @@ class PrintsController < ApplicationController
     redirect back
   end
 
+  get '/:id/:copy_id' do
+    @copy = Copy.find(inventory_number: params[:copy_id].to_i)
+    @print = @copy.print
+    @title = "#{@print.title} - #{@copy.inventory_number}"
+
+    @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}", "#{@print.title}")
+    @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}/#{params[:copy_id]}", "#{@print.title} - #{@copy.inventory_number}")
+
+    erb :'copy.html'
+  end
+
+  get '/:id/:copy_id/return' do
+    @copy = Copy.find(inventory_number: params[:copy_id].to_i)
+    @print = @copy.print
+    @loan = @copy.loans.select { |loan| loan.date_returned.nil? }.last
+
+    @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}", "#{@print.title}")
+    @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}/#{params[:copy_id]}", "#{@print.title} - #{@copy.inventory_number}")
+
+    return_loan @loan
+
+    notify_copy_is_free @print
+
+    back = "/prints/#{@print.id}/#{@copy.inventory_number}"
+    redirect back
+  end
 end

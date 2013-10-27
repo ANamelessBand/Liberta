@@ -49,6 +49,10 @@ table.vertical-middle td {
   vertical-align: middle !important;
 }
 
+.notification {
+  cursor: pointer;
+}
+
 /**
      CSS & HTML From @CSSWizardry's JSFiddle:
         http://jsfiddle.net/csswizardry/KL5Vs/
