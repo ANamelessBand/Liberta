@@ -62,16 +62,20 @@ class PrintsController < ApplicationController
     redirect '/prints/search/1'
   end
 
+  get '/most-liked' do
+    
+    @title = "Най-харесвани книги"
+    all_prints = Print.all
+    
+    @all_time_prints = all_prints.sort { |x, y| y.rating(false) <=> x.rating(false) }.take 10
+    @last_month_prints = all_prints.sort { |x, y| y.rating(true) <=> x.rating(true) }.take 10
+
+    erb :'most_liked.html'
+  end
+
   get '/:id' do
     @print = Print.find(id: params[:id])
     @title = @print.title
     erb :'print.html'
-  end
-
-  get '/most-liked' do
-    
-    @title = "Most Liked"
-
-    erb :'index.html'
   end
 end

@@ -4,7 +4,7 @@
       <th>Книга</th>
       <th>Автор</th>
       <th>Издателство</th>
-      <th>Език</th>
+      <th>Рейтинг</th>
       <th>Свободни копия</th>
       <th>Действие</th>
     </tr>
@@ -13,14 +13,14 @@
   <% @shown_results.each do |result| %>
     <tr>
       <td><%= to_link("/prints/#{result.id}", result.title) %></td>
-      <td><%= result.authors.map { |author| to_link("/authors/#{author.id}", author.name) }.join(', ') %></td>
+      <td><%= authors_html result %></td>
       <td>
         <%= 
           publisher = Publisher.find(id: result.publisher_id) 
           to_link("/publishers/#{publisher.id}", publisher.name)
         %>
       </td>
-      <td><%= result.language %></td>
+      <td><%= stars_span result.rating %></td>
       <td><%= "#{result.free_copies_count} от #{result.copies_count}" %></td>
       <td>
         <a href="#modal_1" class="btn btn-xs btn-primary" data-toggle="modal">описание</a>
