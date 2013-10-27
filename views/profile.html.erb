@@ -89,23 +89,7 @@
 			<a href='<%= "./#{@user.id}/recommendations" %>' class="btn btn-info">всички препоръки</a>
 	  </div>
 	  <div class="tab-pane col-md-6" id="read">
-  		<h3>Прочетени книги</h3>
-			<table class="table table-striped table-hover">
-				<thead>
-				  <tr>
-				    <th>Книга</th>
-				    <th>Взета на</th>
-				  </tr>
-				</thead>
-				<tbody>
-				  <% @user.read.each do |loan|%>
-				  <tr>
-				    <td><%= to_link("../prints/#{loan.copy.print.id}", loan.copy.print.title) %></td>
-				    <td><%= loan.date_loaned %></td>
-				  </tr>
-				  <% end %>
-				</tbody>
-			</table>
+  		<%= show_loans_table @user.read, true, false %>
 			<a href='<%= "./#{@user.id}/read" %>' class="btn btn-info">всички прочетени</a>
 	  </div>
 	  <div class="tab-pane col-md-6" id="wishlist">

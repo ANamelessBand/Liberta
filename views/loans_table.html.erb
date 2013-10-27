@@ -6,6 +6,9 @@
       <th>Автор</th>
       <th>Рейтинг</th>
       <th>Действия</th>
+      <% if @supposed_return %>
+        <th>Дата на връщане</th>
+      <% end %>
       <% if @returned %>
         <th>Върната на</th>
       <% end %>
