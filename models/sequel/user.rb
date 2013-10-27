@@ -18,7 +18,7 @@ class User < Sequel::Model
   end
 
   def last_recommendations(number)
-    recommendations ? recommendations[-number..-1] : []
+    recommendations.reverse.take number
   end
 
   def wishes

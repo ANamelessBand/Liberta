@@ -1,0 +1,25 @@
+Welcome, <%= @user.name %>!<br />
+
+<div class="col-md-2">
+  <a href="#" class="thumbnail"><img src="/img/profile.png" alt="..." /></a>
+  <h3 class="text-center user-name"><%= @user.name %></h3>
+</div>
+<div class="col-md-6">
+	<h3>Прочетени книги</h3>
+	<table class="table table-striped">
+		<thead>
+		  <tr>
+		    <th>Книга</th>
+		    <th>Взета на</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <% @user.read.each do |loan|%>
+		  <tr>
+		    <td><%= to_link("../../prints/#{loan.copy.print.id}", loan.copy.print.title) %></td>
+		    <td><%= loan.date_loaned %></td>
+		  </tr>
+		  <% end %>
+		</tbody>
+	</table>
+</div>
