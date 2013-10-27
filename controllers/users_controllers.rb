@@ -38,7 +38,7 @@ class UsersController < ApplicationController
     @names = session[:last_user_search_name] || []
     @fn = session[:last_user_search_fn] || ""
     if @fn.empty?
-      search_results = search_results.select { |user| @names.map { |name| user.name.include? name}.all? }
+      search_results = search_results.select { |user| @names.map { |name| user.name.downcase.include? name.downcase}.all? }
     else
       search_results = search_results.select { |user| user.faculty_number.to_s.include? @fn}
     end

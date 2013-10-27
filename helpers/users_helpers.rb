@@ -30,7 +30,7 @@ module UsersHelpers
 
   def remove_from_wishlist(user, print)
     Wishlist.where(user: user, print: print).each do |user_wish|
-      user_wish.satisfied = true
+      user_wish.is_satisfied = true
       user_wish.save
     end
   end

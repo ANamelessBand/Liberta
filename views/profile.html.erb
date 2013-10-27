@@ -42,7 +42,7 @@
 
 	  <div class="tab-pane active col-md-12" id="recommended">
       <%= show_recommendations_table @user.last_recommendations(5) %>
-      <% if @user.last_recommendations.length > 5 %>
+      <% if @user.recommendations.length > 5 %>
 			  <a href='<%= "./#{@user.id}/recommendations" %>' class="btn btn-info">всички препоръки</a>
       <% end %>
 	  </div>
