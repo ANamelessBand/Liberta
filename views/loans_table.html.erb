@@ -14,7 +14,7 @@
   <tbody>
     <% @loans.each do |loan| %>
       <tr>
-        <td class="cover"><img src="/img/lord-of-the-rings-book-cover.jpg" /></td>
+        <td class="cover"><img src=<%= "/img/prints/#{@print.id}.png" %> /></td>
         <td><%= to_link "/prints/#{loan.copy.print.id}", loan.copy.print.title %></a></td>
         <td><%= authors_html loan.copy.print %></a></td>
         <td><%= stars_span(loan.copy.print.rating @ratings_last_month) %></td>
@@ -51,7 +51,7 @@
               <div class="modal-body">
                 <p>
                   <div class="pull-left from-right-1">
-                    <img src="/../img/lord-of-the-rings-book-cover.jpg" />
+                    <img src=<%= "/img/prints/#{@print.id}.png" %> />
                   </div>
                   <%= loan.copy.print.description %>
                 </p>

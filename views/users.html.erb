@@ -29,7 +29,7 @@
   <tbody>
     <% @shown_results.each do |result| %>
       <tr>
-        <td class="cover"><img src="/img/profile.png" /></td>
+        <td class="cover"><img src=<%= "/img/users/#{result.id}.png" %> /></td>
         <td><%= to_link "/users/#{result.id}", result.name %></a></td>
         <td><%= result.faculty_number %></a></td>
       </tr>
