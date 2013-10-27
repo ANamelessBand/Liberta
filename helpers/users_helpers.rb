@@ -20,7 +20,7 @@ module UsersHelpers
   end
 
   def notify_all_copies_taken(print)
-    Wishlist.where(print: print).each do |user_wish|
+    Wishlist.where(print: print, is_satisfied: false).each do |user_wish|
       user = user_wish.user
       Notification.create user: user,
                           message: "Копията на #{print.title} са изчерпани.",
