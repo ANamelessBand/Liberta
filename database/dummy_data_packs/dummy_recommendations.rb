@@ -1,7 +1,7 @@
 users = User.all
 prints = Print.all
 
-dates = ["12.10.2013", "11.10.2013", "13.10.2013"]
+dates = ["12.09.2013", "11.09.2013", "13.10.2013"]
 
 (1..100).each do |index|
   dummy_recommendation = Recommendation.new user: users[index.remainder 9],

@@ -7,9 +7,15 @@ class Print < Sequel::Model
   one_to_many :recommendations
   one_to_many :wishlists
 
-  def rating
-    return 0 if recommendations.empty?
-    recommendations.map(&:rating).reduce(:+) / recommendations.size
+  def rating(last_month = false)
+    if last_month
+      ratings = recommendations.select { |rec| (Date.today - rec.date_of_comment).to_i <= 30 }
+    else
+      ratings = recommendations
+    end
+
+    return 0 if ratings.empty?
+    ratings.map(&:rating).reduce(:+) / ratings.size
   end
 
   def copies_count

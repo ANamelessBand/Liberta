@@ -1,0 +1,24 @@
+<div class="col-md-6">
+  <div class="panel panel-default">
+    <div class="panel-heading">За всички времена</div>
+    <div class="panel-body">
+      <%= 
+        @prints_collection = @all_time_prints
+        @ratings_last_month = false
+        erb :'prints_table.html'
+      %>
+    </div>
+  </div>
+</div>
+<div class="col-md-6">
+  <div class="panel panel-default">
+    <div class="panel-heading">За последния месец</div>
+    <div class="panel-body">
+      <%=
+        @prints_collection = @last_month_prints
+        @ratings_last_month = true
+        erb :'prints_table.html'
+      %>
+    </div>
+  </div>
+</div>
