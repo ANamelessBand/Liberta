@@ -63,6 +63,9 @@
             <ul class="dropdown-menu">
               <li><%= to_link "/users/#{logged_user.id}", "Моите Книги" %></li>
               <li><a href="#">Настройки</a></li>
+              <% if admin? %>
+                <li><a href="/administration">Администрация</a></li>
+              <% end %>
               <li class="divider"></a>
               <li><a href="/logout">Изход</a></li>
             </ul>

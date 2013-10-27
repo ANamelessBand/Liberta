@@ -15,6 +15,8 @@ $:.unshift(File.expand_path('../lib', __FILE__))
 
 Dir.glob('./controllers/**/*.rb').each { |file| require file }
 
+map('/administration') { run AdministrationController }
 map('/prints') { run PrintsController }
 map('/users') { run UsersController }
 map('/') { run WebsiteController }
+

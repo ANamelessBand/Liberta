@@ -1,0 +1,55 @@
+<div class="col-md-10">
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#add-print" data-toggle="tab">Добавете ново издание</a></li>
+    <li><a href="#remove-print" data-toggle="tab">Премахни издание</a></li>
+  </ul>
+ </div>
+<div class="tab-content">
+	<div class="tab-pane active col-md-10" id="add-print">
+	  <table class="table table-striped table-hover">
+		<form id="print-add-form" class="form-horizontal" method="post" action="/administration/add-print" role="form">
+			<fieldset>
+				<div class="col-md-3 from-top-2">
+				  <div class="cover pull-down-2">
+						<img src="/img/profile.png" alt="..." />
+				  </div>
+				  <input type="file" class="from-top-2" name="added_cover" />
+				</div>
+				<div class="col-md-4 from-top-2">
+				  <lable>Име на изданието</lable>
+				  <input type="text" class="form-control" placeholder="Име на изданието..." required="true" name="added_name">
+				  <br />
+				  <lable>Име на автора</lable>
+				  <input type="text" class="form-control" placeholder="Име на автора..." required="true" name="added_author_name">
+				  <br />
+				  <lable>Име на издателя</lable>
+				  <input type="text" class="form-control" placeholder="Име на издателя..." required="true" name="added_publisher_name">
+				  <br />
+				  <lable>ISBN</lable>
+				  <input type="text" class="form-control" placeholder="ISBN..." required="true" name="added_ISBN">
+				  <br />
+				  <lable>Описание на изданието</lable>
+	              <textarea rows="4" cols="50" class="form-control" required="true" placeholder="Описание на изданието..." name="added_description"></textarea>
+	              <br />
+	              <lable>Брой страници</lable>
+	              <input type="text" class="form-control" placeholder="Брой страници..." required="true" name="added_pages">
+				  <br />
+				  <lable>Език на изданието</lable>
+				  <input type="text" class="form-control" placeholder="Език на изданието..." required="true" name="added_language">
+				  <br />
+				  <lable>Формат</lable>
+				  <input type="text" class="form-control" placeholder="Формат..." required="true" name="added_format">
+				  <br />
+				  <lable>Тагове</lable>
+				  <input type="text" class="form-control" placeholder="Тагове..." required="true" name="added_tags">
+				  <br />
+				  <lable>Цена на изданието</lable>
+				  <input type="text" class="form-control" placeholder="Цена на изданието..." required="true" name="added_price">
+				  <br />
+				  <button type="submit" id="save_button" name="save_button" class="btn btn-success">Запази</button>
+				</div>
+	        </fieldset>
+	    </form>
+	  </table>
+	</div>
+</div>
