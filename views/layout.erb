@@ -28,13 +28,30 @@
             "<li#{class_string}><a href=\"#{link.href}\">#{link.title}</a></li>"
           end.join %>
         </ul>
-        <form class="navbar-form navbar-left" role="search">
+        <form class="navbar-form navbar-left" role="search" method="post" action="/prints/search">
           <div class="form-group">
-            <input type="text" class="form-control" placeholder="A Song of Ice and Fire">
+            <input type="text" class="form-control" placeholder="Search..." name="searchables">
           </div>
           <button type="submit" class="btn btn-default">Търси</button>
         </form>
         <ul class="nav navbar-nav navbar-right">
+          <% if logged? %>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <span class="glyphicon glyphicon-flag"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <% if unread_notifications? %>
+                <% unread_notifications.each do |notification| %>
+                  <li><a href="#"><%= notification.message %></a></li>
+                  <li class="divider" />
+                <% end %>
+              <% else %>
+                <li><a href="#">Нямате непрочетени известия</a></li>
+              <% end %>
+            </ul>
+          </li>
+        <% end %>
           <% if logged? %>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">

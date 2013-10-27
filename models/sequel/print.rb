@@ -19,4 +19,16 @@ class Print < Sequel::Model
   def free_copies_count
     copies.reject(&:is_taken).size
   end
+
+  def authors_string
+    authors.map(&:name).join(' ')
+  end
+
+  def tags_string
+    tags.map(&:name).join(' ')
+  end
+
+  def searchables_string
+    [title, authors_string, tags_string, publisher.name].join(' ')
+  end
 end
