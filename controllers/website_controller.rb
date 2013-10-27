@@ -1,5 +1,4 @@
 class WebsiteController < ApplicationController
-  helpers WebsiteHelpers
 
   before do
     set_active_navigation_link(NavigationLink.news_id)

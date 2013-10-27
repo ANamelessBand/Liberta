@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  helpers UsersHelpers
 
   before do
     set_active_navigation_link(NavigationLink.users_id)
