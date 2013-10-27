@@ -19,9 +19,17 @@
           <a href="#modal_<%=print.id%>" class="btn btn-xs btn-primary" title="описание" data-toggle="modal">
             <%= glyphicon_span('info-sign') %>
           </a>
-          <a href="#" class="btn btn-xs btn-success" title="добави в желани">
-            <%= glyphicon_span('plus') %>
-          </a>
+          <% if logged? %>
+            <% if logged_user.has_wish(print) %>
+              <a class="btn btn-xs btn-danger remove-wish-xs" data-for="<%= print.id %>" title="премахни от желани">
+                <%= glyphicon_span('minus') %>
+              </a>
+            <% else %>
+              <a class="btn btn-xs btn-success add-wish-xs" data-for="<%= print.id %>" title="добави в желани">
+                <%= glyphicon_span('plus') %>
+              </a>
+            <% end %>
+          <% end %>
         <div class="modal fade" id="modal_<%=print.id%>">
           <div class="modal-dialog">
             <div class="modal-content">

@@ -81,7 +81,7 @@ class PrintsController < ApplicationController
 
     @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}", "#{@print.title}")
 
-    @in_wishlist = logged_user.has_wish(@print)
+    @in_wishlist = logged_user.has_wish(@print) if logged?
 
     erb :'print.html'
   end

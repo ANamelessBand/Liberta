@@ -24,18 +24,18 @@
       });
     });
 
-    function changeWish(operation, element) {
-      $this = $(element);
-      $id = $this.data("for")
+    function changeWish(operation, element, addButton, removeButton) {
+      var $this = $(element);
+      var $id = $this.data("for");
+      var url = '/prints/' + $id;
 
-      url = '/prints/' + $id
       if (operation == "add") {
         url += '/add-wishlist';
-        newButton = "<a class='remove-wish btn btn-danger' data-for='"+$id+"'><span class='glyphicon glyphicon-minus'></span> премахни от желани</a>";
+        newButton = addButton;
       }
       else if (operation == "remove") {
         url += '/remove-wishlist';
-        newButton = "<a class='add-wish btn btn-success' data-for='"+$id+"'><span class='glyphicon glyphicon-plus'></span> добави в желани</a>";
+        newButton = removeButton;
       }
 
       $.ajax({
@@ -48,11 +48,31 @@
     }
 
     $(document).on("click", ".add-wish", function() {
-      changeWish("add", this);
+      var $this = $(this);
+      addButton = "<a class='remove-wish btn btn-danger' data-for='"+$this.data("for")+"'><span class='glyphicon glyphicon-minus'></span> премахни от желани</a>";
+      removeButton = "<a class='add-wish btn btn-success' data-for='"+$this.data("for")+"'><span class='glyphicon glyphicon-plus'></span> добави в желани</a>";
+      changeWish("add", this, addButton, removeButton);
     })
 
     $(document).on("click", ".remove-wish", function() {
-      changeWish("remove", this);
+      var $this = $(this);
+      addButton = "<a class='remove-wish btn btn-danger' data-for='"+$this.data("for")+"'><span class='glyphicon glyphicon-minus'></span> премахни от желани</a>";
+      removeButton = "<a class='add-wish btn btn-success' data-for='"+$this.data("for")+"'><span class='glyphicon glyphicon-plus'></span> добави в желани</a>";
+      changeWish("remove", this, addButton, removeButton);
+    })
+
+    $(document).on("click", ".add-wish-xs", function() {
+      var $this = $(this);
+      addButton = "<a class='remove-wish-xs btn btn-xs btn-danger' data-for='"+$this.data("for")+"'><span class='glyphicon glyphicon-minus'></span></a>";
+      removeButton = "<a class='add-wish-xs btn btn-success' data-for='"+$this.data("for")+"'><span class='glyphicon glyphicon-plus'></span></a>";
+      changeWish("add", this, addButton, removeButton);
+    })
+
+    $(document).on("click", ".remove-wish-xs", function() {
+      var $this = $(this);
+      addButton = "<a class='remove-wish-xs btn btn-xs btn-danger' data-for='"+$this.data("for")+"'><span class='glyphicon glyphicon-minus'></span></a>";
+      removeButton = "<a class='add-wish-xs btn btn-xs btn-success' data-for='"+$this.data("for")+"'><span class='glyphicon glyphicon-plus'></span></a>";
+      changeWish("remove", this, addButton, removeButton);
     })
   })
 })(jQuery, window);
