@@ -16,9 +16,13 @@
         <td><%= authors_html print %></a></td>
         <td><%= stars_span(print.rating @ratings_last_month) %></td>
         <td>
-        <a href="#modal_1" class="btn btn-xs btn-primary" data-toggle="modal">описание</a>
-        <a href="#" class="btn btn-xs btn-success"><span class="glyphicon glyphicon-plus"></span> желани</a>
-        <div class="modal fade" id="modal_1">
+          <a href="#modal_<%=print.id%>" class="btn btn-xs btn-primary" title="описание" data-toggle="modal">
+            <%= glyphicon_span('info-sign') %>
+          </a>
+          <a href="#" class="btn btn-xs btn-success" title="добави в желани">
+            <%= glyphicon_span('plus') %>
+          </a>
+        <div class="modal fade" id="modal_<%=print.id%>">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
