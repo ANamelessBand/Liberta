@@ -51,7 +51,7 @@ class UsersController < ApplicationController
 
   get '/:id' do
     @user = User.find id: params[:id]
-    @own_profile = logged? and logged_user.equal? @user
+    @own_profile = logged? && (logged_user.id == @user.id)
     @title = "Профил"
     @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}", "#{@user.name}")
     erb :'profile.html'
@@ -89,7 +89,7 @@ class UsersController < ApplicationController
 
   get '/:id/loaned' do
     @user = User.find id: params[:id]
-    @own_profile = logged? and logged_user.equal? @user
+    @own_profile = logged? && (logged_user.id == @user.id)
     @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}", "#{@user.name}")
     @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}/wishlist", "Невърнати Книги")
     erb :'loaned.html'

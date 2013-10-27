@@ -1,7 +1,7 @@
 <form role="form" method="post" action="/users/settings" enctype="multipart/form-data">
   <div class="col-md-12">
     <div class="col-md-3">
-      <img src=<%= "/img/users/#{logged_user.id}.png"%>/>
+      <img src=<%= "/img/users/#{logged_user.id}.png"%> style="max-height: 300px; max-width: 200px;"/>
       <div class="form-group from-top-2">
         <label for="avatar">Профилна Снимка:</label>
         <input type="file" id="avatar" name="avatar">
