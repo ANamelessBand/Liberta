@@ -38,6 +38,23 @@
           <% if logged? %>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <span class="glyphicon glyphicon-flag"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <% if unread_notifications? %>
+                <% unread_notifications.each do |notification| %>
+                  <li><a href="#"><%= notification.message %></a></li>
+                  <li class="divider" />
+                <% end %>
+              <% else %>
+                <li><a href="#">Нямате непрочетени известия</a></li>
+              <% end %>
+            </ul>
+          </li>
+        <% end %>
+          <% if logged? %>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <%= logged_user.name %>&nbsp;<b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
