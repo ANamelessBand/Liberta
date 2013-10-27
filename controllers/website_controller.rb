@@ -33,4 +33,13 @@ class WebsiteController < ApplicationController
     redirect '/'
   end
 
+  get '/notification/:id' do
+    @notification = Notification.find(id: params[:id])
+    @notification.is_read = true
+    @notification.save
+
+    @title = "Грешка"
+    erb "You should not be here. Please go home"
+  end
+
 end
