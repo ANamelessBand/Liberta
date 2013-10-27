@@ -62,4 +62,13 @@ class UsersController < ApplicationController
     @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}/wishlist", "Желани Книги")
     erb :'wishlist.html'
   end
+
+   post  '/:id/loan' do
+    @user = User.find id: params[:id]
+    @copy = Copy.find inventory_number: params[:copy_inventory_number].to_i
+
+    loan_copy @user, @copy if @copy && !@copy.is_taken
+
+    redirect "/users/#{@user.id}"
+  end
 end
