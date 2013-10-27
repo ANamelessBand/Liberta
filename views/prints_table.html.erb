@@ -19,9 +19,11 @@
           <a href="#modal_<%=print.id%>" class="btn btn-xs btn-primary" title="описание" data-toggle="modal">
             <%= glyphicon_span('info-sign') %>
           </a>
+        <% if @to_wishlist %>
           <a href="#" class="btn btn-xs btn-success" title="добави в желани">
             <%= glyphicon_span('plus') %>
           </a>
+        <% end %>
         <div class="modal fade" id="modal_<%=print.id%>">
           <div class="modal-dialog">
             <div class="modal-content">

@@ -11,7 +11,10 @@ class UsersController < ApplicationController
 
   get '/:id' do
     @user = User.find id: params[:id]
-    @title = "#{@user.name}'s Profile"
+    @title = "#{@user.name.split(" ").first}'s Profile"
+
+    @own_profile = logged? and logged_user.equal? @user
+
     erb :'profile.html'
   end
 
