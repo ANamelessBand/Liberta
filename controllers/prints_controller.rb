@@ -1,7 +1,7 @@
 class PrintsController < ApplicationController
-  helpers PrintsHelpers
 
   before do
+    @breadcrumbs << NavigationLink.new(1, "/prints", "Книги")
     if request.path_info == '/most-liked'
       set_active_navigation_link NavigationLink.most_liked_id
     else
@@ -10,12 +10,14 @@ class PrintsController < ApplicationController
   end
 
   get '/' do
+    set_active_breadcrumb 1
     @title = "Търсене в библиотеката"
 
     erb :'prints.html'
   end
 
   get '/search/:page' do
+    set_active_breadcrumb 1
     @title = "Резултати от търсенето"
     @current_page = params[:page].to_i
 
@@ -63,7 +65,8 @@ class PrintsController < ApplicationController
   end
 
   get '/most-liked' do
-
+    @breadcrumbs << NavigationLink.new(1, "/prints/most-liked", "Най-харесвани")
+    set_active_breadcrumb 2
     @title = "Най-харесвани книги"
     all_prints = Print.all
 

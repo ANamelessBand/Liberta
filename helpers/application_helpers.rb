@@ -3,6 +3,10 @@ module ApplicationHelpers
     self.navigation_links.each { |link| link.active = link.id == active_id }
   end
 
+  def set_active_breadcrumb(active_id)
+    self.breadcrumbs.each { |link| link.active = link.id == active_id }
+  end
+
   def glyphicon_span(name)
     "<span class='glyphicon glyphicon-#{name}'></span>"
   end
@@ -36,5 +40,11 @@ module ApplicationHelpers
 
   def unread_notifications?
     unread_notifications && unread_notifications.count.nonzero?
+  end
+
+  def show_print_table(prints, ratings_last_month = false)
+    @prints_collection = prints
+    @ratings_last_month = ratings_last_month
+    erb :'prints_table.html'
   end
 end
