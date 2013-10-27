@@ -43,23 +43,23 @@ class UsersController < ApplicationController
   end
 
   get '/:id/recommendations' do
-    @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}", "#{@user.name}")
-    @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}/recommendations", "Препоръки}")
     @user = User.find id: params[:id]
+    @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}", "#{@user.name}")
+    @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}/recommendations", "Препоръки")
     erb :'recommendations.html'
   end
 
   get '/:id/read' do
-    @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}", "#{@user.name}")
-    @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}/read", "Прочетени Книги}")
     @user = User.find id: params[:id]
+    @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}", "#{@user.name}")
+    @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}/read", "Прочетени Книги")
     erb :'read.html'
   end
 
    get '/:id/wishlist' do
-    @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}", "#{@user.name}")
-    @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}/wishlist", "Желани Книги}")
     @user = User.find id: params[:id]
+    @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}", "#{@user.name}")
+    @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}/wishlist", "Желани Книги")
     erb :'wishlist.html'
   end
 end
