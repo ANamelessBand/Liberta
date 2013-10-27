@@ -1,5 +1,5 @@
 <div class="pull-left">
-  <img src="img/lord-of-the-rings-book-cover.jpg" alt="Lord Of The Rings" />
+  <img src=<%= "/img/prints/#{@print.id}.png" %> style="max-height:250px" />
 </div>
 <div class="pull-left from-left-1">
   <table class="table table-striped book-details">
@@ -80,7 +80,7 @@
     <h3 class="panel-title">Препоръки</h3>
   </div>
   <div class="panel-body">
-    <% if logged? %>
+    <% if logged? and @current_recommendation.nil? %>
       <a href="#recommendation_modal" class="btn btn-primary" data-toggle="modal">Препоръчай</a>
     <% end %>
     <% if @print.recommendations.empty? %>
@@ -108,7 +108,9 @@
       </table>
     <% end %>
     <% if logged? %>
-      <a href="#recommendation_modal" class="btn btn-primary" data-toggle="modal">Препоръчай</a>
+      <% unless @current_recommendation %>
+        <a href="#recommendation_modal" class="btn btn-primary" data-toggle="modal">Препоръчай</a>
+      <% end %>
       <div class="modal fade" id="recommendation_modal">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -162,9 +164,9 @@
           </td>
           <td>
             <% if copy.is_taken %>
-              Не
+              <span class="glyphicon glyphicon-remove"></span>
             <% else %>
-              Да
+              <span class="glyphicon glyphicon-ok"></span>
             <% end %>
           </td>
         </tr>

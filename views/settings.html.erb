@@ -1,0 +1,53 @@
+<form role="form" method="post" action="/users/settings" enctype="multipart/form-data">
+  <div class="col-md-12">
+    <div class="col-md-3">
+      <img src=<%= "/img/users/#{logged_user.id}.png"%>/>
+      <div class="form-group from-top-2">
+        <label for="avatar">Профилна Снимка:</label>
+        <input type="file" id="avatar" name="avatar">
+      </div>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" name="send_email_on_wish" checked="checked"> Писмо за освободени желанa книгa
+        </label>
+      </div>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" name="send_email_on_wish" checked="checked"> Писмо за изтичащ срок за връщане на книга
+        </label>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="username">СУСИ Име:</label>
+        <input type="text" class="form-control" id="username" disabled="disabled"
+        value=<%= "#{logged_user.username}"%>>
+      </div>
+      <div class="form-group">
+        <label for="name">Име:</label>
+        <input type="text" class="form-control" id="name" disabled="disabled"
+        value=<%= "#{logged_user.name}"%>>
+      </div>
+      <div class="form-group">
+        <label for="fn">Факултетен Номер:</label>
+        <input type="text" class="form-control" id="fn" disabled="disabled"
+        value=<%= "#{logged_user.faculty_number}"%>>
+      </div>
+      <div class="form-group">
+        <label for="email">Електронна Поща:</label>
+        <input type="email" class="form-control" id="email" name="email"
+          value=<%= "#{logged_user.email}"%>>
+      </div>
+      <div class="form-group">
+        <label for="goodreads_profile">Goodreads профил:</label>
+        <input type="text" class="form-control" id="goodreads_profile" name="goodreads_profile"
+        value="https://www.goodreads.com/user/show/15487106">
+      </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-md-12">
+      <button type="submit" class="btn btn-success">Промени</button>
+      <button type="reset" class="btn btn-danger">Върни</button>
+    </div>
+  </div>
+</form>

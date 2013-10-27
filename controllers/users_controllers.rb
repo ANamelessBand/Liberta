@@ -5,6 +5,21 @@ class UsersController < ApplicationController
     set_active_navigation_link(NavigationLink.users_id)
   end
 
+  get '/settings' do
+    @breadcrumbs << NavigationLink.new(0, "/settings", "Настройки")
+    redirect '/login' unless logged?
+    @title = "Настройки"
+    erb :'settings.html'
+  end
+
+  post '/settings' do
+    email = params[:email]
+    avatar = params[:avatar]
+
+    logged_user.update({email: email})
+    redirect 'users/settings'
+  end
+
   post '/search' do
     session[:last_user_search_name] = params[:name].split(' ')
     session[:last_user_search_fn] = params[:fn]
@@ -23,7 +38,7 @@ class UsersController < ApplicationController
     @names = session[:last_user_search_name] || []
     @fn = session[:last_user_search_fn] || ""
     if @fn.empty?
-      search_results = search_results.select { |user| @names.map { |name| user.name.include? name}.all? }
+      search_results = search_results.select { |user| @names.map { |name| user.name.downcase.include? name.downcase}.all? }
     else
       search_results = search_results.select { |user| user.faculty_number.to_s.include? @fn}
     end
@@ -70,5 +85,13 @@ class UsersController < ApplicationController
     loan_copy @user, @copy if @copy && !@copy.is_taken
 
     redirect "/users/#{@user.id}"
+  end
+
+  get '/:id/loaned' do
+    @user = User.find id: params[:id]
+    @own_profile = logged? and logged_user.equal? @user
+    @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}", "#{@user.name}")
+    @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}/wishlist", "Невърнати Книги")
+    erb :'loaned.html'
   end
 end

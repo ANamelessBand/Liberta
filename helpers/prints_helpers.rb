@@ -25,4 +25,16 @@ module PrintsHelpers
     @to_wishlist = to_wishlist
     erb :'prints_table.html'
   end
+
+  def show_loans_table(loans, returned = false, supposed_return = false)
+    @loans = loans
+    @returned = returned
+    @supposed_return = supposed_return
+    erb :'loans_table.html'
+  end
+
+  def show_recommendations_table(prints)
+    @prints = prints
+    erb :'recommendations_table.html'
+  end
 end

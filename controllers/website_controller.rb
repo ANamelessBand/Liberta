@@ -5,9 +5,9 @@ class WebsiteController < ApplicationController
   end
 
   get /(^\/$|^\/news$)/ do
-    @title = "Liberta"
+    @title = "Libertà"
 
-    @last_five_news = News.all.sort { |x, y| y.date_of_publication <=> x.date_of_publication }.take(5)
+    @last_five_news = News.all.reverse.take(5)
     @last_added = Print.all.sort{ |x, y| y.date_added <=> x.date_added }.take(5)
 
     erb :'index.html'
@@ -50,27 +50,27 @@ class WebsiteController < ApplicationController
   end
 
   get '/authors/:id/all' do
-    @breadcrumbs << NavigationLink.new(0, "/author/#{params[:id]}", "Автор")
-    @breadcrumbs << NavigationLink.new(0, "/author/#{params[:id]}/all", "Всички публикации")
+    @breadcrumbs << NavigationLink.new(0, "/authors/#{params[:id]}", "Автор")
+    @breadcrumbs << NavigationLink.new(0, "/authors/#{params[:id]}/all", "Всички публикации")
     set_data Author, params[:id]
     erb :'contributor_all.html'
   end
 
   get '/authors/:id' do
-    @breadcrumbs << NavigationLink.new(0, "/author/#{params[:id]}", "Автор")
+    @breadcrumbs << NavigationLink.new(0, "/authors/#{params[:id]}", "Автор")
     set_data Author, params[:id]
     erb :'contributor.html'
   end
 
   get '/publishers/:id/all' do
-    @breadcrumbs << NavigationLink.new(0, "/publisher/#{params[:id]}/all", "Издател")
-    @breadcrumbs << NavigationLink.new(0, "/author/#{params[:id]}", "Всички публикации")
+    @breadcrumbs << NavigationLink.new(0, "/publishers/#{params[:id]}", "Издател")
+    @breadcrumbs << NavigationLink.new(0, "/publishers/#{params[:id]}/all", "Всички публикации")
     set_data Publisher, params[:id]
     erb :'contributor_all.html'
   end
 
   get '/publishers/:id' do
-    @breadcrumbs << NavigationLink.new(0, "/publisher/#{params[:id]}/all", "Издател")
+    @breadcrumbs << NavigationLink.new(0, "/publishers/#{params[:id]}/all", "Издател")
     set_data Publisher, params[:id]
     erb :'contributor.html'
   end

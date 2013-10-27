@@ -1,9 +1,9 @@
 <div class="col-md-2">
-  <a href="#" class="thumbnail"><img src="/img/profile.png" alt="..." /></a>
+  <a href="#" class="thumbnail"><img src=<%= "/img/users/#{@user.id}.png" %> alt="..." /></a>
   <h3 class="text-center user-name"><%= @user.name %></h3>
 </div>
 
-<div class="col-md-8">
+<div class="col-md-10">
 <h3>Желани книги</h3>
 	<%= show_print_table @user.wishes, false, false %>
 </div>

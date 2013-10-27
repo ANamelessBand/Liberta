@@ -32,6 +32,6 @@ class User < Sequel::Model
   end
 
   def currently_loaned
-    loans.select { |loan| loan.date_supposed_return > Date.today }
+    loans.select { |loan| loan.date_supposed_return > Date.today and loan.date_returned.nil? }
   end
 end
