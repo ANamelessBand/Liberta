@@ -30,4 +30,8 @@ class User < Sequel::Model
       wish.print.id == print.id
     end
   end
+
+  def currently_loaned
+    loans.select { |loan| loan.date_supposed_return > Date.today }
+  end
 end
