@@ -23,7 +23,7 @@ module ApplicationHelpers
   end
 
   def logged_user
-    session[:user] if logged?
+    User.find(id: session[:user]) if logged?
   end
 
   def unread_notifications

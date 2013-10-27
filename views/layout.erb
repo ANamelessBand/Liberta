@@ -55,7 +55,7 @@
           <% if logged? %>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <%= logged_user.name %>&nbsp;<b class="caret"></b>
+              <%= logged_user.name.split(" ").first %>&nbsp;<b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
               <li><a href="#">Моите Книги</a></li>

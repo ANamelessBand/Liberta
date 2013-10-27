@@ -24,4 +24,10 @@ class User < Sequel::Model
   def wishes
     wishlists.map(&:print)
   end
+
+  def has_wish(print)
+    wishlists.any? do |wish|
+      wish.print.id == print.id
+    end
+  end
 end

@@ -28,20 +28,20 @@ class PrintsController < ApplicationController
     search_results = Print.all
 
     if searchables.empty?
-      search_results = search_results.select do |result| 
+      search_results = search_results.select do |result|
         names.map { |name| result.title.downcase.include?(name.downcase) }.all?
       end
-      search_results = search_results.select do |result| 
+      search_results = search_results.select do |result|
         authors.map { |author| result.authors_string.downcase.include?(author.downcase) }.all?
       end
-      search_results = search_results.select do |result| 
+      search_results = search_results.select do |result|
         tags.map { |tag| result.tags_string.downcase.include?(tag.downcase) }.all?
       end
-      search_results = search_results.select do |result| 
+      search_results = search_results.select do |result|
         publishers.map { |publisher| result.publisher.name.downcase.include?(publisher.downcase) }.all?
       end
     else
-      search_results = search_results.select do |result| 
+      search_results = search_results.select do |result|
         searchables.map { |searchable| result.searchables_string.downcase.include?(searchable.downcase) }.all?
       end
     end
@@ -63,10 +63,10 @@ class PrintsController < ApplicationController
   end
 
   get '/most-liked' do
-    
+
     @title = "Най-харесвани книги"
     all_prints = Print.all
-    
+
     @all_time_prints = all_prints.sort { |x, y| y.rating(false) <=> x.rating(false) }.take 10
     @last_month_prints = all_prints.sort { |x, y| y.rating(true) <=> x.rating(true) }.take 10
 
@@ -76,6 +76,32 @@ class PrintsController < ApplicationController
   get '/:id' do
     @print = Print.find(id: params[:id])
     @title = @print.title
+
+    @in_wishlist = logged_user.has_wish(@print)
+
     erb :'print.html'
   end
+
+  get '/:id/add-wishlist' do
+    @print = Print.find(id: params[:id])
+
+    Wishlist.create(user: logged_user, print: @print, is_satisfied: false) unless logged_user.has_wish(@print)
+
+    back = "/prints/" + @print.id.to_s
+    redirect back
+  end
+
+  get '/:id/remove-wishlist' do
+    @print = Print.find(id: params[:id])
+
+    wishlist = logged_user.wishlists.select { |wishlist| wishlist.print.id == @print.id }.first
+
+    unless wishlist.nil?
+      wishlist.delete
+    end
+
+    back = "/prints/" + @print.id.to_s
+    redirect back
+  end
+
 end

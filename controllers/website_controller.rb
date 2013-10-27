@@ -25,7 +25,7 @@ class WebsiteController < ApplicationController
     redirect '/login' if @user.nil?
 
     # Auth logic here, currently we skip it
-    session[:user] = @user
+    session[:user] = @user.id
     redirect '/'
   end
 
