@@ -1,9 +1,9 @@
 titles = [
            'Important!!!',
-           'Book worms have attacked !',
+           'Breaking news! Book worms have attacked!',
            'NeNowinite - oficialen sponsor na HackFmi',
-           'Manekenki poludqha po nowata kniga na Paulo Choelo',
-           'Twilight 7 - Return of the faries',
+           'Manekenki poludqha po nowata kniga na Paulo Coehlo',
+           'Twilight 7 - Return of the fairies',
           ]
 
 contents = [
@@ -16,11 +16,11 @@ contents = [
             "Pisna mi ot toq jivot beeee :D",
           ]
 
-date = "12.10.2013"
+dates = ["12.10.2013", "11.10.2013", "13.10.2013"]
 
 titles.each do |new_title|
   dummy_news = News.new title: new_title, 
                         content: contents.sample,
-                        date_of_publication: date
+                        date_of_publication: dates.sample
   dummy_news.save if dummy_news.valid?
 end

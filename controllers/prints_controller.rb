@@ -18,7 +18,34 @@ class PrintsController < ApplicationController
   get '/search/:page' do
     @title = "Резултати от търсенето"
     @current_page = params[:page].to_i
-    search_results = session[:last_search_data]
+
+    names = session[:last_search_names]
+    authors = session[:last_search_authors]
+    tags = session[:last_search_tags]
+    publishers = session[:last_search_publishers]
+    searchables = session[:last_search_searchables]
+
+    search_results = Print.all
+
+    if searchables.empty?
+      search_results = search_results.select do |result| 
+        names.map { |name| result.title.downcase.include?(name.downcase) }.all?
+      end
+      search_results = search_results.select do |result| 
+        authors.map { |author| result.authors_string.downcase.include?(author.downcase) }.all?
+      end
+      search_results = search_results.select do |result| 
+        tags.map { |tag| result.tags_string.downcase.include?(tag.downcase) }.all?
+      end
+      search_results = search_results.select do |result| 
+        publishers.map { |publisher| result.publisher.name.downcase.include?(publisher.downcase) }.all?
+      end
+    else
+      search_results = search_results.select do |result| 
+        searchables.map { |searchable| result.searchables_string.downcase.include?(searchable.downcase) }.all?
+      end
+    end
+
     @page_count = (search_results.size.to_f / SEARCH_RESULT_BY_PAGE).ceil
     @shown_results = search_results.drop((@current_page - 1) * SEARCH_RESULT_BY_PAGE).take(SEARCH_RESULT_BY_PAGE)
 
@@ -26,8 +53,12 @@ class PrintsController < ApplicationController
   end
 
   post '/search' do
-    search_results = Print.all
-    session[:last_search_data] = search_results
+    session[:last_search_names] = (params[:name] || "").split(' ');
+    session[:last_search_authors] = (params[:author] || "").split(' ');
+    session[:last_search_tags] = (params[:tags] || "").split(' ');
+    session[:last_search_publishers] = (params[:publisher] || "").split(' ');
+    session[:last_search_searchables] = (params[:searchables] || "").split(' ');
+
     redirect '/prints/search/1'
   end
 

@@ -6,6 +6,7 @@ Sequel.migration do
       foreign_key :print_id, :prints
       Float :rating
       String :comment
+      Date :date_of_comment, null: false
     end
   end
 end

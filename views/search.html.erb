@@ -12,12 +12,12 @@
   <tbody>
   <% @shown_results.each do |result| %>
     <tr>
-      <td><%= to_link(result.id, result.name) %></td>
-      <td><%= result.authors.map { |author| to_link("../authors/#{author.id}", author.name) }.join(', ') %></td>
+      <td><%= to_link("/prints/#{result.id}", result.title) %></td>
+      <td><%= result.authors.map { |author| to_link("/authors/#{author.id}", author.name) }.join(', ') %></td>
       <td>
         <%= 
           publisher = Publisher.find(id: result.publisher_id) 
-          to_link("../publishers/#{publisher.id}", publisher.name)
+          to_link("/publishers/#{publisher.id}", publisher.name)
         %>
       </td>
       <td><%= result.language %></td>
@@ -30,14 +30,14 @@
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">А Song Of Ice and Fire</h4>
+                <h4 class="modal-title"><%= result.title %></h4>
               </div>
               <div class="modal-body">
                 <p>
                   <div class="pull-left from-right-1">
-                    <img src="./img/lord-of-the-rings-book-cover.jpg" />
+                    <img src="/../img/lord-of-the-rings-book-cover.jpg" />
                   </div>
-                  <%= result.Description %>
+                  <%= result.description %>
                 </p>
               </div>
               <div class="modal-footer">
