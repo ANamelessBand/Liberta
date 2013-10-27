@@ -80,7 +80,7 @@
     <h3 class="panel-title">Препоръки</h3>
   </div>
   <div class="panel-body">
-    <% if logged? %>
+    <% if logged? and @current_recommendation.nil? %>
       <a href="#recommendation_modal" class="btn btn-primary" data-toggle="modal">Препоръчай</a>
     <% end %>
     <% if @print.recommendations.empty? %>
@@ -108,7 +108,9 @@
       </table>
     <% end %>
     <% if logged? %>
-      <a href="#recommendation_modal" class="btn btn-primary" data-toggle="modal">Препоръчай</a>
+      <% unless @current_recommendation %>
+        <a href="#recommendation_modal" class="btn btn-primary" data-toggle="modal">Препоръчай</a>
+      <% end %>
       <div class="modal fade" id="recommendation_modal">
         <div class="modal-dialog">
           <div class="modal-content">

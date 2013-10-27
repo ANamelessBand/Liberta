@@ -78,6 +78,7 @@ class PrintsController < ApplicationController
   get '/:id' do
     @print = Print.find(id: params[:id])
     @title = @print.title
+    @current_recommendation = Recommendation.find({user: logged_user, print: @print})
 
     @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}", "#{@print.title}")
 
@@ -95,7 +96,13 @@ class PrintsController < ApplicationController
     current_print = Print.find(id: params[:id])
     date = Date.today
 
-    Recommendation.create rating: rating, comment: comment, date_of_comment: date, user: current_user, print: current_print
+    recommendation = Recommendation.find({user: current_user, print: current_print})
+    if recommendation.nil?
+      Recommendation.create rating: rating, comment: comment, date_of_comment: date, user: current_user, print: current_print
+    else
+      recommendation.update({rating: rating, comment: comment, date_of_comment: date})
+    end
+
     redirect back
   end
 
