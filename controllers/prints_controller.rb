@@ -87,15 +87,18 @@ class PrintsController < ApplicationController
   end
 
   post '/:id/add-recommendation' do
-    puts "in in in"
-    #rating = params[:recommendation_rating]
-    rating = 2.5
+    rating = params[:rating]
     comment = params[:recommendation_comment]
+
+    back = "/prints/#{params[:id]}"
+    redirect back if rating == 0
+
     current_user = logged_user
     current_print = Print.find(id: params[:id])
     date = Date.today
+
     Recommendation.create rating: rating, comment: comment, date_of_comment: date, user: current_user, print: current_print
-    redirect "/prints/#{params[:id]}"
+    redirect back
   end
 
   get '/:id/add-wishlist' do

@@ -61,8 +61,7 @@
         <span class="glyphicon glyphicon-plus"></span> добави в желани</a>
     <% end %>
   <% else %>
-    <a href="/login" class="btn btn-primary">
-      Влезте в системата, за да добавите в списъка с желани</a>
+    <a class="btn btn-success" href="/login"><span class="glyphicon glyphicon-plus"></span> добави в желани</a>
   <% end %>
 </div>
 <div class="clearfix"></div>
@@ -79,10 +78,13 @@
     <h3 class="panel-title">Препоръки</h3>
   </div>
   <div class="panel-body">
+    <% if logged? %>
+      <a href="#recommendation_modal" class="btn btn-primary" data-toggle="modal">Препоръчай</a>
+    <% end %>
     <% if @print.recommendations.empty? %>
-      <p>Бъди пръв като оцениш тази книга!<p>
+      <p>Бъди пръв да препоръчаш тази книга!<p>
     <% else %>
-      <table class="table table-striped">
+      <table class="table table-striped from-top-2">
         <thead>
           <tr>
             <th>Потребител</th>
@@ -119,9 +121,7 @@
                     <legend>Добавяне на препоръка</legend>
 
                     оценка:
-                    <span class="stars s-2.5" data-default='2.5'>
-                    2.5 stars
-                    </span>
+                    <%= stars_span(0, true) %>
 
                     <br />
                     <textarea rows="4" cols="50" id="recommendation_comment" class="form-control" required="" name="recommendation_comment" placeholder="Коментар..."></textarea>

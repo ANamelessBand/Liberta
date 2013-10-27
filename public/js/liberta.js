@@ -75,16 +75,17 @@
       changeWish("remove", this, addButton, removeButton);
     })
 
-    $(".stars.interactive").on("mousemove", function(e) {
+    $(document).on("mousemove", ".stars.interactive", function(e) {
       var $this = $(this);
-      var stars = (e.clientX - $this.position().left) / 15;
+      var $input = $this.children("input");
+      var stars = (e.clientX - $this.offset().left) / 15;
       stars = Math.round(stars * 2) / 2;
       if (stars > 5) stars = 5;
       if (stars < 0) stars = 0;
 
       $this.removeClass();
       $this.addClass("s-" + stars).addClass("stars").addClass("interactive");
-      $this.children("input").val(stars)
+      $input.val(stars)
     })
   })
 })(jQuery, window);
