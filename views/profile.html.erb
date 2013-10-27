@@ -88,3 +88,26 @@
 		</div>
 	</div>
 </div>
+<a href="#news_modal" class="btn btn-primary" data-toggle="modal">Отдай книга</a>
+<div class="modal fade" id="news_modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="news_upload_form" class="form-horizontal" method="post" action="/users/<%= @user.id %>/loan">
+        <fieldset>
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          </div>
+          <div class="modal-body">
+            <!-- Form Name -->
+            <legend>Отдаване на книга</legend>
+            <input type="text" class="form-control" placeholder="Библиотечен номер..." required="true" id="copy_inventory_number" name="copy_inventory_number">
+          </div>
+          <div class="modal-footer">
+            <button type="submit" id="save_button" name="save_button" class="btn btn-success">Отдай</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Отмяна</button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>
