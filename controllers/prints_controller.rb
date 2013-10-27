@@ -1,7 +1,7 @@
 class PrintsController < ApplicationController
 
   before do
-    @breadcrumbs << NavigationLink.new(1, "/prints", "Книги")
+    @breadcrumbs << NavigationLink.new(0, "/prints", "Книги")
     if request.path_info == '/most-liked'
       set_active_navigation_link NavigationLink.most_liked_id
     else
@@ -10,14 +10,13 @@ class PrintsController < ApplicationController
   end
 
   get '/' do
-    set_active_breadcrumb 1
     @title = "Търсене в библиотеката"
 
     erb :'prints.html'
   end
 
   get '/search/:page' do
-    set_active_breadcrumb 1
+    @breadcrumbs << NavigationLink.new(0, "/search/#{params[:page]}", "Резултати от търсенето")
     @title = "Резултати от търсенето"
     @current_page = params[:page].to_i
 
@@ -65,8 +64,8 @@ class PrintsController < ApplicationController
   end
 
   get '/most-liked' do
-    @breadcrumbs << NavigationLink.new(1, "/prints/most-liked", "Най-харесвани")
-    set_active_breadcrumb 2
+    @breadcrumbs << NavigationLink.new(0, "/prints/most-liked", "Най-харесвани")
+
     @title = "Най-харесвани книги"
     all_prints = Print.all
 
@@ -79,6 +78,8 @@ class PrintsController < ApplicationController
   get '/:id' do
     @print = Print.find(id: params[:id])
     @title = @print.title
+
+    @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}", "#{@print.title}")
 
     @in_wishlist = logged_user.has_wish(@print)
 

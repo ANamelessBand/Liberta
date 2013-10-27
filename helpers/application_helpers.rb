@@ -3,10 +3,6 @@ module ApplicationHelpers
     self.navigation_links.each { |link| link.active = link.id == active_id }
   end
 
-  def set_active_breadcrumb(active_id)
-    self.breadcrumbs.each { |link| link.active = link.id == active_id }
-  end
-
   def glyphicon_span(name)
     "<span class='glyphicon glyphicon-#{name}'></span>"
   end

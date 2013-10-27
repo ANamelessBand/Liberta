@@ -19,14 +19,15 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">Liberta</a>
+        <a class="navbar-brand" href="/">Liberta</a>
       </div>
       <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav">
-          <%= @navigation_links.map do |link|
-            class_string = " class=\"active\"" if link.active
-            "<li#{class_string}><a href=\"#{link.href}\">#{link.title}</a></li>"
-          end.join %>
+          <%  @navigation_links.each do |link| %>
+            <li <%= link.active ? "class='active'" : "" %>>
+              <%= to_link link.href, link.title %>
+            </li>
+          <% end %>
         </ul>
         <form class="navbar-form navbar-left" role="search" method="post" action="/prints/search">
           <div class="form-group">
@@ -73,10 +74,11 @@
     <div class="container container-body">
       <div class="row">
         <ol class="breadcrumb">
-          <%= @breadcrumbs.map do |link|
-            class_string = " class=\"active\"" if link.active
-            "<li#{class_string}><a href=\"#{link.href}\">#{link.title}</a></li>"
-          end.join %>
+          <%  @breadcrumbs.each_with_index do |link, i| %>
+            <li <%= i + 1 == @breadcrumbs.size ? "class='active'" : "" %>>
+              <%= i + 1 == @breadcrumbs.size ? link.title : to_link(link.href, link.title)%>
+            </li>
+          <% end %>
         </ol>
         <div class="page-header">
           <h1><%= @title %></h1>
