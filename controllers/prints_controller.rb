@@ -69,8 +69,8 @@ class PrintsController < ApplicationController
     @title = "Най-харесвани книги"
     all_prints = Print.all
 
-    @all_time_prints = all_prints.sort { |x, y| y.rating(false) <=> x.rating(false) }.take 10
-    @last_month_prints = all_prints.sort { |x, y| y.rating(true) <=> x.rating(true) }.take 10
+    @all_time_prints = all_prints.sort { |x, y| y.rating(false) <=> x.rating(false) }.take 5
+    @last_month_prints = all_prints.sort { |x, y| y.rating(true) <=> x.rating(true) }.take 5
 
     erb :'most_liked.html'
   end
