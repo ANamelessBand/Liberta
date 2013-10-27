@@ -3,7 +3,7 @@ require 'sequel'
 require 'sinatra/base'
 require 'sinatra/reloader'
 
-SEARCH_RESULT_BY_PAGE = 10
+SEARCH_RESULT_BY_PAGE = 5
 
 Sequel.sqlite("database/liberta.db")
 
