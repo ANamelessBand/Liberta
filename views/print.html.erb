@@ -74,35 +74,71 @@
     <%= @print.description %>
   </div>
 </div>
-<% unless @print.recommendations.empty? %>
 <div class="panel panel-primary">
   <div class="panel-heading">
     <h3 class="panel-title">Препоръки</h3>
   </div>
   <div class="panel-body">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Потребител</th>
-          <th>Рейтинг</th>
-          <th>Коментар</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @print.recommendations.each do |recommendation| %>
-        <tr>
-          <td><a href="#"><%= recommendation.user.name %></a></td>
-          <td>
-            <%= stars_span recommendation.rating %>
-          </td>
-          <td><%= recommendation.comment %></td>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
+    <% if @print.recommendations.empty? %>
+      <p>Бъди пръв като оцениш тази книга!<p>
+    <% else %>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Потребител</th>
+            <th>Рейтинг</th>
+            <th>Коментар</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @print.recommendations.each do |recommendation| %>
+          <tr>
+            <td><a href="#"><%= recommendation.user.name %></a></td>
+            <td>
+              <%= stars_span recommendation.rating %>
+            </td>
+            <td><%= recommendation.comment %></td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+    <% if logged? %>
+      <a href="#recommendation_modal" class="btn btn-primary" data-toggle="modal">Препоръчай</a>
+      <div class="modal fade" id="recommendation_modal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+              <form id="news_upload_form" class="form-horizontal" method="post" action="/prints/<%= @print.id%>/add-recommendation">
+                <fieldset>
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  </div>
+                  <div class="modal-body">
+
+                    <!-- Form Name -->
+                    <legend>Добавяне на препоръка</legend>
+
+                    оценка:
+                    <span class="stars s-2.5" data-default='2.5'>
+                    2.5 stars
+                    </span>
+
+                    <br />
+                    <textarea rows="4" cols="50" id="recommendation_comment" class="form-control" required="" name="recommendation_comment" placeholder="Коментар..."></textarea>
+
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" id="save_button" name="save_button" class="btn btn-success">Препоръчай</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Затвори</button>
+                  </div>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>
-<% end %>
 <% unless @print.copies.empty? %>
 <div class="panel panel-primary">
   <div class="panel-heading">
@@ -136,3 +172,4 @@
   </div>
 </div>
 <% end %>
+
