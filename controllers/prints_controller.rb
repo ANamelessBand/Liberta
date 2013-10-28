@@ -78,7 +78,7 @@ class PrintsController < ApplicationController
   get '/:id' do
     @print = Print.find(id: params[:id])
     @title = @print.title
-    @current_recommendation = logged? and Recommendation.find({user: logged_user, print: @print})
+    @current_recommendation = logged? && Recommendation.find({user: logged_user, print: @print})
 
     @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}", "#{@print.title}")
 
