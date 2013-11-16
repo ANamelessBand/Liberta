@@ -44,9 +44,9 @@ class UsersController < ApplicationController
       search_results = search_results.select { |user| user.faculty_number.to_s.include? @fn}
     end
 
-    @page_count = (search_results.size.to_f / SEARCH_RESULTS_BY_PAGE).ceil
+    @page_count = (search_results.size.to_f / SEARCH_RESULTS_PER_PAGE).ceil
     @current_page = params[:page].to_i
-    @shown_results = search_results.drop((@current_page - 1) * SEARCH_RESULTS_BY_PAGE).take(SEARCH_RESULTS_BY_PAGE)
+    @shown_results = search_results.drop((@current_page - 1) * SEARCH_RESULTS_PER_PAGE).take(SEARCH_RESULTS_PER_PAGE)
     erb :'users.html'
   end
 

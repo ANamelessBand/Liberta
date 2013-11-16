@@ -48,8 +48,8 @@ class PrintsController < ApplicationController
       end
     end
 
-    @page_count = (search_results.size.to_f / SEARCH_RESULTS_BY_PAGE).ceil
-    @shown_results = search_results.drop((@current_page - 1) * SEARCH_RESULTS_BY_PAGE).take(SEARCH_RESULTS_BY_PAGE)
+    @page_count = (search_results.size.to_f / SEARCH_RESULTS_PER_PAGE).ceil
+    @shown_results = search_results.drop((@current_page - 1) * SEARCH_RESULTS_PER_PAGE).take(SEARCH_RESULTS_PER_PAGE)
 
     erb :'search.html'
   end
