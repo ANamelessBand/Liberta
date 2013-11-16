@@ -2,7 +2,7 @@ require 'rubygems'
 require 'date'
 require 'bundler/setup'
 
-Bundler.require(:default)
+Bundler.require :default
 
 #==============================================================================
 # Setup environments
