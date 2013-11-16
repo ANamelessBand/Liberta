@@ -1,4 +1,5 @@
 class WebsiteController < ApplicationController
+  NAMESPACE = '/'
 
   before do
     set_active_navigation_link(NavigationLink.news_id)

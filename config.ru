@@ -45,8 +45,9 @@ Dir.glob('./controllers/**/*.rb').each &require_file
 # Map Top Level Controllers
 #==============================================================================
 
-map('/')               { run WebsiteController }
-map('/prints')         { run PrintsController }
-map('/users')          { run UsersController }
-map('/administration') { run AdministrationController }
+controllers = [WebsiteController, PrintsController,
+               UsersController, AdministrationController]
 
+controllers.each do |controller|
+  map (controller::NAMESPACE) { run controller }
+end

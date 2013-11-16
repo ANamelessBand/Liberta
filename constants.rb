@@ -1,2 +1,2 @@
 # TODO: Enclose in a module
-SEARCH_RESULT_BY_PAGE = 5
+SEARCH_RESULTS_BY_PAGE = 5

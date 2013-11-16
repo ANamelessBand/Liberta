@@ -1,4 +1,5 @@
 class PrintsController < ApplicationController
+  NAMESPACE = '/prints'
 
   before do
     @breadcrumbs << NavigationLink.new(0, "/prints", "Книги")
@@ -47,8 +48,8 @@ class PrintsController < ApplicationController
       end
     end
 
-    @page_count = (search_results.size.to_f / SEARCH_RESULT_BY_PAGE).ceil
-    @shown_results = search_results.drop((@current_page - 1) * SEARCH_RESULT_BY_PAGE).take(SEARCH_RESULT_BY_PAGE)
+    @page_count = (search_results.size.to_f / SEARCH_RESULTS_BY_PAGE).ceil
+    @shown_results = search_results.drop((@current_page - 1) * SEARCH_RESULTS_BY_PAGE).take(SEARCH_RESULTS_BY_PAGE)
 
     erb :'search.html'
   end
