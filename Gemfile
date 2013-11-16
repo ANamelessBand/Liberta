@@ -7,4 +7,5 @@ gem 'sinatra-contrib'
 group :development do
   gem 'sqlite3', '~>1.3', require: false
   gem 'pry', require: false
+  gem 'rerun', require: false
 end
