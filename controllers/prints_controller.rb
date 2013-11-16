@@ -18,7 +18,6 @@ class PrintsController < ApplicationController
   get '/search/:page' do
     @breadcrumbs << NavigationLink.new(0, "/search/#{params[:page]}", "Резултати от търсенето")
     @title = "Резултати от търсенето"
-    @current_page = params[:page].to_i
 
     names = session[:last_search_names]
     authors = session[:last_search_authors]
@@ -26,31 +25,33 @@ class PrintsController < ApplicationController
     publishers = session[:last_search_publishers]
     searchables = session[:last_search_searchables]
 
-    search_results = Print.all
-
     if searchables.empty?
-      search_results = search_results.select do |result|
-        names.map { |name| result.title.downcase.include?(name.downcase) }.all?
+      search_results = Print.filter do |result|
+        #names.map { |name| result.title.downcase.include?(name.downcase) }.all?
+        result.search_matches(names, :title)
       end
-      search_results = search_results.select do |result|
-        authors.map { |author| result.authors_string.downcase.include?(author.downcase) }.all?
+      search_results = search_results.filter do |result|
+        #authors.map { |author| result.authors_string.downcase.include?(author.downcase) }.all?
+        result.search_matches(authors, :authors_string)
       end
-      search_results = search_results.select do |result|
-        tags.map { |tag| result.tags_string.downcase.include?(tag.downcase) }.all?
+      search_results = search_results.filter do |result|
+        #tags.map { |tag| result.tags_string.downcase.include?(tag.downcase) }.all?
+        result.search_matches(tags, :tags_string)
       end
-      search_results = search_results.select do |result|
-        publishers.map { |publisher| result.publisher.name.downcase.include?(publisher.downcase) }.all?
+      search_results = search_results.filter do |result|
+        #publishers.map { |publisher| result.publisher.name.downcase.include?(publisher.downcase) }.all?
+        result.search_matches(publishers, :publisher)
       end
     else
-      search_results = search_results.select do |result|
-        searchables.map { |searchable| result.searchables_string.downcase.include?(searchable.downcase) }.all?
+      search_results = Print.filter do |result|
+        #searchables.map { |searchable| result.searchables_string.downcase.include?(searchable.downcase) }.all?
+        result.search_matches(searchables, :searchables_string)
       end
     end
 
-    @page_count = (search_results.size.to_f / SEARCH_RESULT_BY_PAGE).ceil
-    @shown_results = search_results.drop((@current_page - 1) * SEARCH_RESULT_BY_PAGE).take(SEARCH_RESULT_BY_PAGE)
-
-    erb :'search.html'
+    shown_results = search_results.paginate(params[:page].to_i, SEARCH_RESULT_BY_PAGE)
+    p shown_results
+    erb :'search.html', :locals => {:shown_results => shown_results}
   end
 
   post '/search' do

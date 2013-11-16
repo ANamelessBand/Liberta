@@ -34,19 +34,20 @@ class UsersController < ApplicationController
 
   get '/search/:page' do
     @title = "Потребители"
-    search_results = User.all
     @names = session[:last_user_search_name] || []
     @fn = session[:last_user_search_fn] || ""
+    dataset = User.dataset
+
     if @fn.empty?
-      search_results = search_results.select { |user| @names.map { |name| user.name.downcase.include? name.downcase}.all? }
+      @names.each do |name|
+        dataset = dataset.where(Sequel.like(:name, "%#{name}%"))
+      end
     else
-      search_results = search_results.select { |user| user.faculty_number.to_s.include? @fn}
+      dataset = dataset.where(Sequel.like(:faculty_number, "%#{@fn}%"))
     end
 
-    @page_count = (search_results.size.to_f / SEARCH_RESULT_BY_PAGE).ceil
-    @current_page = params[:page].to_i
-    @shown_results = search_results.drop((@current_page - 1) * SEARCH_RESULT_BY_PAGE).take(SEARCH_RESULT_BY_PAGE)
-    erb :'users.html'
+    shown_results = dataset.paginate(params[:page].to_i, SEARCH_RESULT_BY_PAGE)
+    erb :'users.html', :locals => {:shown_results => shown_results}
   end
 
   get '/:id' do

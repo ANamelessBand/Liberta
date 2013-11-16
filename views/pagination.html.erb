@@ -1,0 +1,21 @@
+<div class="text-center">
+  <ul class="pagination">
+    <li <%= shown_results.first_page? ? "class='disabled'" : "" %>>
+      <%=
+        link = shown_results.first_page? ? "javascript:;" : "#{shown_results.current_page - 1}"
+        to_link link, "&laquo;"
+      %>
+    </li>
+    <% 1.upto(shown_results.page_count).each do |page| %>
+      <li <%= shown_results.current_page == page ? "class='active'" : "" %>>
+        <%= to_link "#{page}", page %>
+      </li>
+    <% end %>
+    <li <%= shown_results.last_page? ? "class='disabled'" : "" %>>
+      <%=
+        link = shown_results.last_page? ? "javascript:;" : "#{shown_results.current_page + 1}"
+        to_link link, "&raquo;"
+      %>
+    </li>
+  </ul>
+</div>
