@@ -4,19 +4,49 @@ require 'sequel'
 require 'sinatra/base'
 require 'sinatra/reloader'
 
-SEARCH_RESULT_BY_PAGE = 5
+require './constants.rb'
 
-Sequel.sqlite("database/liberta.db")
+#==============================================================================
+# Setup environments
+#==============================================================================
 
-Dir.glob('./{models,helpers}/**/*.rb').each { |file| require file }
+class Sinatra::Base
+  set :environment, :development
+
+  set :views,         File.expand_path('../views',  __FILE__)
+  set :public_folder, File.expand_path('../public', __FILE__)
+
+  enable :sessions
+
+  configure :development do
+    Sequel.sqlite("database/liberta.db")
+    register Sinatra::Reloader
+  end
+
+  configure :production do
+    Sequel.sqlite("database/liberta.db")
+    disable :show_exceptions
+  end
+end
+
+
+#==============================================================================
+# Require all models, controllers and helpers
+#==============================================================================
+
+require_file = -> (file) { require file }
+Dir.glob('./{models,helpers}/**/*.rb').each &require_file
+
 require './controllers/application_controller'
+Dir.glob('./controllers/**/*.rb').each &require_file
 
-$:.unshift(File.expand_path('../lib', __FILE__))
 
-Dir.glob('./controllers/**/*.rb').each { |file| require file }
+#==============================================================================
+# Map Top Level Controllers
+#==============================================================================
 
+map('/')               { run WebsiteController }
+map('/prints')         { run PrintsController }
+map('/users')          { run UsersController }
 map('/administration') { run AdministrationController }
-map('/prints') { run PrintsController }
-map('/users') { run UsersController }
-map('/') { run WebsiteController }
 
