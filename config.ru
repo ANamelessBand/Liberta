@@ -1,38 +1,48 @@
-require 'date'
 require 'rubygems'
-require 'sequel'
-require 'sinatra/base'
-require 'sinatra/reloader'
+require 'date'
+require 'bundler/setup'
 
-require './constants.rb'
+Bundler.require(:default)
 
 #==============================================================================
 # Setup environments
 #==============================================================================
 
 class Sinatra::Base
-  set :environment, :development
+  register Sinatra::ConfigFile
+  config_file 'config.yml'
 
-  set :views,         File.expand_path('../views',  __FILE__)
-  set :public_folder, File.expand_path('../public', __FILE__)
+  set :environment, settings.environment
+
+  set :views,         File.expand_path(settings.views_path,  __FILE__)
+  set :public_folder, File.expand_path(settings.public_path, __FILE__)
 
   enable :sessions
 
+  # call Bundle.require for each environment
+  settings.environments.each do |environment|
+    configure environment do
+      Bundler.require environment
+    end
+  end
+
   configure :development do
-    Sequel.sqlite("database/liberta.db")
     register Sinatra::Reloader
+
+    Sequel.sqlite settings.development[:sqlite_path]
   end
 
   configure :production do
-    Sequel.sqlite("database/liberta.db")
     disable :show_exceptions
   end
 end
 
 
 #==============================================================================
-# Require all models, controllers and helpers
+# Require all custom constants, models, controllers and helpers
 #==============================================================================
+
+require './constants.rb'
 
 require_file = -> (file) { require file }
 Dir.glob('./{models,helpers}/**/*.rb').each &require_file

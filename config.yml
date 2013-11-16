@@ -1,0 +1,16 @@
+# List all environments in use
+environments:
+  - development
+  - test
+  - production
+
+# Choose environment
+environment: development
+
+# Paths (relative to ./controllers) to the views and public folders
+views_path:  '../views'
+public_path: '../public'
+
+# Development specific settings
+development:
+  sqlite_path: 'database/liberta.db'
