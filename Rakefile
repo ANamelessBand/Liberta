@@ -18,12 +18,12 @@ namespace :db do
     DB = Sequel.sqlite(sqlite_path)
 
   when 'production'
-    db_server = env_settngs['db_server']
-    db_name   = env_settngs['db_name']
-    db_user   = env_settngs['db_user']
-    db_pass   = env_settngs['db_pass']
+    db_host     = env_settngs['db_host']
+    db_name     = env_settngs['db_name']
+    db_user     = env_settngs['db_user']
+    db_password = env_settngs['db_password']
 
-    DB = Sequel.postgres(db_name, host: db_server, user: db_user, password: db_pass)
+    DB = Sequel.postgres(db_name, host: db_host, user: db_user, password: db_password)
   end
 
   task :drop do
@@ -32,20 +32,15 @@ namespace :db do
     puts "Done!"
   end
 
-  task :reset do
-    puts "Reverting all migrations..."
-    migrator.apply(DB, migrations, 0)
-    puts "Done!"
-
-    puts "Migrating to highest migration..."
-    migrator.apply(DB, migrations)
-    puts "Done!"
-  end
-
   task :migrate do
     puts "Migrating to newest migration..."
     migrator.apply(DB, migrations)
     puts "Done!"
+  end
+
+  task :reset do
+    Rake::Task['db:drop'].execute
+    Rake::Task['db:migrate'].execute
   end
 
   task :fake do

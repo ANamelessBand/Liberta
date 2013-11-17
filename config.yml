@@ -17,7 +17,7 @@ development:
   sqlite_path: 'database/liberta.db'
 
 production:
-  db_server: 'localhost'
-  db_name:   'liberta'
-  db_user:   'liberta'
-  db_pass:   'liberta'
+  db_host:     'localhost'
+  db_name:     'liberta'
+  db_user:     'liberta'
+  db_password: 'liberta'
