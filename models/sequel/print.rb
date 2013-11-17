@@ -8,37 +8,54 @@ class Print < Sequel::Model
   one_to_many :wishlists
 
   def rating(last_month = false)
-    if last_month
-      ratings = recommendations.select { |rec| (Date.today - rec.date_of_comment).to_i <= 30 }
+    ratings = recommendations
+
+    if ratings.empty?
+      0
     else
-      ratings = recommendations
+      ratings.map(&:rating).reduce(:+) / ratings.size
+    end
+  end
+
+  def rating_last_month
+    ratings = recommendations.select do |recommendation|
+      (Date.today - recommendation.date_of_comment).to_i <= 30
     end
 
-    return 0 if ratings.empty?
-    ratings.map(&:rating).reduce(:+) / ratings.size
+    if ratings.empty?
+      0
+    else
+      ratings.map(&:rating).reduce(:+) / ratings.size
+    end
   end
 
   def copies_count
     copies.size
   end
 
-  def free_copies_count
-    copies.reject(&:is_taken).size
+  def free_copies
+    copies.reject(&:is_taken)
+  end
+
+  def taken_copies
+    copies.select(&:is_taken)
   end
 
   def authors_string
-    authors.map(&:name).join(' ')
+    authors.map(&:name).join ' '
   end
 
   def tags_string
-    tags.map(&:name).join(' ')
+    tags.map(&:name).join ' '
   end
 
   def searchables_string
-    [title, authors_string, tags_string, publisher.name].join(' ')
+    [title, authors_string, tags_string, publisher.name].join ' '
   end
 
-  def self.take_last(count)
-    all.sort{ |x, y| y.date_added <=> x.date_added }.take(count)
+  def self.newest
+    all.sort do |book_a, book_b|
+      book_b.date_added <=> book_a.date_added
+    end
   end
 end
