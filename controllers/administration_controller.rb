@@ -7,11 +7,12 @@ class AdministrationController <  ApplicationController
 
   get '/' do
     @title = "Администриране"
-    @loaned_copies = Loan.filter(date_returned: nil).to_a
-    erb :'administration.html'
+    @add, @remove, @loaned = "active", "", ""
+    erb :'administration.html', locals: {template: :'add_print.html'}
   end
 
   post '/add-print' do
+    @title = "Администриране"
     author = Author.create name: params[:added_author_name]
     publisher = Publisher.create name: params[:added_publisher_name]
     name = params[:added_name]
@@ -36,8 +37,17 @@ class AdministrationController <  ApplicationController
     redirect '/'
   end
 
-  get '/copies-to-return' do
-    # @copies = Copy.all.select(:&is_taken)
+  get '/loaned-copies' do
+    redirect '/administration/loaned-copies/1'
+  end
+  
+  get '/loaned-copies/:page' do
+      @title = "Администриране"
+      # page = params.fetch('page', '1').to_i
+      dataset = Loan.dataset.filter(date_returned: nil)
+      @loaned_copies = dataset.paginate(params[:page].to_i, SEARCH_RESULT_BY_PAGE)
+      @add, @remove, @loaned = "", "", "active"
+      erb :'administration.html', locals: {template: :'loaned_copies.html'}
   end 
 end
 
