@@ -26,18 +26,6 @@ class Print < Sequel::Model
     copies.reject(&:is_taken).size
   end
 
-  def authors_string
-    authors.map(&:name).join(' ')
-  end
-
-  def tags_string
-    tags.map(&:name).join(' ')
-  end
-
-  def searchables_string
-    [title, authors_string, tags_string, publisher.name].join(' ')
-  end
-
   def self.take_last(count)
     all.sort{ |x, y| y.date_added <=> x.date_added }.take(count)
   end

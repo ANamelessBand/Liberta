@@ -29,7 +29,7 @@ class Sinatra::Base
   configure :development do
     register Sinatra::Reloader
 
-    Sequel.sqlite settings.development[:sqlite_path]
+    DB = Sequel.sqlite settings.development[:sqlite_path]
   end
 
   configure :production do
@@ -40,8 +40,10 @@ class Sinatra::Base
     db_user     = settings.production['db_user']
     db_password = settings.production['db_password']
 
-    Sequel.postgres(db_name, host: db_host, user: db_user, password: db_password)
+    DB = Sequel.postgres(db_name, host: db_host, user: db_user, password: db_password)
   end
+
+  DB.extension(:pagination)
 end
 
 

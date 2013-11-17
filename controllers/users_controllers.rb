@@ -22,31 +22,29 @@ class UsersController < ApplicationController
   end
 
   post '/search' do
-    session[:last_user_search_name] = params[:name].split(' ')
-    session[:last_user_search_fn] = params[:fn]
-    redirect 'users/search/1'
+    names = params[:name].to_s.gsub(' ', ',')
+    redirect "/users/search/1?name=#{names}&fn=#{params[:fn]}"
   end
 
   get '/' do
-    session[:last_user_search_name] = []
-    session[:last_user_search_fn] = ""
     redirect '/users/search/1'
   end
 
   get '/search/:page' do
-    @title = "Потребители"
-    search_results = User.all
-    @names = session[:last_user_search_name] || []
-    @fn = session[:last_user_search_fn] || ""
+    @title  = "Потребители"
+    @names  = params[:name].to_s.split(',')
+    @fn     = params[:fn].to_s
+    dataset = User.dataset
+
     if @fn.empty?
-      search_results = search_results.select { |user| @names.map { |name| user.name.downcase.include? name.downcase}.all? }
+      @names.each do |name|
+        dataset = dataset.where(Sequel.ilike(:name, "%#{name}%"))
+      end
     else
-      search_results = search_results.select { |user| user.faculty_number.to_s.include? @fn}
+      dataset = dataset.where(Sequel.like(:faculty_number, "%#{@fn}%"))
     end
 
-    @page_count = (search_results.size.to_f / SEARCH_RESULTS_PER_PAGE).ceil
-    @current_page = params[:page].to_i
-    @shown_results = search_results.drop((@current_page - 1) * SEARCH_RESULTS_PER_PAGE).take(SEARCH_RESULTS_PER_PAGE)
+    @shown_results = dataset.paginate(params[:page].to_i, SEARCH_RESULTS_PER_PAGE)
     erb :'users.html'
   end
 
