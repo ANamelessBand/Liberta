@@ -4,7 +4,6 @@ require 'sequel'
 require 'awesome_print'
 require 'pry'
 DB = Sequel.sqlite('./database/liberta.db')
-DB.extension(:pagination)
 
 Dir['./{models}/**/*.rb'].each { |file| require file }
 
