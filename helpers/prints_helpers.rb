@@ -37,4 +37,9 @@ module PrintsHelpers
     @prints = prints
     erb :'recommendations_table.html'
   end
+
+  def show_loaned_copies_table(loaned_copies)
+    @loaned_copies = loaned_copies
+    erb :'loaned_copies_table.html'
+  end
 end

@@ -7,7 +7,7 @@ class AdministrationController <  ApplicationController
 
   get '/' do
     @title = "Администриране"
-
+    @loaned_copies = Loan.all.reject(&:date_returned).select { |loan| loan.copy.is_taken }
     erb :'administration.html'
   end
 
@@ -35,5 +35,9 @@ class AdministrationController <  ApplicationController
     Copy.create print: print, inventory_number: 123456
     redirect '/'
   end
+
+  get '/copies-to-return' do
+    # @copies = Copy.all.select(:&is_taken)
+  end 
 end
 

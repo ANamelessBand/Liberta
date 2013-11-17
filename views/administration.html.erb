@@ -1,7 +1,8 @@
-<div class="col-md-10">
+<div class="col-md-12">
   <ul class="nav nav-tabs">
     <li class="active"><a href="#add-print" data-toggle="tab">Добавете ново издание</a></li>
     <li><a href="#remove-print" data-toggle="tab">Премахни издание</a></li>
+    <li><a href="#copies-to-return" data-toggle="tab">Невърнати книги</a></li>
   </ul>
  </div>
 <div class="tab-content">
@@ -51,5 +52,8 @@
 	        </fieldset>
 	    </form>
 	  </table>
+	</div>
+	<div class="tab-pane active col-md-12" id="copies-to-return">
+		<%= show_loaned_copies_table @loaned_copies %>
 	</div>
 </div>
