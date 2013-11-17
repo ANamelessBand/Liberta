@@ -1,4 +1,5 @@
 class PrintsController < ApplicationController
+  NAMESPACE = '/prints'
 
   before do
     @breadcrumbs << NavigationLink.new(0, "/prints", "Книги")
@@ -60,7 +61,7 @@ class PrintsController < ApplicationController
     end
 
     search_results = dataset.select_all(:prints).distinct
-    shown_results = search_results.paginate(params[:page].to_i, SEARCH_RESULT_BY_PAGE)
+    shown_results = search_results.paginate(params[:page].to_i, SEARCH_RESULTS_PER_PAGE)
     erb :'search.html', :locals => {:shown_results => shown_results}
   end
 

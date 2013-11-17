@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  NAMESPACE = '/users'
 
   before do
     @breadcrumbs << NavigationLink.new(0, "/users", "Потребители")
@@ -43,7 +44,7 @@ class UsersController < ApplicationController
       dataset = dataset.where(Sequel.like(:faculty_number, "%#{@fn}%"))
     end
 
-    shown_results = dataset.paginate(params[:page].to_i, SEARCH_RESULT_BY_PAGE)
+    shown_results = dataset.paginate(params[:page].to_i, SEARCH_RESULTS_PER_PAGE)
     erb :'users.html', :locals => {:shown_results => shown_results}
   end
 

@@ -74,7 +74,6 @@ publishers = Publisher.all
 tags = Tag.all
 authors = Author.all
 
-puts "got"
 game_of_thrones =  Print.new pages: 835,
                           price: 19.99,
                           date_added: Date.today - 200,
@@ -97,7 +96,6 @@ game_of_thrones =  Print.new pages: 835,
   game_of_thrones.add_tag tags[4]
   game_of_thrones.add_author authors[0]
 
-puts "thp"
 the_healthy_programmer =  Print.new pages: 220,
                           price: 12.99,
                           date_added: Date.today - 137,
@@ -116,7 +114,6 @@ the_healthy_programmer =  Print.new pages: 220,
   the_healthy_programmer.add_tag tags[9]
   the_healthy_programmer.add_author authors[1]
 
-puts "pr"
 programming_ruby =  Print.new pages: 864,
                           price: 32.99,
                           date_added: Date.today - 277,
@@ -124,7 +121,7 @@ programming_ruby =  Print.new pages: 864,
                           language: 'english',
                           isbn: 9780974514055,
                           description: 'To keep doing what you love, you need to maintain your own systems, not just the ones you write code for. Regular exercise and proper nutrition help you learn, remember, concentrate, and be creative—skills critical to doing your job well. Learn how to change your work habits, master exercises that make working at a computer more comfortable, and develop a plan to keep fit, healthy, and sharp for years to come.
-                          
+
                                                     This book is intended only as an informative guide for those wishing to know more about health issues. In no way is this book intended to replace, countermand, or conflict with the advice given to you by your own healthcare provider including Physician, Nurse Practitioner, Physician Assistant, Registered Dietician, and other licensed professionalsa',
                          is_loanable: true,
                           publisher: publishers[4],
@@ -137,7 +134,6 @@ programming_ruby =  Print.new pages: 864,
   programming_ruby.add_author authors[3]
   programming_ruby.add_author authors[4]
 
-puts "cok"
 clash_of_kings =  Print.new pages: 761,
                           price: 19.99,
                           date_added: Date.today - 88,
@@ -154,7 +150,6 @@ clash_of_kings =  Print.new pages: 761,
   clash_of_kings.add_tag tags[4]
   clash_of_kings.add_author authors[0]
 
-puts "sos"
 storm_of_swords =  Print.new pages: 1177,
                           price: 19.99,
                           date_added: Date.today - 67,
@@ -171,7 +166,6 @@ storm_of_swords =  Print.new pages: 1177,
   storm_of_swords.add_tag tags[4]
   storm_of_swords.add_author authors[0]
 
-puts "foc"
 feast_for_cows =  Print.new pages: 1060,
                           price: 19.99,
                           date_added: Date.today - 37,
@@ -188,7 +182,6 @@ feast_for_cows =  Print.new pages: 1060,
   feast_for_cows.add_tag tags[4]
   feast_for_cows.add_author authors[0]
 
-puts "wdw"
 dance_w_d =  Print.new pages: 1016,
                           price: 19.99,
                           date_added: Date.today - 37,
@@ -205,7 +198,6 @@ dance_w_d =  Print.new pages: 1016,
   dance_w_d.add_tag tags[4]
   dance_w_d.add_author authors[0]
 
-puts "wit"
 witching =  Print.new pages: 1207,
                           price: 29.99,
                           date_added: Date.today - 250,
@@ -213,7 +205,7 @@ witching =  Print.new pages: 1207,
                           language: 'english',
                           isbn: 9780099471424,
                           description: "On the veranda of a great New Orleans house, now faded, a mute and fragile woman sits rocking. And the witching hour begins...
-                          
+
                           Demonstrating once again her gift for spellbinding storytelling and the creation of legend, Anne Rice makes real for us a great dynasty of witches - a family given to poetry and incest, to murder and philosophy, a family that over the ages is itself haunted by a powerful, dangerous, and seductive being.",
                           is_loanable: true,
                           publisher: publishers[3],
@@ -231,7 +223,7 @@ witching =  Print.new pages: 1207,
 #                           language: 'english',
 #                           isbn: 9780099471424,
 #                           description: "On the veranda of a great New Orleans house, now faded, a mute and fragile woman sits rocking. And the witching hour begins...
-                          
+
 #                           Demonstrating once again her gift for spellbinding storytelling and the creation of legend, Anne Rice makes real for us a great dynasty of witches - a family given to poetry and incest, to murder and philosophy, a family that over the ages is itself haunted by a powerful, dangerous, and seductive being.",
 #                           is_loanable: true,
 #                           publisher: publishers[5],
@@ -242,7 +234,6 @@ witching =  Print.new pages: 1207,
 #   witching.add_tag tags[4]
 #   witching.add_author authors[5]
 
-puts "int"
 interview =  Print.new pages: 342,
                           price: 19.99,
                           date_added: Date.today - 290,
@@ -260,7 +251,6 @@ interview =  Print.new pages: 342,
   interview.add_author authors[5]
 
 
-puts "hun"
 hunger =  Print.new pages: 374,
                           price: 19.99,
                           date_added: Date.today - 293,
@@ -332,7 +322,7 @@ rec2 = Recommendation.new user: users[1],
                          print: game_of_thrones,
                          rating: 5,
                          comment: "When the King comes to Winterfell, Ned Stark soon finds himself given the post of Hand to the King by King Robert. All is not well in Winterfell, however. Stark's son is gravely injured and signs point to the King's wife's family, the Lannisters. Stark will soon find out that when you play the Game of Thrones, you either win or die...
-                         
+
                          Okay, so it's way more complicated than that but it's hard to write a teaser for an 800+ page kitten squisher like this.",
                          date_of_comment: Date.today - 52
 rec2.save

@@ -1,7 +1,13 @@
 class WebsiteController < ApplicationController
+  NAMESPACE = '/'
 
   before do
     set_active_navigation_link(NavigationLink.news_id)
+  end
+
+  not_found do
+    @title = "404: Droid not found"
+    erb :'not_found.html'
   end
 
   get /(^\/$|^\/news$)/ do

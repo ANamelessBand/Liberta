@@ -1,7 +1,8 @@
 class AdministrationController <  ApplicationController
+  NAMESPACE = '/administration'
 
   before do
-    redirect '/' unless admin? 
+    redirect '/' unless admin?
     @breadcrumbs << NavigationLink.new(0, "/administration", "Администриране")
   end
 
@@ -24,8 +25,8 @@ class AdministrationController <  ApplicationController
     language = params[:added_language]
     date = Date.today
     a = params[:added_cover]
-    
-    print = Print.new title: name, language: language, isbn: isbn, 
+
+    print = Print.new title: name, language: language, isbn: isbn,
     pages: pages, date_added: date, price: price, format: format,
     publisher: publisher, description: description, cover: a
     print.save
