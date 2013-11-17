@@ -26,11 +26,11 @@ class PrintsController < ApplicationController
     publishers  = (params[:publishers] || "").split(',')
     searchables = (params[:searchables] || "").split(',')
 
-    dataset = Print.join(:authors_prints, :authors_prints__print_id => :prints__id)
-    dataset = dataset.join(:authors, :authors__id => :authors_prints__author_id)
-    dataset = dataset.join(:publishers, :publishers__id => :prints__publisher_id)
-    dataset = dataset.join(:prints_tags, :prints_tags__print_id => :prints__id)
-    dataset = dataset.join(:tags, :tags__id => :prints_tags__tag_id)
+    dataset = Print.join(:authors_prints, authors_prints__print_id: :prints__id).
+                    join(:authors, authors__id: :authors_prints__author_id).
+                    join(:publishers, publishers__id: :prints__publisher_id).
+                    join(:prints_tags, prints_tags__print_id: :prints__id).
+                    join(:tags, tags__id: :prints_tags__tag_id)
 
     if searchables.empty?
       dataset = dataset.where(Sequel.ilike(:prints__title, "%#{names.first}%"))
@@ -38,39 +38,35 @@ class PrintsController < ApplicationController
         dataset = dataset.where(Sequel.ilike(:prints__title, "%#{name}%"))
       end
 
-      dataset = dataset.where(Sequel.ilike(:authors__name, "%#{authors.first}%"))
-      authors.drop(1).each do |author|
-        dataset = dataset.or(Sequel.ilike(:authors__name, "%#{author}%"))
+      authors.each do |author|
+        dataset = dataset(Sequel.ilike(:authors__name, "%#{author}%"))
       end
 
-      dataset = dataset.where(Sequel.ilike(:publishers__name, "%#{publishers.first}%"))
-      publishers.drop(1).each do |publisher|
-        dataset = dataset.or(Sequel.ilike(:publishers__name, "%#{publisher}%"))
+      publishers.each do |publisher|
+        dataset = dataset(Sequel.ilike(:publishers__name, "%#{publisher}%"))
       end
 
-      dataset = dataset.where(Sequel.ilike(:tags__name, "%#{tags.first}%"))
-      tags.drop(1).each do |tag|
-        dataset = dataset.or(Sequel.ilike(:tags__name, "%#{tag}%"))
+      tags.each do |tag|
+        dataset = dataset(Sequel.ilike(:tags__name, "%#{tag}%"))
       end
     else
       join_clause = Sequel.join([:prints__title, :authors__name, :publishers__name, :tags__name], ' ')
-      dataset = dataset.where(join_clause.ilike("%#{searchables.first}%"))
-      searchables.drop(1).each do |searchable|
+      searchables.each do |searchable|
         dataset = dataset.where(join_clause.ilike("%#{searchable}%"))
       end
     end
 
     search_results = dataset.select_all(:prints).distinct
-    shown_results = search_results.paginate(params[:page].to_i, SEARCH_RESULTS_PER_PAGE)
-    erb :'search.html', :locals => {:shown_results => shown_results}
+    @shown_results = search_results.paginate(params[:page].to_i, SEARCH_RESULTS_PER_PAGE)
+    erb :'search.html'
   end
 
   post '/search' do
-    names       = (params[:name] || "").gsub(' ',',')
-    authors     = (params[:author] || "").gsub(' ',',')
-    tags        = (params[:tags] || "").gsub(' ',',')
-    publishers  = (params[:publisher] || "").gsub(' ',',')
-    searchables = (params[:searchables] || "").gsub(' ',',')
+    names       = params[:name].to_s.gsub(' ', ',')
+    authors     = params[:author].to_s.gsub(' ', ',')
+    tags        = params[:tags].to_s.gsub(' ', ',')
+    publishers  = params[:publisher].to_s.gsub(' ', ',')
+    searchables = params[:searchables].to_s.gsub(' ', ',')
     redirect "prints/search/1?"\
               "names=#{names}&"\
               "authors=#{authors}&"\
@@ -158,7 +154,7 @@ class PrintsController < ApplicationController
   get '/:id/:copy_id/return' do
     @copy  = Copy.find(inventory_number: params[:copy_id].to_i)
     @print = @copy.print
-    @loan  = @copy.loans.select { |loan| loan.date_returned.nil? }.last
+    @loan  = @copy.loans.reject(&:date_returned).last
 
     @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}", "#{@print.title}")
     @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}/#{params[:copy_id]}", "#{@print.title} - #{@copy.inventory_number}")

@@ -22,7 +22,7 @@ class UsersController < ApplicationController
   end
 
   post '/search' do
-    names = params[:name].gsub(' ',',')
+    names = params[:name].to_s.gsub(' ', ',')
     redirect "/users/search/1?name=#{names}&fn=#{params[:fn]}"
   end
 
@@ -32,8 +32,8 @@ class UsersController < ApplicationController
 
   get '/search/:page' do
     @title  = "Потребители"
-    @names  = (params[:name] || "").split(',')
-    @fn     = params[:fn] || ""
+    @names  = params[:name].to_s.split(',')
+    @fn     = params[:fn].to_s
     dataset = User.dataset
 
     if @fn.empty?
@@ -44,8 +44,8 @@ class UsersController < ApplicationController
       dataset = dataset.where(Sequel.like(:faculty_number, "%#{@fn}%"))
     end
 
-    shown_results = dataset.paginate(params[:page].to_i, SEARCH_RESULTS_PER_PAGE)
-    erb :'users.html', :locals => {:shown_results => shown_results}
+    @shown_results = dataset.paginate(params[:page].to_i, SEARCH_RESULTS_PER_PAGE)
+    erb :'users.html'
   end
 
   get '/:id' do

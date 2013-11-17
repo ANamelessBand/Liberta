@@ -30,7 +30,6 @@ class Sinatra::Base
     register Sinatra::Reloader
 
     DB = Sequel.sqlite settings.development[:sqlite_path]
-    DB.extension(:pagination)
   end
 
   configure :production do
@@ -42,8 +41,9 @@ class Sinatra::Base
     db_password = settings.production['db_password']
 
     DB = Sequel.postgres(db_name, host: db_host, user: db_user, password: db_password)
-    DB.extension(:pagination)
   end
+
+  DB.extension(:pagination)
 end
 
 
@@ -58,6 +58,7 @@ Dir.glob('./{models,helpers}/**/*.rb').each &require_file
 
 require './controllers/application_controller'
 Dir.glob('./controllers/**/*.rb').each &require_file
+
 
 #==============================================================================
 # Map Top Level Controllers
