@@ -7,4 +7,13 @@ class Notification < Sequel::Model
     super
     validates_presence [:user_id, :message, :is_read]
   end
+
+  def read
+    is_read = true
+  end
+
+  def read!
+    read
+    save
+  end
 end
