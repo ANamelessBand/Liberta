@@ -6,7 +6,8 @@ require 'sinatra/reloader'
 
 SEARCH_RESULT_BY_PAGE = 5
 
-Sequel.sqlite("database/liberta.db")
+DB = Sequel.sqlite("database/liberta.db")
+DB.extension(:pagination)
 
 Dir.glob('./{models,helpers}/**/*.rb').each { |file| require file }
 require './controllers/application_controller'

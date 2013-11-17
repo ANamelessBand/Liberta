@@ -1,4 +1,4 @@
-<% if @shown_results.size.zero? %>
+<% if shown_results.current_page_record_count == 0 %>
   <div class="alert alert-warning from-top-2">Не са намерени резултати!</div>
 <% else %>
 <table class="table table-striped table-hover table-responsive">
@@ -13,7 +13,7 @@
     </tr>
   </thead>
   <tbody>
-  <% @shown_results.each do |result| %>
+  <% shown_results.each do |result| %>
     <tr>
       <td><%= to_link("/prints/#{result.id}", result.title) %></td>
       <td><%= authors_html result %></td>
@@ -70,19 +70,5 @@
     <% end %>
   </tbody>
 </table>
-<div class="text-center">
-  <ul class="pagination">
-    <li <%= @current_page == 1 ? "class='disabled'" : "" %>>
-     <%= to_link "#{@current_page - 1}", "&laquo;" %>
-    </li>
-    <% 1.upto(@page_count).each do |page| %>
-      <li <%= @current_page == page ? "class='active'" : "" %>>
-        <%= to_link "#{page}", page %>
-      </li>
-    <% end %>
-    <li <%= @current_page == @page_count ? "class='disabled'" : "" %>>
-     <%= to_link "#{@current_page + 1}", "&raquo;" %>
-    </li>
-  </ul>
-</div>
+<%= erb :'pagination.html', :locals => {:shown_results => shown_results} %>
 <% end %>

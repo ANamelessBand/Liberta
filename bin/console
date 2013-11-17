@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
 
 require 'sequel'
-Sequel.sqlite('./database/liberta.db')
+DB = Sequel.sqlite('./database/liberta.db')
+DB.extension(:pagination)
 
 Dir['./{models}/**/*.rb'].each { |file| require file }
 require 'irb'

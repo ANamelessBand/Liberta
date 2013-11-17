@@ -41,4 +41,8 @@ class Print < Sequel::Model
   def self.take_last(count)
     all.sort{ |x, y| y.date_added <=> x.date_added }.take(count)
   end
+
+  def search_matches(matchers, field)
+    matchers.map { |matcher| result.send(field).downcase.include?(matcher.downcase) }.all?
+  end
 end
