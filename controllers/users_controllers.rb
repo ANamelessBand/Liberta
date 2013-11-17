@@ -36,12 +36,11 @@ class UsersController < ApplicationController
     @fn     = params[:fn]
     dataset = User.dataset
 
-    if @fn
-      dataset = dataset.where(faculty_number: @fn)
-    else
-      @names.each do |name|
-        dataset = dataset.where(Sequel.ilike(:name, "%#{name}%"))
-      end
+    unless @fn.empty?
+      dataset = dataset.where(faculty_number: @fn.to_i)
+    end
+    @names.each do |name|
+      dataset = dataset.where(Sequel.ilike(:name, "%#{name}%"))
     end
 
     @shown_results = dataset.paginate(params[:page].to_i, SEARCH_RESULTS_PER_PAGE)
