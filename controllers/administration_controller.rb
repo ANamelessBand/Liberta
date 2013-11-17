@@ -43,7 +43,6 @@ class AdministrationController <  ApplicationController
   
   get '/loaned-copies/:page' do
       @title = "Администриране"
-      # page = params.fetch('page', '1').to_i
       dataset = Loan.dataset.filter(date_returned: nil)
       @loaned_copies = dataset.paginate(params[:page].to_i, SEARCH_RESULT_BY_PAGE)
       @add, @remove, @loaned = "", "", "active"
