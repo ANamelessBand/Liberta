@@ -34,6 +34,13 @@ class Sinatra::Base
 
   configure :production do
     disable :show_exceptions
+
+    db_host     = settings.production['db_host']
+    db_name     = settings.production['db_name']
+    db_user     = settings.production['db_user']
+    db_password = settings.production['db_password']
+
+    Sequel.postgres(db_name, host: db_host, user: db_user, password: db_password)
   end
 end
 

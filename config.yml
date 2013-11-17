@@ -8,9 +8,16 @@ environments:
 environment: development
 
 # Paths (relative to ./controllers) to the views and public folders
-views_path:  '../views'
-public_path: '../public'
+views_path:      '../views'
+public_path:     '../public'
+migrations_path: './database/migrations'
 
 # Development specific settings
 development:
   sqlite_path: 'database/liberta.db'
+
+production:
+  db_host:     'localhost'
+  db_name:     'liberta'
+  db_user:     'liberta'
+  db_password: 'liberta'

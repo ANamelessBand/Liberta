@@ -10,3 +10,7 @@ group :development do
   gem 'rerun',            require: false
   gem 'pry',              require: false
 end
+
+group :production do
+  gem 'pg', require: false
+end
