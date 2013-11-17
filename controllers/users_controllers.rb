@@ -36,7 +36,7 @@ class UsersController < ApplicationController
     @fn     = params[:fn]
     dataset = User.dataset
 
-    unless @fn.empty?
+    unless @fn.nil? || @fn.empty?
       dataset = dataset.where(faculty_number: @fn.to_i)
     end
     @names.each do |name|
