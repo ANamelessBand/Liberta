@@ -1,4 +1,5 @@
 require 'sequel'
+require 'yaml'
 
 # Load config file
 settings = YAML::load(File.open('config.yml'))
