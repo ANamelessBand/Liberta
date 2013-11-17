@@ -19,49 +19,63 @@ class PrintsController < ApplicationController
     @breadcrumbs << NavigationLink.new(0, "/search/#{params[:page]}", "Резултати от търсенето")
     @title = "Резултати от търсенето"
 
-    names = session[:last_search_names]
-    authors = session[:last_search_authors]
-    tags = session[:last_search_tags]
-    publishers = session[:last_search_publishers]
-    searchables = session[:last_search_searchables]
+    names       = (params[:names] || "").split(',')
+    authors     = (params[:authors] || "").split(',')
+    tags        = (params[:tags] || "").split(',')
+    publishers  = (params[:publishers] || "").split(',')
+    searchables = (params[:searchables] || "").split(',')
+
+    dataset = Print.join(:authors_prints, :authors_prints__print_id => :prints__id)
+    dataset = dataset.join(:authors, :authors__id => :authors_prints__author_id)
+    dataset = dataset.join(:publishers, :publishers__id => :prints__publisher_id)
+    dataset = dataset.join(:prints_tags, :prints_tags__print_id => :prints__id)
+    dataset = dataset.join(:tags, :tags__id => :prints_tags__tag_id)
 
     if searchables.empty?
-      search_results = Print.filter do |result|
-        #names.map { |name| result.title.downcase.include?(name.downcase) }.all?
-        result.search_matches(names, :title)
+      dataset = dataset.where(Sequel.ilike(:prints__title, "%#{names.first}%"))
+      names.each do |name|
+        dataset = dataset.where(Sequel.ilike(:prints__title, "%#{name}%"))
       end
-      search_results = search_results.filter do |result|
-        #authors.map { |author| result.authors_string.downcase.include?(author.downcase) }.all?
-        result.search_matches(authors, :authors_string)
+
+      dataset = dataset.where(Sequel.ilike(:authors__name, "%#{authors.first}%"))
+      authors.drop(1).each do |author|
+        dataset = dataset.or(Sequel.ilike(:authors__name, "%#{author}%"))
       end
-      search_results = search_results.filter do |result|
-        #tags.map { |tag| result.tags_string.downcase.include?(tag.downcase) }.all?
-        result.search_matches(tags, :tags_string)
+
+      dataset = dataset.where(Sequel.ilike(:publishers__name, "%#{publishers.first}%"))
+      publishers.drop(1).each do |publisher|
+        dataset = dataset.or(Sequel.ilike(:publishers__name, "%#{publisher}%"))
       end
-      search_results = search_results.filter do |result|
-        #publishers.map { |publisher| result.publisher.name.downcase.include?(publisher.downcase) }.all?
-        result.search_matches(publishers, :publisher)
+
+      dataset = dataset.where(Sequel.ilike(:tags__name, "%#{tags.first}%"))
+      tags.drop(1).each do |tag|
+        dataset = dataset.or(Sequel.ilike(:tags__name, "%#{tag}%"))
       end
     else
-      search_results = Print.filter do |result|
-        #searchables.map { |searchable| result.searchables_string.downcase.include?(searchable.downcase) }.all?
-        result.search_matches(searchables, :searchables_string)
+      join_clause = Sequel.join([:prints__title, :authors__name, :publishers__name, :tags__name], ' ')
+      dataset = dataset.where(join_clause.ilike("%#{searchables.first}%"))
+      searchables.drop(1).each do |searchable|
+        dataset = dataset.where(join_clause.ilike("%#{searchable}%"))
       end
     end
 
+    search_results = dataset.select_all(:prints).distinct
     shown_results = search_results.paginate(params[:page].to_i, SEARCH_RESULT_BY_PAGE)
-    p shown_results
     erb :'search.html', :locals => {:shown_results => shown_results}
   end
 
   post '/search' do
-    session[:last_search_names] = (params[:name] || "").split(' ');
-    session[:last_search_authors] = (params[:author] || "").split(' ');
-    session[:last_search_tags] = (params[:tags] || "").split(' ');
-    session[:last_search_publishers] = (params[:publisher] || "").split(' ');
-    session[:last_search_searchables] = (params[:searchables] || "").split(' ');
-
-    redirect '/prints/search/1'
+    names       = (params[:name] || "").gsub(' ',',')
+    authors     = (params[:author] || "").gsub(' ',',')
+    tags        = (params[:tags] || "").gsub(' ',',')
+    publishers  = (params[:publisher] || "").gsub(' ',',')
+    searchables = (params[:searchables] || "").gsub(' ',',')
+    redirect "prints/search/1?"\
+              "names=#{names}&"\
+              "authors=#{authors}&"\
+              "tags=#{tags}&"\
+              "publishers=#{publishers}&"\
+              "searchables=#{searchables}"
   end
 
   get '/most-liked' do
@@ -87,7 +101,7 @@ class PrintsController < ApplicationController
   end
 
   post '/:id/add-recommendation' do
-    rating = params[:rating]
+    rating  = params[:rating]
     comment = params[:recommendation_comment]
 
     back = "/prints/#{params[:id]}"
@@ -130,7 +144,7 @@ class PrintsController < ApplicationController
   end
 
   get '/:id/:copy_id' do
-    @copy = Copy.find(inventory_number: params[:copy_id].to_i)
+    @copy  = Copy.find(inventory_number: params[:copy_id].to_i)
     @print = @copy.print
     @title = "#{@print.title} - #{@copy.inventory_number}"
 
@@ -141,9 +155,9 @@ class PrintsController < ApplicationController
   end
 
   get '/:id/:copy_id/return' do
-    @copy = Copy.find(inventory_number: params[:copy_id].to_i)
+    @copy  = Copy.find(inventory_number: params[:copy_id].to_i)
     @print = @copy.print
-    @loan = @copy.loans.select { |loan| loan.date_returned.nil? }.last
+    @loan  = @copy.loans.select { |loan| loan.date_returned.nil? }.last
 
     @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}", "#{@print.title}")
     @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}/#{params[:copy_id]}", "#{@print.title} - #{@copy.inventory_number}")
