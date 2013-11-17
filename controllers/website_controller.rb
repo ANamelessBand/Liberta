@@ -1,5 +1,7 @@
 class WebsiteController < ApplicationController
 
+  helpers WebsiteHelpers
+
   before do
     set_active_navigation_link(NavigationLink.news_id)
   end
@@ -7,14 +9,15 @@ class WebsiteController < ApplicationController
   get /(^\/$|^\/news$)/ do
     @title = "Libertà"
 
-    @last_five_news = News.all.reverse.take(5)
-    @last_added = Print.all.sort{ |x, y| y.date_added <=> x.date_added }.take(5)
+    @last_five_news = News.newest.take 5
+    @last_added = Print.newest.take 5
 
     erb :'index.html'
   end
 
   get '/login' do
     @title = "Вход"
+
     erb :'login.html'
   end
 
@@ -22,64 +25,79 @@ class WebsiteController < ApplicationController
     username = params[:username]
     password = params[:password]
 
-    @user = User.find(username: username)
-    redirect '/login' if @user.nil?
-
-    # Auth logic here, currently we skip it
-    session[:user] = @user.id
-    redirect '/'
+    if login username, password
+      redirect '/login'
+    else
+      redirect '/'
+    end
   end
 
   get '/logout' do
-    session[:user] = nil
+    logout
+
     redirect '/'
   end
 
   get '/notification/:id' do
-    @notification = Notification.find(id: params[:id])
-    @notification.is_read = true
-    @notification.save
+    notification_id = params[:id]
+    read_notification notification_id
 
     @title = "Грешка"
     erb "You should not be here. Please go home"
   end
 
-  def set_data(clas, id)
-    @contributor = clas.find id: id
-    @title = @contributor.name
-  end
-
   get '/authors/:id/all' do
     @breadcrumbs << NavigationLink.new(0, "/authors/#{params[:id]}", "Автор")
     @breadcrumbs << NavigationLink.new(0, "/authors/#{params[:id]}/all", "Всички публикации")
-    set_data Author, params[:id]
-    erb :'contributor_all.html'
+
+    @author = get_author(params[:id])
+    @title = "Всички книги от #{@author.name}"
+    @top_prints = @author.top_prints
+    @show_all = true
+
+    erb :'prints_per_author.html'
   end
 
   get '/authors/:id' do
     @breadcrumbs << NavigationLink.new(0, "/authors/#{params[:id]}", "Автор")
-    set_data Author, params[:id]
-    erb :'contributor.html'
+
+    @author = get_author(params[:id])
+    @title = "Книги от #{@author.name}"
+    @top_prints = @author.top_prints.take 5
+    @show_all = false
+
+    erb :'prints_per_author.html'
   end
 
   get '/publishers/:id/all' do
     @breadcrumbs << NavigationLink.new(0, "/publishers/#{params[:id]}", "Издател")
     @breadcrumbs << NavigationLink.new(0, "/publishers/#{params[:id]}/all", "Всички публикации")
-    set_data Publisher, params[:id]
-    erb :'contributor_all.html'
+
+    @publisher = get_publisher(params[:id])
+    @title = "Всички книги от #{@publisher.name}"
+    @top_prints = @publisher.top_prints
+    @show_all = true
+
+    erb :'prints_per_publisher.html'
   end
 
   get '/publishers/:id' do
     @breadcrumbs << NavigationLink.new(0, "/publishers/#{params[:id]}/all", "Издател")
-    set_data Publisher, params[:id]
-    erb :'contributor.html'
+
+    @publisher = get_publisher(params[:id])
+    @title = "Книги от #{@publisher.name}"
+    @top_prints = @publisher.top_prints.take 5
+    @show_all = false
+
+    erb :'prints_per_publisher.html'
   end
 
   post '/add-news' do
     title = params[:news_title]
     content = params[:news_content]
-    date = Date.today
-    News.create title: title, content: content, date_of_publication: date
+
+    add_news title, content
+
     redirect '/'
   end
 end
