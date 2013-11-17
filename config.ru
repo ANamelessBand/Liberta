@@ -35,7 +35,12 @@ class Sinatra::Base
   configure :production do
     disable :show_exceptions
 
-    Sequel.postgres('liberta', :host=>'localhost', :user=>'liberta', :password=>'liberta')
+    db_server = settings.production['db_server']
+    db_name   = settings.production['db_name']
+    db_user   = settings.production['db_user']
+    db_pass   = settings.production['db_pass']
+
+    Sequel.postgres(db_name, host: db_server, user: db_user, password: db_pass)
   end
 end
 
