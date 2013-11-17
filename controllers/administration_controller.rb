@@ -7,7 +7,7 @@ class AdministrationController <  ApplicationController
 
   get '/' do
     @title = "Администриране"
-    @loaned_copies = Loan.all.reject(&:date_returned).select { |loan| loan.copy.is_taken }
+    @loaned_copies = Loan.filter(date_returned: nil).to_a
     erb :'administration.html'
   end
 
