@@ -5,7 +5,7 @@ environments:
   - production
 
 # Choose environment
-environment: development
+environment: production
 
 # Paths (relative to ./controllers) to the views and public folders
 views_path:  '../views'

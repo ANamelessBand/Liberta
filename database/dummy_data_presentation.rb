@@ -10,8 +10,9 @@ puts "Creating database"
 system 'sequel -m ./database/migrations sqlite://./database/liberta.db'
 puts "done"
 
-Sequel.sqlite('./database/liberta.db')
+# Sequel.sqlite('./database/liberta.db')
 
+Sequel.postgres('liberta', :host=>'localhost', :user=>'liberta', :password=>'liberta')
 
 Dir.glob('./models/sequel/*.rb').each { |file| require file }
 
