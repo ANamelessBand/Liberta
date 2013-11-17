@@ -33,15 +33,14 @@ class UsersController < ApplicationController
   get '/search/:page' do
     @title  = "Потребители"
     @names  = params[:name].to_s.split(',')
-    @fn     = params[:fn].to_s
+    @fn     = params[:fn]
     dataset = User.dataset
 
-    if @fn.empty?
-      @names.each do |name|
-        dataset = dataset.where(Sequel.ilike(:name, "%#{name}%"))
-      end
-    else
-      dataset = dataset.where(Sequel.like(:faculty_number, "%#{@fn}%"))
+    unless @fn.empty?
+      dataset = dataset.where(faculty_number: @fn.to_i)
+    end
+    @names.each do |name|
+      dataset = dataset.where(Sequel.ilike(:name, "%#{name}%"))
     end
 
     @shown_results = dataset.paginate(params[:page].to_i, SEARCH_RESULTS_PER_PAGE)
