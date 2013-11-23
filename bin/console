@@ -4,6 +4,6 @@ require 'sequel'
 Sequel.sqlite('./database/liberta.db')
 
 Dir['./{models}/**/*.rb'].each { |file| require file }
-require 'irb'
+require 'pry'
 
-IRB.start
+Pry.start
