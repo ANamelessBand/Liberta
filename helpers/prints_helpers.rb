@@ -19,13 +19,6 @@ module PrintsHelpers
     end
   end
 
-  def show_print_table(prints, ratings_last_month = false, to_wishlist = true)
-    @prints_collection = prints
-    @ratings_last_month = ratings_last_month
-    @to_wishlist = to_wishlist
-    erb :'prints_table.html'
-  end
-
   def show_loans_table(loans, returned = false, supposed_return = false)
     @loans = loans
     @returned = returned
