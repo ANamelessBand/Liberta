@@ -8,30 +8,103 @@ class User < Sequel::Model
 
   def validate
     super
-    validates_presence [:username, :name, :faculty_number, :email, :authorization_level, :is_active]
+    validates_presence [
+                          :username,
+                          :name,
+                          :faculty_number,
+                          :email,
+                          :authorization_level,
+                          :is_active,
+                       ]
     validates_unique :username, :faculty_number, :email
     validates_includes [0, 1, 2], :authorization_level
   end
 
-  def read
+  def active?
+    is_active
+  end
+
+  def activate
+    is_active = true
+  end
+
+  def activate!
+    activate
+    save
+  end
+
+  def deactivate
+    is_active = false
+  end
+
+  def deactivate!
+    deactivate
+    save
+  end
+
+  def read_prints
     loans.select(&:date_returned)
   end
 
-  def last_recommendations(number)
-    recommendations.reverse.take number
+  def last_recommendations
+    recommendations.reverse
   end
 
   def wishes
     wishlists.map(&:print)
   end
 
-  def has_wish(print)
+  def wishes?(print)
     wishlists.any? do |wish|
-      wish.print.id == print.id
+      wish.print.id == print.id && !wish.is_satisfied
     end
   end
 
   def currently_loaned
-    loans.select { |loan| loan.date_supposed_return > Date.today and loan.date_returned.nil? }
+    loans.select(&:date_supposed_return)
+  end
+
+  def match_name?(name)
+    self.name.downcase.include? name.downcase
+  end
+
+  def match_faculty_number?(faculty_number)
+    self.faculty_number.to_s.include? faculty_number.to_s
+  end
+
+  def match_email?(email)
+    self.email.downcase.include? email.downcase
+  end
+
+  def match_authorization_level?(authorization_level)
+    self.authorization_level == authorization_level
+  end
+
+  def self.find_by_name(names)
+    select do |user|
+      names.all? { |name| user.match_name? name }
+    end
+  end
+
+  def self.find_by_faculty_number(faculty_number)
+    select { |user| user.match_faculty_number? faculty_number }
+  end
+
+  def loan(copy)
+    loan = Loan.new date_loaned: Date.today,
+                    date_supposed_return: Date.today + 31,
+                    copy: copy,
+                    user: self
+
+    if loan.valid?
+      loan.save
+    else
+      # TODO add validation logic here
+    end
+
+    copy.take!
+
+    Wishlist.satisfy(user, print)
+    notify_all_copies_taken copy.print if copy.print.copies.all? { |copy| copy.is_taken }
   end
 end
