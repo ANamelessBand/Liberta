@@ -1,2 +1,2 @@
-<%= show_print_table @contributor.prints.sort{|x, y| y.rating <=> x.rating}.take(5), false %>
+<%= show_print_table @prints.sort{|x, y| y.rating <=> x.rating}.take(5), false %>
 <a href="<%= @contributor.id %>/all" class="btn btn-info pull-right">Всички книги</a>
