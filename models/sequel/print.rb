@@ -41,18 +41,6 @@ class Print < Sequel::Model
     copies.select(&:is_taken)
   end
 
-  def authors_string
-    authors.map(&:name).join ' '
-  end
-
-  def tags_string
-    tags.map(&:name).join ' '
-  end
-
-  def searchables_string
-    [title, authors_string, tags_string, publisher.name].join ' '
-  end
-
   def self.newest
     all.sort do |book_a, book_b|
       book_b.date_added <=> book_a.date_added

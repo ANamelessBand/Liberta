@@ -15,21 +15,4 @@ class ApplicationController < Sinatra::Base
 
     @breadcrumbs = [NavigationLink.new(0, "/news", "Начало")]
   end
-
-  configure :development do
-    register Sinatra::Reloader
-  end
-
-  configure :production do
-    disable :show_exceptions
-  end
-
-  set :views, File.expand_path('../../views', __FILE__)
-  set :public_folder, File.expand_path('../../public', __FILE__)
-  enable :sessions, :method_override
-
-  not_found do
-    @title = "404: Droid not found"
-    erb :'not_found.html'
-  end
 end
