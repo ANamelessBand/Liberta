@@ -3,7 +3,6 @@ class ApplicationController < Sinatra::Base
   attr_reader :breadcrumbs
 
   helpers ApplicationHelpers
-  helpers WebsiteHelpers
   helpers PrintsHelpers
   helpers UsersHelpers
 
