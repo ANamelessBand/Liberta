@@ -8,7 +8,7 @@ module UsersHelpers
   end
 
   def admin?
-    logged? and logged_user.authorization_level == 0
+    logged? and logged_user.authorization_level.zero?
   end
 
   def unread_notifications
@@ -16,7 +16,7 @@ module UsersHelpers
   end
 
   def unread_notifications?
-    unread_notifications && unread_notifications.count.nonzero?
+    unread_notifications && !unread_notifications.empty?
   end
 
   def notify_all_copies_taken(print)
@@ -41,8 +41,7 @@ module UsersHelpers
                 copy: copy,
                 user: user
 
-    copy.is_taken = true
-    copy.save
+    copy.take!
 
     remove_from_wishlist user, copy.print
     notify_all_copies_taken copy.print if copy.print.copies.all? { |copy| copy.is_taken }
