@@ -7,7 +7,9 @@ class UsersController < ApplicationController
 
   get '/settings' do
     @breadcrumbs << NavigationLink.new(0, "/settings", "Настройки")
+
     redirect '/login' unless logged?
+
     @title = "Настройки"
     erb :'settings.html'
   end
@@ -23,21 +25,23 @@ class UsersController < ApplicationController
   post '/search' do
     session[:last_user_search_name] = params[:name].split(' ')
     session[:last_user_search_fn] = params[:fn]
+
     redirect 'users/search/1'
   end
 
   get '/' do
     session[:last_user_search_name] = []
     session[:last_user_search_fn] = ""
+
     redirect '/users/search/1'
   end
 
   get '/search/:page' do
     @title = "Потребители"
-    search_results = User.all
-    @names = session[:last_user_search_name] || []
-    @fn = session[:last_user_search_fn] || ""
-    if @fn.empty?
+    names = session[:last_user_search_name].to_a
+    fn = session[:last_user_search_fn]
+
+    if @fn
       search_results = search_results.select { |user| @names.map { |name| user.name.downcase.include? name.downcase}.all? }
     else
       search_results = search_results.select { |user| user.faculty_number.to_s.include? @fn}
