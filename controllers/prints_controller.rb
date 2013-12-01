@@ -81,7 +81,7 @@ class PrintsController < ApplicationController
   end
 
   post '/:id/add-recommendation' do
-    rating  = params[:rating]
+    rating  = params[:rating].to_f
     comment = params[:recommendation_comment]
 
     unless rating.zero?
