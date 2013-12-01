@@ -1,11 +1,9 @@
 module WebsiteHelpers
   def login(username, password)
-    user = User.find(username: username)
+    user = User.find username: username
 
-    if user
-      # TODO Implement authorization logic here
-      session[:user] = user.id
-    end
+    # TODO: Implement authorization logic here
+    session[:user] = user.id if user
   end
 
   def logout
@@ -19,13 +17,13 @@ module WebsiteHelpers
     if news.valid?
       news.save
     else
-      # TODO add validation logic here
+      # TODO: add validation logic here
     end
   end
 
   def read_notification(notification_id)
     notification = Notification.find id: notification_id
-    notification.read!
+    notification.read
   end
 
   def get_author(author_id)
@@ -34,12 +32,5 @@ module WebsiteHelpers
 
   def get_publisher(publisher_id)
     Publisher.find id: publisher_id
-  end
-
-  def show_print_table(prints, ratings_last_month = false)
-    @prints_collection = prints
-    @ratings_last_month = ratings_last_month
-
-    erb :'prints_table.html'
   end
 end
