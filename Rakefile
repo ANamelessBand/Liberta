@@ -2,7 +2,7 @@ require 'sequel'
 require 'yaml'
 
 # Load config file
-settings = YAML::load(File.open('config.yml'))
+settings = YAML.load(File.open('config.yml'))
 
 namespace :db do
   Sequel.extension :migration, :core_extensions
@@ -24,19 +24,22 @@ namespace :db do
     db_user     = env_settngs['db_user']
     db_password = env_settngs['db_password']
 
-    DB = Sequel.postgres(db_name, host: db_host, user: db_user, password: db_password)
+    DB = Sequel.postgres(db_name,
+                         host: db_host,
+                         user: db_user,
+                         password: db_password)
   end
 
   task :drop do
-    puts "Reverting all migrations..."
+    puts 'Reverting all migrations...'
     migrator.apply(DB, migrations, 0)
-    puts "Done!"
+    puts 'Done!'
   end
 
   task :migrate do
-    puts "Migrating to newest migration..."
+    puts 'Migrating to newest migration...'
     migrator.apply(DB, migrations)
-    puts "Done!"
+    puts 'Done!'
   end
 
   task :reset do
@@ -45,27 +48,25 @@ namespace :db do
   end
 
   task :fake do
-    puts "Populating database with presentation-ready data..."
+    puts 'Populating database with presentation-ready data...'
     require './database/dummy_data_presentation.rb'
-    puts "Done!"
+    puts 'Done!'
   end
 
   task :dummy do
-    puts "Populating database with dummy data..."
+    puts 'Populating database with dummy data...'
     require './database/dummy_data_population.rb'
-    puts "Done!"
+    puts 'Done!'
   end
 
   task :help do
-    puts "Run with rake db:command. Available commands:"
-    puts "drop    - Reverts all migrations"
-    puts "reset   - Reverts all migrations and applies all again"
-    puts "migrate - Migrates to newest migration"
-    puts "dummy   - Fills the database with dummy data"
-    puts "fake    - Fills the database with presentation-ready dummy data"
-    puts "help    - Prints this help message"
+    puts 'Run with rake db:command. Available commands:'
+    puts 'drop    - Reverts all migrations'
+    puts 'reset   - Reverts all migrations and applies all again'
+    puts 'migrate - Migrates to newest migration'
+    puts 'dummy   - Fills the database with dummy data'
+    puts 'fake    - Fills the database with presentation-ready dummy data'
+    puts 'help    - Prints this help message'
   end
 
 end
-
-
