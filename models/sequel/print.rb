@@ -18,8 +18,8 @@ class Print < Sequel::Model
   end
 
   def rating_last_month
-    ratings = recommendations_dataset.
-      where(date_of_comment: ((Date.today - 31)..Date.today)).map :rating
+    ratings = recommendations_dataset
+      .where(date_of_comment: ((Date.today - 31)..Date.today)).map :rating
 
     if ratings.empty?
       0
@@ -55,7 +55,7 @@ class Print < Sequel::Model
     end
 
     def best
-      # TODO add a rating roll in the print table.
+      # TODO: add a rating roll in the print table.
       all.sort do |print_a, print_b|
         print_b.rating <=> print_a.rating
       end

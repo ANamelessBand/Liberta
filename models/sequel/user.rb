@@ -16,6 +16,7 @@ class User < Sequel::Model
                          :authorization_level,
                          :is_active,
                        ]
+
     validates_unique :username, :faculty_number, :email
 
     validates_includes [0, 1, 2], :authorization_level
@@ -23,7 +24,7 @@ class User < Sequel::Model
 
   class << self
     def wishing(print)
-      # TODO consider using join
+      # TODO: consider using join.
       all.select { |user| user.wish? print }
     end
   end
@@ -49,13 +50,13 @@ class User < Sequel::Model
   end
 
   def wished_prints
-    # TODO consider using join
+    # TODO: consider using join.
     wishlists_dataset.where(is_satisfied: false).reverse_order(:id).map &:print
   end
 
   def wish?(print)
-    wishlists_dataset.where(print_id: print.id, is_satisfied: false).count.
-      nonzero?
+    wishlists_dataset.where(print_id: print.id, is_satisfied: false)
+    .count.nonzero?
   end
 
   def current_loans

@@ -15,9 +15,7 @@ class Recommendation < Sequel::Model
       recommendation = find user: user, print: print
 
       if recommendation
-        recommendation.update rating: rating,
-                              comment: comment,
-                              date_of_comment: date
+        recommendation.renew rating, comment
       else
         create rating: rating,
                comment: comment,
@@ -26,5 +24,9 @@ class Recommendation < Sequel::Model
                print: print
       end
     end
+  end
+
+  def renew(rating, comment)
+    update rating: rating, comment: comment, date_of_comment: Date.today
   end
 end
