@@ -1,7 +1,7 @@
 <div class="col-md-2">
   <a href="#" class="thumbnail"><img src=<%= "/img/users/#{@user.id}.png" %> alt="..." /></a>
   <h3 class="text-center user-name"><%= @user.name %></h3>
-  <% if admin? %>
+  <% if administrator? %>
     <div class="text-center">
     <a href="#news_modal" class="btn btn-primary" data-toggle="modal">Отдай книга</a>
     <div class="modal fade" id="news_modal">
@@ -34,38 +34,38 @@
 	  <li class="active"><a href="#recommended" data-toggle="tab">Препоръчани</a></li>
 	  <li><a href="#read" data-toggle="tab">Прочетени</a></li>
 	  <li><a href="#wishlist" data-toggle="tab">Желани</a></li>
-	  <% if @own_profile or admin? %>
+	  <% if @own_profile || administrator? %>
 		  <li><a href="#loaned" data-toggle="tab">Невърнати</a></li>
 		<% end %>
 	</ul>
 	<div class="tab-content">
 
 	  <div class="tab-pane active col-md-12" id="recommended">
-      <%= show_recommendations_table @user.last_recommendations(5) %>
-      <% if @user.recommendations.length > 5 %>
-			  <a href='<%= "./#{@user.id}/recommendations" %>' class="btn btn-info">всички препоръки</a>
+      <%= show_recommendations_table @user.last_recommendations.take SEARCH_RESULTS_PER_PAGE %>
+      <% if @user.recommendations.count > SEARCH_RESULTS_PER_PAGE %>
+			  <a href='<%= "./#{@user.id}/recommendations" %>' class="btn btn-info">Виж всики</a>
       <% end %>
 	  </div>
 
 	  <div class="tab-pane col-md-12" id="read">
-  		<%= show_loans_table @user.read.take(5), true, false %>
-      <% if @user.read.length > 5 %>
-  			<a href='<%= "./#{@user.id}/read" %>' class="btn btn-info">всички прочетени</a>
+  		<%= show_loans_table @user.read_prints.take SEARCH_RESULTS_PER_PAGE %>
+      <% if @user.read_prints.count > SEARCH_RESULTS_PER_PAGE %>
+  			<a href='<%= "./#{@user.id}/read" %>' class="btn btn-info">Виж всички</a>
       <% end %>
 	  </div>
 
 	  <div class="tab-pane col-md-12" id="wishlist">
-			<%= show_print_table @user.wishes.take(5), false, false %>
-      <% if @user.wishes.length > 5 %>
-  			<a href='<%= "./#{@user.id}/wishlist" %>' class="btn btn-info">всички желани</a>
+			<%= show_print_table @user.wished_prints.take SEARCH_RESULTS_PER_PAGE %>
+      <% if @user.wished_prints.count > SEARCH_RESULTS_PER_PAGE %>
+  			<a href='<%= "./#{@user.id}/wishlist" %>' class="btn btn-info">Виж всички</a>
 	    <% end %>
   	</div>
 
-		<% if @own_profile or admin? %>
+		<% if @own_profile || administrator? %>
 			<div class="tab-pane col-md-12" id="loaned">
-		  	<%= show_loans_table @user.currently_loaned.take(5), false, true %>
-      	<% if @user.currently_loaned.length > 5 %>
-          <a href='<%= "./#{@user.id}/loaned" %>' class="btn btn-info">всички невърнати</a>
+		  	<%= show_loans_table @user.current_loans.take SEARCH_RESULTS_PER_PAGE %>
+      	<% if @user.current_loans.count > SEARCH_RESULTS_PER_PAGE %>
+          <a href='<%= "./#{@user.id}/loaned" %>' class="btn btn-info">Виж всички</a>
         <% end %>
 		  </div>
 		<% end %>

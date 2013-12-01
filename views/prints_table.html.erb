@@ -19,31 +19,31 @@
         <td class="cover"><img src=<%= "/img/prints/#{print.id}.png" %> /></td>
         <td><%= to_link "/prints/#{print.id}", print.title %></a></td>
         <td><%= authors_html print %></a></td>
-      <% if @rating_last_month %>
-        <td><%= stars_span(print.rating_last_month) %></td>
+      <% if @ratings_last_month %>
+        <td><%= stars_span print.rating_last_month %></td>
       <% else %>
-        <td><%= stars_span(print.rating) %></td>
+        <td><%= stars_span print.rating %></td>
       <% end %>
         <td>
-          <a href="#modal_<%=print.id%>" class="btn btn-xs btn-primary" title="описание" data-toggle="modal">
-            <%= glyphicon_span('info-sign') %>
+          <a href=<%= "#modal_#{print.id}" %> class="btn btn-xs btn-primary" title="описание" data-toggle="modal">
+            <%= glyphicon_span 'info-sign' %>
           </a>
           <% if logged? %>
-            <% if logged_user.has_wish(print) %>
-              <a class="btn btn-xs btn-danger remove-wish-xs" data-for="<%= print.id %>" title="премахни от желани">
-                <%= glyphicon_span('minus') %>
+            <% if logged_user.wish? print %>
+              <a class="btn btn-xs btn-danger remove-wish-xs" data-for=<%= "#{print.id}" %> title="премахни от желани">
+                <%= glyphicon_span 'minus' %>
               </a>
             <% else %>
-              <a class="btn btn-xs btn-success add-wish-xs" data-for="<%= print.id %>" title="добави в желани">
-                <%= glyphicon_span('plus') %>
+              <a class="btn btn-xs btn-success add-wish-xs" data-for=<%= "#{print.id}" %> title="добави в желани">
+                <%= glyphicon_span 'plus' %>
               </a>
             <% end %>
           <% else %>
               <a class="btn btn-xs btn-success" href="/login" title="добави в желани">
-                <%= glyphicon_span('plus') %>
+                <%= glyphicon_span 'plus' %>
               </a>
           <% end %>
-          <div class="modal fade" id="modal_<%=print.id%>">
+          <div class="modal fade" id=<%= "modal_#{print.id}" %>>
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">

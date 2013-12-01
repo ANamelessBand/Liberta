@@ -15,7 +15,7 @@
         </tr>
       </thead>
       <tbody>
-        <% @copy.loans.each do |loan| %>
+        <% @copy.last_loans.each do |loan| %>
         <tr>
           <td>
             <a href="/users/<%= loan.user.id %>"><%= loan.user.name %></a>
