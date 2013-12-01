@@ -1,138 +1,140 @@
-class UsersController < ApplicationController
-  helpers UsersHelpers
+module Liberta
+  class UsersController < ApplicationController
+    helpers UsersHelpers
 
-  NAMESPACE = '/users'
+    NAMESPACE = '/users'
 
-  before do
-    @breadcrumbs << NavigationLink.new(0,
-                                       '/users',
-                                       'Потребители')
+    before do
+      @breadcrumbs << NavigationLink.new(0,
+                                         '/users',
+                                         'Потребители')
 
-    set_active_navigation_link(NavigationLink.users_id)
-  end
-
-  get '/settings' do
-    @breadcrumbs << NavigationLink.new(0,
-                                       '/settings',
-                                       'Настройки')
-
-    redirect '/login' unless logged?
-
-    @title = 'Настройки'
-
-    erb :'settings.html'
-  end
-
-  post '/settings' do
-    email = params[:email]
-    #avatar = params[:avatar]
-
-    logged_user.update email: email
-
-    redirect 'users/settings'
-  end
-
-  post '/search' do
-    names = params[:name].to_s.split ','
-
-    redirect "/users/search/1?name=#{names}&fn=#{params[:fn]}"
-  end
-
-  get '/' do
-    redirect '/users/search/1'
-  end
-
-  get '/search/:page' do
-    @title  = 'Потребители'
-    @names  = params[:name].to_s.split ','
-    @fn     = params[:fn]
-    dataset = User.dataset
-
-    unless @fn.nil? || @fn.empty?
-      dataset = dataset.where faculty_number: @fn.to_i
+      set_active_navigation_link(NavigationLink.users_id)
     end
 
-    @names.each do |name|
-      dataset = dataset.where Sequel.ilike(:name, "%#{name}%")
+    get '/settings' do
+      @breadcrumbs << NavigationLink.new(0,
+                                         '/settings',
+                                         'Настройки')
+
+      redirect '/login' unless logged?
+
+      @title = 'Настройки'
+
+      erb :'settings.html'
     end
 
-    @shown_results = dataset.paginate(params[:page].to_i,
-                                      SEARCH_RESULTS_PER_PAGE)
+    post '/settings' do
+      email = params[:email]
+      #avatar = params[:avatar]
 
-    erb :'users.html'
-  end
+      logged_user.update email: email
 
-  get '/:id' do
-    @user        = User.find id: params[:id]
-    @own_profile = logged? && (logged_user.id == @user.id)
-    @title       = 'Профил'
+      redirect 'users/settings'
+    end
 
-    @breadcrumbs << NavigationLink.new(0,
-                                       "/users/#{params[:id]}",
-                                       "#{@user.name}")
+    post '/search' do
+      names = params[:name].to_s.split ','
 
-    erb :'profile.html'
-  end
+      redirect "/users/search/1?name=#{names}&fn=#{params[:fn]}"
+    end
 
-  get '/:id/recommendations' do
-    @user = User.find id: params[:id]
+    get '/' do
+      redirect '/users/search/1'
+    end
 
-    @breadcrumbs << NavigationLink.new(0,
-                                       "/users/#{params[:id]}",
-                                       "#{@user.name}")
-    @breadcrumbs << NavigationLink.new(0,
-                                       "/users/#{params[:id]}/recommendations",
-                                       'Препоръки')
+    get '/search/:page' do
+      @title  = 'Потребители'
+      @names  = params[:name].to_s.split ','
+      @fn     = params[:fn]
+      dataset = User.dataset
 
-    erb :'recommendations.html'
-  end
+      unless @fn.nil? || @fn.empty?
+        dataset = dataset.where faculty_number: @fn.to_i
+      end
 
-  get '/:id/read' do
-    @user = User.find id: params[:id]
+      @names.each do |name|
+        dataset = dataset.where Sequel.ilike(:name, "%#{name}%")
+      end
 
-    @breadcrumbs << NavigationLink.new(0,
-                                       "/users/#{params[:id]}",
-                                       "#{@user.name}")
-    @breadcrumbs << NavigationLink.new(0,
-                                       "/users/#{params[:id]}/read",
-                                       'Прочетени Книги')
+      @shown_results = dataset.paginate(params[:page].to_i,
+                                        SEARCH_RESULTS_PER_PAGE)
 
-    erb :'read.html'
-  end
+      erb :'users.html'
+    end
 
-  get '/:id/wishlist' do
-    @user = User.find id: params[:id]
+    get '/:id' do
+      @user        = User.find id: params[:id]
+      @own_profile = logged? && (logged_user.id == @user.id)
+      @title       = 'Профил'
 
-    @breadcrumbs << NavigationLink.new(0,
-                                       "/users/#{params[:id]}",
-                                       "#{@user.name}")
-    @breadcrumbs << NavigationLink.new(0,
-                                       "/users/#{params[:id]}/wishlist",
-                                       'Желани Книги')
+      @breadcrumbs << NavigationLink.new(0,
+                                         "/users/#{params[:id]}",
+                                         "#{@user.name}")
 
-    erb :'wishlist.html'
-  end
+      erb :'profile.html'
+    end
 
-  post  '/:id/loan' do
-    @user = User.find id: params[:id]
-    @copy = Copy.find inventory_number: params[:copy_inventory_number].to_i
+    get '/:id/recommendations' do
+      @user = User.find id: params[:id]
 
-    loan_copy @user, @copy if @copy && @copy.free?
+      @breadcrumbs << NavigationLink.new(0,
+                                         "/users/#{params[:id]}",
+                                         "#{@user.name}")
+      @breadcrumbs << NavigationLink.new(0,
+                                         "/users/#{params[:id]}/recommendations",
+                                         'Препоръки')
 
-    redirect "/users/#{@user.id}"
-  end
+      erb :'recommendations.html'
+    end
 
-  get '/:id/loaned' do
-    @user = User.find id: params[:id]
-    @own_profile = logged? && logged_user.id == @user.id
+    get '/:id/read' do
+      @user = User.find id: params[:id]
 
-    @breadcrumbs << NavigationLink.new(0,
-                                       "/users/#{params[:id]}",
-                                       "#{@user.name}")
-    @breadcrumbs << NavigationLink.new(0,
-                                       "/users/#{params[:id]}/wishlist",
-                                       'Невърнати Книги')
+      @breadcrumbs << NavigationLink.new(0,
+                                         "/users/#{params[:id]}",
+                                         "#{@user.name}")
+      @breadcrumbs << NavigationLink.new(0,
+                                         "/users/#{params[:id]}/read",
+                                         'Прочетени Книги')
 
-    erb :'loaned.html'
+      erb :'read.html'
+    end
+
+    get '/:id/wishlist' do
+      @user = User.find id: params[:id]
+
+      @breadcrumbs << NavigationLink.new(0,
+                                         "/users/#{params[:id]}",
+                                         "#{@user.name}")
+      @breadcrumbs << NavigationLink.new(0,
+                                         "/users/#{params[:id]}/wishlist",
+                                         'Желани Книги')
+
+      erb :'wishlist.html'
+    end
+
+    post  '/:id/loan' do
+      @user = User.find id: params[:id]
+      @copy = Copy.find inventory_number: params[:copy_inventory_number].to_i
+
+      loan_copy @user, @copy if @copy && @copy.free?
+
+      redirect "/users/#{@user.id}"
+    end
+
+    get '/:id/loaned' do
+      @user = User.find id: params[:id]
+      @own_profile = logged? && logged_user.id == @user.id
+
+      @breadcrumbs << NavigationLink.new(0,
+                                         "/users/#{params[:id]}",
+                                         "#{@user.name}")
+      @breadcrumbs << NavigationLink.new(0,
+                                         "/users/#{params[:id]}/wishlist",
+                                         'Невърнати Книги')
+
+      erb :'loaned.html'
+    end
   end
 end
