@@ -1,6 +1,6 @@
 Sequel.migration do
   change do
-    #Create Prints table
+    # Create Prints table
     create_table(:prints) do
       primary_key :id, index: true
       Integer :pages, null: false
@@ -17,4 +17,3 @@ Sequel.migration do
     end
   end
 end
-

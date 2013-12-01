@@ -1,6 +1,6 @@
 Sequel.migration do
   change do
-    #Create Copies table
+    # Create Copies table
     create_table(:copies) do
       primary_key :id, index: true
       Integer :inventory_number, null: false
