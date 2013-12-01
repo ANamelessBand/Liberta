@@ -3,16 +3,17 @@ class AdministrationController <  ApplicationController
 
   before do
     redirect '/' unless admin?
-    @breadcrumbs << NavigationLink.new(0, "/administration", "Администриране")
+    @breadcrumbs << NavigationLink.new(0, '/administration', 'Администриране')
   end
 
   get '/' do
-    @title = "Администриране"
+    @title = 'Администриране'
 
     erb :'administration.html'
   end
 
   post '/add-print' do
+    # FIXME: Whoever has written this should fix it!!!
     author = Author.create name: params[:added_author_name]
     publisher = Publisher.create name: params[:added_publisher_name]
     name = params[:added_name]
@@ -24,6 +25,7 @@ class AdministrationController <  ApplicationController
     price = params[:added_price]
     language = params[:added_language]
     date = Date.today
+    # Seriously?!
     a = params[:added_cover]
 
     print = Print.new title: name, language: language, isbn: isbn,
