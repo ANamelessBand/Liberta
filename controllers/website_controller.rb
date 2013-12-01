@@ -8,12 +8,12 @@ class WebsiteController < ApplicationController
   end
 
   not_found do
-    @title = "404: Droid not found"
+    @title = '404: Droid not found'
     erb :'not_found.html'
   end
 
-  get /(^\/$|^\/news$)/ do
-    @title = "Libertà"
+  get %r{/|/news} do
+    @title = 'Libertà'
 
     @last_five_news = News.newest.take  SEARCH_RESULTS_PER_PAGE
     @last_prints    = Print.newest.take SEARCH_RESULTS_PER_PAGE
@@ -22,7 +22,7 @@ class WebsiteController < ApplicationController
   end
 
   get '/login' do
-    @title = "Вход"
+    @title = 'Вход'
 
     erb :'login.html'
   end
@@ -47,17 +47,17 @@ class WebsiteController < ApplicationController
   get '/notification/:id' do
     read_notification params[:id]
 
-    @title = "Грешка"
-    erb "You should not be here. Please go home"
+    @title = 'Грешка'
+    erb 'You should not be here. Please go home'
   end
 
   get '/authors/:id/all' do
     @breadcrumbs << NavigationLink.new(0,
                                        "/authors/#{params[:id]}",
-                                       "Автор")
+                                       'Автор')
     @breadcrumbs << NavigationLink.new(0,
                                        "/authors/#{params[:id]}/all",
-                                       "Всички публикации")
+                                       'Всички публикации')
 
     author      = get_author params[:id]
     @title      = "Всички книги от #{author.name}"
@@ -71,7 +71,7 @@ class WebsiteController < ApplicationController
   get '/authors/:id' do
     @breadcrumbs << NavigationLink.new(0,
                                        "/authors/#{params[:id]}",
-                                       "Автор")
+                                       'Автор')
 
     author      = get_author params[:id]
     @title      = "Книги от #{author.name}"
@@ -85,10 +85,10 @@ class WebsiteController < ApplicationController
   get '/publishers/:id/all' do
     @breadcrumbs << NavigationLink.new(0,
                                        "/publishers/#{params[:id]}",
-                                       "Издател")
+                                       'Издател')
     @breadcrumbs << NavigationLink.new(0,
                                        "/publishers/#{params[:id]}/all",
-                                       "Всички публикации")
+                                       'Всички публикации')
 
     publisher   = get_publisher(params[:id])
     @title      = "Всички книги от #{publisher.name}"
@@ -102,7 +102,7 @@ class WebsiteController < ApplicationController
   get '/publishers/:id' do
     @breadcrumbs << NavigationLink.new(0,
                                        "/publishers/#{params[:id]}/all",
-                                       "Издател")
+                                       'Издател')
 
     publisher   = get_publisher(params[:id])
     @title      = "Книги от #{publisher.name}"
