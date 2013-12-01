@@ -5,27 +5,27 @@ class UsersController < ApplicationController
 
   before do
     @breadcrumbs << NavigationLink.new(0,
-                                       "/users",
-                                       "Потребители")
+                                       '/users',
+                                       'Потребители')
 
     set_active_navigation_link(NavigationLink.users_id)
   end
 
   get '/settings' do
     @breadcrumbs << NavigationLink.new(0,
-                                       "/settings",
-                                       "Настройки")
+                                       '/settings',
+                                       'Настройки')
 
     redirect '/login' unless logged?
 
-    @title = "Настройки"
+    @title = 'Настройки'
 
     erb :'settings.html'
   end
 
   post '/settings' do
     email = params[:email]
-    avatar = params[:avatar]
+    #avatar = params[:avatar]
 
     logged_user.update email: email
 
@@ -43,7 +43,7 @@ class UsersController < ApplicationController
   end
 
   get '/search/:page' do
-    @title  = "Потребители"
+    @title  = 'Потребители'
     @names  = params[:name].to_s.split ','
     @fn     = params[:fn]
     dataset = User.dataset
@@ -65,7 +65,7 @@ class UsersController < ApplicationController
   get '/:id' do
     @user        = User.find id: params[:id]
     @own_profile = logged? && (logged_user.id == @user.id)
-    @title       = "Профил"
+    @title       = 'Профил'
 
     @breadcrumbs << NavigationLink.new(0,
                                        "/users/#{params[:id]}",
@@ -82,7 +82,7 @@ class UsersController < ApplicationController
                                        "#{@user.name}")
     @breadcrumbs << NavigationLink.new(0,
                                        "/users/#{params[:id]}/recommendations",
-                                       "Препоръки")
+                                       'Препоръки')
 
     erb :'recommendations.html'
   end
@@ -95,12 +95,12 @@ class UsersController < ApplicationController
                                        "#{@user.name}")
     @breadcrumbs << NavigationLink.new(0,
                                        "/users/#{params[:id]}/read",
-                                       "Прочетени Книги")
+                                       'Прочетени Книги')
 
     erb :'read.html'
   end
 
-   get '/:id/wishlist' do
+  get '/:id/wishlist' do
     @user = User.find id: params[:id]
 
     @breadcrumbs << NavigationLink.new(0,
@@ -108,12 +108,12 @@ class UsersController < ApplicationController
                                        "#{@user.name}")
     @breadcrumbs << NavigationLink.new(0,
                                        "/users/#{params[:id]}/wishlist",
-                                       "Желани Книги")
+                                       'Желани Книги')
 
     erb :'wishlist.html'
   end
 
-   post  '/:id/loan' do
+  post  '/:id/loan' do
     @user = User.find id: params[:id]
     @copy = Copy.find inventory_number: params[:copy_inventory_number].to_i
 
@@ -131,7 +131,7 @@ class UsersController < ApplicationController
                                        "#{@user.name}")
     @breadcrumbs << NavigationLink.new(0,
                                        "/users/#{params[:id]}/wishlist",
-                                       "Невърнати Книги")
+                                       'Невърнати Книги')
 
     erb :'loaned.html'
   end
