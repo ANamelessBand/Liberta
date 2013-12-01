@@ -41,30 +41,30 @@
 	<div class="tab-content">
 
 	  <div class="tab-pane active col-md-12" id="recommended">
-      <%= show_recommendations_table @user.last_recommendations.take SEARCH_RESULTS_PER_PAGE %>
-      <% if @user.recommendations.count > SEARCH_RESULTS_PER_PAGE %>
+      <%= show_recommendations_table @user.last_recommendations.take Liberta::SEARCH_RESULTS_PER_PAGE %>
+      <% if @user.recommendations.count > Liberta::SEARCH_RESULTS_PER_PAGE %>
 			  <a href='<%= "./#{@user.id}/recommendations" %>' class="btn btn-info">Виж всики</a>
       <% end %>
 	  </div>
 
 	  <div class="tab-pane col-md-12" id="read">
-  		<%= show_loans_table @user.read_prints.take SEARCH_RESULTS_PER_PAGE %>
-      <% if @user.read_prints.count > SEARCH_RESULTS_PER_PAGE %>
+  		<%= show_loans_table @user.read_prints.take Liberta::SEARCH_RESULTS_PER_PAGE %>
+      <% if @user.read_prints.count > Liberta::SEARCH_RESULTS_PER_PAGE %>
   			<a href='<%= "./#{@user.id}/read" %>' class="btn btn-info">Виж всички</a>
       <% end %>
 	  </div>
 
 	  <div class="tab-pane col-md-12" id="wishlist">
-			<%= show_print_table @user.wished_prints.take SEARCH_RESULTS_PER_PAGE %>
-      <% if @user.wished_prints.count > SEARCH_RESULTS_PER_PAGE %>
+			<%= show_print_table @user.wished_prints.take Liberta::SEARCH_RESULTS_PER_PAGE %>
+      <% if @user.wished_prints.count > Liberta::SEARCH_RESULTS_PER_PAGE %>
   			<a href='<%= "./#{@user.id}/wishlist" %>' class="btn btn-info">Виж всички</a>
 	    <% end %>
   	</div>
 
 		<% if @own_profile || administrator? %>
 			<div class="tab-pane col-md-12" id="loaned">
-		  	<%= show_loans_table @user.current_loans.take SEARCH_RESULTS_PER_PAGE %>
-      	<% if @user.current_loans.count > SEARCH_RESULTS_PER_PAGE %>
+		  	<%= show_loans_table @user.current_loans.take Liberta::SEARCH_RESULTS_PER_PAGE %>
+      	<% if @user.current_loans.count > Liberta::SEARCH_RESULTS_PER_PAGE %>
           <a href='<%= "./#{@user.id}/loaned" %>' class="btn btn-info">Виж всички</a>
         <% end %>
 		  </div>
