@@ -40,7 +40,10 @@ class Sinatra::Base
     db_user     = settings.production['db_user']
     db_password = settings.production['db_password']
 
-    DB = Sequel.postgres(db_name, host: db_host, user: db_user, password: db_password)
+    DB = Sequel.postgres(db_name,
+                         host: db_host,
+                         user: db_user,
+                         password: db_password)
   end
 
   DB.extension(:pagination)
