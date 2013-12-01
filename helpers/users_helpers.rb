@@ -1,16 +1,4 @@
 module UsersHelpers
-  def logged?
-    !session[:user].nil?
-  end
-
-  def logged_user
-    User.find(id: session[:user]) if logged?
-  end
-
-  def administrator?
-    logged? && logged_user.administrator?
-  end
-
   def notify_out_of_copies(print)
     User.wishing(print).each do |user|
       Notification.out_of_copies user, print

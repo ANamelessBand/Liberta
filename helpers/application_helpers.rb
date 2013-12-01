@@ -33,4 +33,42 @@ module ApplicationHelpers
 
     erb :'prints_table.html'
   end
+
+  def logged?
+    !session[:user].nil?
+  end
+
+  def logged_user
+    User.find(id: session[:user]) if logged?
+  end
+
+  def administrator?
+    logged? && logged_user.administrator?
+  end
+
+  def authors_html(print)
+    print.authors.map do |author|
+      to_link "/authors/#{author.id}", author.name
+    end.join(', ')
+  end
+
+  def notify_copy_is_free(print)
+    User.wishing(print).each do |user|
+      Notification.free_copy user, print
+    end
+  end
+
+  def show_loans_table(loans, returned = false, supposed_return = false)
+    @loans           = loans
+    @returned        = returned
+    @supposed_return = supposed_return
+
+    erb :'loans_table.html'
+  end
+
+  def show_recommendations_table(prints)
+    @prints = prints
+
+    erb :'recommendations_table.html'
+  end
 end

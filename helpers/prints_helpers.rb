@@ -1,30 +1,4 @@
 module PrintsHelpers
-  def authors_html(print)
-    print.authors.map do |author|
-      to_link "/authors/#{author.id}", author.name
-    end.join(', ')
-  end
-
-  def notify_copy_is_free(print)
-    User.wishing(print).each do |user|
-      Notification.free_copy user, print
-    end
-  end
-
-  def show_loans_table(loans, returned = false, supposed_return = false)
-    @loans           = loans
-    @returned        = returned
-    @supposed_return = supposed_return
-
-    erb :'loans_table.html'
-  end
-
-  def show_recommendations_table(prints)
-    @prints = prints
-
-    erb :'recommendations_table.html'
-  end
-
   def search(titles, authors, tags, publishers, searchables)
     dataset = print_search_dataset
 
