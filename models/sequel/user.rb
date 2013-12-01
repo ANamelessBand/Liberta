@@ -9,15 +9,23 @@ class User < Sequel::Model
   def validate
     super
     validates_presence [
-                          :username,
-                          :name,
-                          :faculty_number,
-                          :email,
-                          :authorization_level,
-                          :is_active,
+                         :username,
+                         :name,
+                         :faculty_number,
+                         :email,
+                         :authorization_level,
+                         :is_active,
                        ]
     validates_unique :username, :faculty_number, :email
+
     validates_includes [0, 1, 2], :authorization_level
+  end
+
+  class << self
+    def wishing(print)
+      # TODO consider using join
+      all.select { |user| user.wish? print }
+    end
   end
 
   def active?
@@ -25,86 +33,55 @@ class User < Sequel::Model
   end
 
   def activate
-    is_active = true
-  end
-
-  def activate!
-    activate
-    save
+    update is_active: true
   end
 
   def deactivate
-    is_active = false
-  end
-
-  def deactivate!
-    deactivate
-    save
+    update is_active: false
   end
 
   def read_prints
-    loans.select(&:date_returned)
+    loans_dataset.exclude(date_returned: nil).reverse_order :date_returned, :id
   end
 
   def last_recommendations
-    recommendations.reverse
+    recommendations_dataset.reverse_order :date_of_comment, :id
   end
 
-  def wishes
-    wishlists.map(&:print)
+  def wished_prints
+    # TODO consider using join
+    wishlists_dataset.where(is_satisfied: false).reverse_order(:id).map &:print
   end
 
-  def wishes?(print)
-    wishlists.any? do |wish|
-      wish.print.id == print.id && !wish.is_satisfied
+  def wish?(print)
+    wishlists_dataset.where(print_id: print.id, is_satisfied: false).count.
+      nonzero?
+  end
+
+  def current_loans
+    loans_dataset.where(date_returned: nil).reverse_order :id
+  end
+
+  def unread_notifications
+    notifications_dataset.where(is_read: false).reverse_order :id
+  end
+
+  def unread_notifications?
+    unread_notifications.count.nonzero?
+  end
+
+  def satisfy_wish(print)
+    wishlists_dataset.where(print_id: print.id).each do |user_wish|
+      user_wish.satisfy
     end
   end
 
-  def currently_loaned
-    loans.select(&:date_supposed_return)
+  def administrator?
+    authorization_level.zero?
   end
 
-  def match_name?(name)
-    self.name.downcase.include? name.downcase
-  end
-
-  def match_faculty_number?(faculty_number)
-    self.faculty_number.to_s.include? faculty_number.to_s
-  end
-
-  def match_email?(email)
-    self.email.downcase.include? email.downcase
-  end
-
-  def match_authorization_level?(authorization_level)
-    self.authorization_level == authorization_level
-  end
-
-  def self.find_by_name(names)
-    select do |user|
-      names.all? { |name| user.match_name? name }
-    end
-  end
-
-  def self.find_by_faculty_number(faculty_number)
-    select { |user| user.match_faculty_number? faculty_number }
-  end
-
-  def loan(copy)
-    loan = Loan.new date_loaned: Date.today,
-                    date_supposed_return: Date.today + 31,
-                    copy: copy,
-                    user: self
-
-    if loan.valid?
-      loan.save
-    else
-      # TODO add validation logic here
-    end
-
-    copy.take!
-
-    Wishlist.satisfy(user, print)
-    notify_all_copies_taken copy.print if copy.print.copies.all? { |copy| copy.is_taken }
+  def read_notification(notification_id)
+    notification = notifications_dataset.find id: notification_id
+    notification.read if notification
   end
 end

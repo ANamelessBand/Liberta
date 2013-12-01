@@ -6,9 +6,13 @@ class News < Sequel::Model
     validates_presence [:title, :content, :date_of_publication]
   end
 
-  def self.newest
-    all.sort do |news_a, news_b|
-      news_b.date_of_publication <=> news_a.date_of_publication
+  class << self
+    def oldest
+      order :date_of_publication, :id
+    end
+
+    def newest
+      reverse_order :date_of_publication, :id
     end
   end
 end

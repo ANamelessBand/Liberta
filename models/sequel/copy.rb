@@ -3,20 +3,26 @@ class Copy < Sequel::Model
   one_to_many :loans
 
   def take
-    is_taken = true
-  end
-
-  def take!
-    take
-    save
+    update is_taken: true
   end
 
   def return
-    is_taken = false
+    update is_taken: false
   end
 
-  def return!
-    self.return
-    save
+  def taken?
+    is_taken
+  end
+
+  def free?
+    !is_taken
+  end
+
+  def current_loan
+    loans_dataset.where(date_returned: nil).first
+  end
+
+  def last_loans
+    loans_dataset.reverse_order :date_loaned, :id
   end
 end

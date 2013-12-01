@@ -3,17 +3,18 @@ class Wishlist < Sequel::Model
   many_to_one :print
 
   def satisfy
-    is_satisfied = true
+    update is_satisfied: true
   end
 
-  def satisfy!
-    satisfy
-    save
-  end
+  class << self
+    def add(user, print)
+      unless user.wish? print
+        create user: user, print: print, is_satisfied: false
+      end
+    end
 
-  def self.satisfy_wishes(user, print)
-    Wishlist.where(user: user, print: print).each do |user_wish|
-      user_wish.satisfy!
+    def remove(user, print)
+      where(user_id: user.id, print_id: print.id).each &:delete
     end
   end
 end
