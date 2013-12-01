@@ -4,7 +4,7 @@ class PrintsController < ApplicationController
   NAMESPACE = '/prints'
 
   before do
-    @breadcrumbs << NavigationLink.new(0, "/prints", "Книги")
+    @breadcrumbs << NavigationLink.new(0, '/prints', 'Книги')
 
     if request.path_info == '/most-liked'
       set_active_navigation_link NavigationLink.most_liked_id
@@ -14,7 +14,7 @@ class PrintsController < ApplicationController
   end
 
   get '/' do
-    @title = "Търсене в библиотеката"
+    @title = 'Търсене в библиотеката'
 
     erb :'prints.html'
   end
@@ -22,8 +22,8 @@ class PrintsController < ApplicationController
   get '/search/:page' do
     @breadcrumbs << NavigationLink.new(0,
                                        "/search/#{params[:page]}",
-                                       "Резултати от търсенето")
-    @title = "Резултати от търсенето"
+                                       'Резултати от търсенето')
+    @title = 'Резултати от търсенето'
 
     titles      = params[:titles].to_s.split ','
     authors     = params[:authors].to_s.split ','
@@ -55,10 +55,10 @@ class PrintsController < ApplicationController
 
   get '/most-liked' do
     @breadcrumbs << NavigationLink.new(0,
-                                       "/prints/most-liked",
-                                       "Най-харесвани")
+                                       '/prints/most-liked',
+                                       'Най-харесвани')
 
-    @title = "Най-харесвани книги"
+    @title = 'Най-харесвани книги'
 
     @all_time_prints   = Print.best.take            SEARCH_RESULTS_PER_PAGE
     @last_month_prints = Print.best_last_month.take SEARCH_RESULTS_PER_PAGE
@@ -143,4 +143,3 @@ class PrintsController < ApplicationController
     redirect "/prints/#{print.id}/#{copy.inventory_number}"
   end
 end
-
