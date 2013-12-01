@@ -12,7 +12,7 @@ class WebsiteController < ApplicationController
     erb :'not_found.html'
   end
 
-  get %r{/|/news} do
+  get %r{/$|/news$} do
     @title = 'Libertà'
 
     @last_five_news = News.newest.take  SEARCH_RESULTS_PER_PAGE
