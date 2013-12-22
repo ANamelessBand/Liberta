@@ -18,7 +18,7 @@
     <li <%= shown_results.last_page? ? "class='disabled'" : "" %>>
       <%
         if shown_results.last_page?
-          link = "javascript:;" 
+          link = "javascript:;"
         else
           link = "#{shown_results.current_page + 1}?#{request.query_string}"
         end

@@ -1,4 +1,6 @@
 class Author < Sequel::Model
+  include PrintUtils
+
   plugin :validation_helpers
 
   many_to_many :prints

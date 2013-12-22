@@ -15,33 +15,30 @@
   <tbody>
   <% @shown_results.each do |result| %>
     <tr>
-      <td><%= to_link("/prints/#{result.id}", result.title) %></td>
+      <td><%= to_link "/prints/#{result.id}", result.title %></td>
       <td><%= authors_html result %></td>
       <td>
-        <%=
-          publisher = Publisher.find(id: result.publisher_id)
-          to_link("/publishers/#{publisher.id}", publisher.name)
-        %>
+        <%= to_link "/publishers/#{result.publisher.id}", result.publisher.name %>
       </td>
       <td><%= stars_span result.rating %></td>
-      <td><%= "#{result.free_copies_count} от #{result.copies_count}" %></td>
+      <td><%= "#{result.free_copies.count} от #{result.copies.count}" %></td>
       <td>
         <a href="#modal_1" class="btn btn-xs btn-primary" data-toggle="modal" title="описание">
-          <%= glyphicon_span('info-sign') %>
+          <%= glyphicon_span 'info-sign' %>
         </a>
         <% if logged? %>
-          <% if logged_user.has_wish(result) %>
+          <% if logged_user.wish? result %>
             <a href="#" class="btn btn-xs btn-danger remove-wish-xs" data-for="<%=result.id %>" title="премахни от желани">
-              <%= glyphicon_span('minus') %>
+              <%= glyphicon_span 'minus' %>
             </a>
           <% else %>
             <a href="#" class="btn btn-xs btn-success add-wish-xs" data-for="<%=result.id %>" title="добави в желани">
-              <%= glyphicon_span('plus') %>
+              <%= glyphicon_span 'plus' %>
             </a>
           <% end %>
         <% else %>
             <a href="/login" class="btn btn-xs btn-success" data-for="<%=result.id %>" title="добави в желани">
-              <%= glyphicon_span('plus') %>
+              <%= glyphicon_span 'plus' %>
             </a>
         <% end %>
         <div class="modal fade" id="modal_1">
@@ -70,5 +67,5 @@
     <% end %>
   </tbody>
 </table>
-<%= erb :'pagination.html', :locals => {:shown_results => @shown_results} %>
+<%= erb :'pagination.html', locals: {shown_results: @shown_results} %>
 <% end %>

@@ -7,6 +7,6 @@ Sequel.migration do
       Date :date_loaned
       Date :date_supposed_return, index: true
       Date :date_returned
-      end
     end
   end
+end

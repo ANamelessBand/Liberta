@@ -1,40 +1,79 @@
-module PrintsHelpers
-  def authors_html(print)
-    print.authors.map { |author| to_link("/authors/#{author.id}", author.name) }.join(', ')
-  end
+module Liberta
+  module PrintsHelpers
+    def search(titles, authors, tags, publishers, searchables)
+      dataset = print_search_dataset
 
-  def return_loan(loan)
-    copy = loan.copy
-    loan.date_returned = Date.today
-    copy.is_taken = false
-    copy.save
-    loan.save
-  end
+      if searchables.empty?
+        dataset = search_titles      titles,      dataset
+        dataset = search_authors     authors,     dataset
+        dataset = search_publishers  publishers,  dataset
+        dataset = search_tags        tags,        dataset
+      else
+        dataset = search_searchables searchables, dataset
+      end
 
-  def notify_copy_is_free(print)
-    Wishlist.where(print: print, is_satisfied: false).each do |wish|
-      Notification.create user: wish.user,
-                          message: "Налично е свободно копие на '#{print.title}'.",
-                          is_read: false
+      dataset.select_all(:prints).distinct
     end
-  end
 
-  def show_print_table(prints, ratings_last_month = false, to_wishlist = true)
-    @prints_collection = prints
-    @ratings_last_month = ratings_last_month
-    @to_wishlist = to_wishlist
-    erb :'prints_table.html'
-  end
+    def notify_copy_is_free(print)
+      User.wishing(print).each do |user|
+        Notification.free_copy user, print
+      end
+    end
 
-  def show_loans_table(loans, returned = false, supposed_return = false)
-    @loans = loans
-    @returned = returned
-    @supposed_return = supposed_return
-    erb :'loans_table.html'
-  end
+    private
 
-  def show_recommendations_table(prints)
-    @prints = prints
-    erb :'recommendations_table.html'
+    def print_search_dataset
+      Print.join(:authors_prints,
+                 authors_prints__print_id: :prints__id)
+           .join(:authors,
+                 authors__id: :authors_prints__author_id)
+           .join(:publishers,
+                 publishers__id: :prints__publisher_id)
+           .join(:prints_tags,
+                 prints_tags__print_id: :prints__id)
+           .join(:tags, tags__id: :prints_tags__tag_id)
+    end
+
+    def search_titles(titles, dataset)
+      dataset = dataset.where Sequel.ilike(:prints__title, "%#{titles.first}%")
+
+      search_attribute(titles, :prints__title, dataset)
+    end
+
+    def search_authors(authors, dataset)
+      search_attribute(authors, :authors__name, dataset)
+    end
+
+    def search_publishers(publishers, dataset)
+      search_attribute(publishers, :publishers__name, dataset)
+    end
+
+    def search_tags(tags, dataset)
+      search_attribute(tags, :tags__name, dataset)
+    end
+
+    def search_searchables(searchables, dataset)
+      join_clause = Sequel.join [
+                                 :prints__title,
+                                 :authors__name,
+                                 :publishers__name,
+                                 :tags__name,
+                                ], ' '
+
+      searchables.each do |searchable|
+        dataset = dataset.where join_clause.ilike("%#{searchable}%")
+      end
+
+      dataset
+    end
+
+    def search_attribute(collection, attribute, dataset)
+      collection.each do |item|
+        dataset = dataset.where Sequel.ilike(attribute, "%#{item}%")
+      end
+
+      dataset
+    end
   end
 end
