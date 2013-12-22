@@ -45,7 +45,6 @@ class Print < Sequel::Model
   end
 
   class << self
-
     def oldest
       order :date_added, :id
     end

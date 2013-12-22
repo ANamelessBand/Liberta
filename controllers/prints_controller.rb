@@ -32,7 +32,7 @@ module Liberta
       publishers  = params[:publishers].to_s.split ','
       searchables = params[:searchables].to_s.split ','
 
-      search_results = search titles, authors, tags, publishers, searchables
+      search_results = search(titles, authors, tags, publishers, searchables)
       @shown_results = search_results.paginate(params[:page].to_i,
                                                SEARCH_RESULTS_PER_PAGE)
 
@@ -46,6 +46,8 @@ module Liberta
       publishers  = params[:publisher].to_s.gsub ' ', ','
       searchables = params[:searchables].to_s.gsub ' ', ','
 
+      # FIXME: This is basically constructing a GET form-submit request
+      # manually. There must be a better way to do this.
       redirect "prints/search/1?"\
                "titles=#{titles}&"\
                "authors=#{authors}&"\
@@ -55,9 +57,7 @@ module Liberta
     end
 
     get '/most-liked' do
-      @breadcrumbs << NavigationLink.new(0,
-                                         '/prints/most-liked',
-                                         'Най-харесвани')
+      @breadcrumbs << NavigationLink.new(0, '/prints/most-liked', 'Най-харесвани')
 
       @title = 'Най-харесвани книги'
 
@@ -70,13 +70,10 @@ module Liberta
     get '/:id' do
       @print = Print.find(id: params[:id])
       @title = @print.title
-      @current_recommendation = logged? &&
-                                Recommendation.find(user: logged_user,
-                                                    print: @print)
+      @current_recommendation = Recommendation.find(user: logged_user,
+                                                    print: @print) if logged?
 
-      @breadcrumbs << NavigationLink.new(0,
-                                         "/prints/#{params[:id]}",
-                                         "#{@print.title}")
+      @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}", "#{@print.title}")
 
       erb :'print.html'
     end
@@ -88,10 +85,10 @@ module Liberta
       unless rating.zero?
         print = Print.find id: params[:id]
 
-        Recommendation.add logged_user, print, rating, comment
+        Recommendation.add(logged_user, print, rating, comment)
       end
 
-      redirect "/prints/#{params[:id]}"
+      redirect NAMESPACE + "/#{params[:id]}"
     end
 
     get '/:id/add-wishlist' do
@@ -99,7 +96,7 @@ module Liberta
 
       Wishlist.add logged_user, print
 
-      redirect "/prints/#{print.id}"
+      redirect NAMESPACE + "/#{print.id}"
     end
 
     get '/:id/remove-wishlist' do
@@ -107,7 +104,7 @@ module Liberta
 
       Wishlist.remove logged_user, print
 
-      redirect "/prints/#{print.id}"
+      redirect NAMESPACE + "/#{print.id}"
     end
 
     get '/:id/:copy_id' do
@@ -115,12 +112,8 @@ module Liberta
       @print = @copy.print
       @title = "#{@print.title} - #{@copy.inventory_number}"
 
-      @breadcrumbs << NavigationLink.new(0,
-                                         "/prints/#{params[:id]}",
-                                         "#{@print.title}")
-      @breadcrumbs << NavigationLink.new(0,
-                                         "/prints/#{params[:id]}/#{params[:copy_id]}",
-                                         "#{@print.title} - #{@copy.inventory_number}")
+      @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}", "#{@print.title}")
+      @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}/#{params[:copy_id]}", "#{@print.title} - #{@copy.inventory_number}")
 
       erb :'copy.html'
     end
@@ -130,18 +123,14 @@ module Liberta
       print = copy.print
       loan  = copy.current_loan
 
-      @breadcrumbs << NavigationLink.new(0,
-                                         "/prints/#{params[:id]}",
-                                         "#{print.title}")
-      @breadcrumbs << NavigationLink.new(0,
-                                         "/prints/#{params[:id]}/#{params[:copy_id]}",
-                                         "#{print.title} - #{copy.inventory_number}")
+      @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}", "#{print.title}")
+      @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}/#{params[:copy_id]}", "#{print.title} - #{copy.inventory_number}")
 
       loan.return
 
       notify_copy_is_free print
 
-      redirect "/prints/#{print.id}/#{copy.inventory_number}"
+      redirect NAMESPACE + "/#{print.id}/#{copy.inventory_number}"
     end
   end
 end

@@ -9,12 +9,12 @@ class Loan < Sequel::Model
     validates_presence [:date_loaned, :date_supposed_return]
   end
 
-  def current?
+  def active?
     date_returned.nil?
   end
 
   def returned?
-    !current?
+    not active?
   end
 
   def return

@@ -9,7 +9,7 @@ module Liberta
 # Setup environments
 #==============================================================================
 
-  class LibertaMain < Sinatra::Base
+  class Base < Sinatra::Base
     register Sinatra::ConfigFile
     config_file 'config.yml'
 

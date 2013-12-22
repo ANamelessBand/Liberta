@@ -34,7 +34,7 @@
 	  <li class="active"><a href="#recommended" data-toggle="tab">Препоръчани</a></li>
 	  <li><a href="#read" data-toggle="tab">Прочетени</a></li>
 	  <li><a href="#wishlist" data-toggle="tab">Желани</a></li>
-	  <% if @own_profile || administrator? %>
+	  <% if own_profile?(@user) || administrator? %>
 		  <li><a href="#loaned" data-toggle="tab">Невърнати</a></li>
 		<% end %>
 	</ul>
@@ -61,7 +61,7 @@
 	    <% end %>
   	</div>
 
-		<% if @own_profile || administrator? %>
+		<% if own_profile?(@user) || administrator? %>
 			<div class="tab-pane col-md-12" id="loaned">
 		  	<%= show_loans_table @user.current_loans.take Liberta::SEARCH_RESULTS_PER_PAGE %>
       	<% if @user.current_loans.count > Liberta::SEARCH_RESULTS_PER_PAGE %>

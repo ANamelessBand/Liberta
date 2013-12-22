@@ -13,13 +13,15 @@ module Liberta
       erb :'not_found.html'
     end
 
-    get %r{/$|/news$} do
-      @title = 'Libertà'
+    [NAMESPACE, '/news'].each do |page|
+      get page do
+        @title = 'Libertà'
 
-      @last_five_news = News.newest.take  SEARCH_RESULTS_PER_PAGE
-      @last_prints    = Print.newest.take SEARCH_RESULTS_PER_PAGE
+        @last_news   = News.newest.take  LAST_NEWS_COUNT
+        @last_prints = Print.newest.take LAST_PRINTS_COUNT
 
-      erb :'index.html'
+        erb :'index.html'
+      end
     end
 
     get '/login' do
@@ -32,35 +34,30 @@ module Liberta
       username = params[:username]
       password = params[:password]
 
-      if login username, password
-        redirect '/login'
+      if login(username, password)
+        redirect NAMESPACE
       else
-        redirect '/'
+        redirect '/login'
       end
     end
 
     get '/logout' do
       logout
 
-      redirect '/'
+      redirect NAMESPACE
     end
 
     get '/notification/:id' do
-      read_notification params[:id]
+      Notification.mark_read params[:id]
 
-      @title = 'Грешка'
-      erb 'You should not be here. Please go home'
+      redirect NAMESPACE
     end
 
     get '/authors/:id/all' do
-      @breadcrumbs << NavigationLink.new(0,
-                                         "/authors/#{params[:id]}",
-                                         'Автор')
-      @breadcrumbs << NavigationLink.new(0,
-                                         "/authors/#{params[:id]}/all",
-                                         'Всички публикации')
+      @breadcrumbs << NavigationLink.new(0, "/authors/#{params[:id]}", 'Автор')
+      @breadcrumbs << NavigationLink.new(0, "/authors/#{params[:id]}/all", 'Всички публикации')
 
-      author      = get_author params[:id]
+      author      = Author.finf id: params[:id]
       @title      = "Всички книги от #{author.name}"
       @top_prints = author.top_prints
       @id         = author.id
@@ -70,13 +67,11 @@ module Liberta
     end
 
     get '/authors/:id' do
-      @breadcrumbs << NavigationLink.new(0,
-                                         "/authors/#{params[:id]}",
-                                         'Автор')
+      @breadcrumbs << NavigationLink.new(0, "/authors/#{params[:id]}", 'Автор')
 
-      author      = get_author params[:id]
+      author      = Author.find id: params[:id]
       @title      = "Книги от #{author.name}"
-      @top_prints = author.top_prints.take 5
+      @top_prints = author.top_prints.take SEARCH_RESULTS_PER_PAGE
       @id         = author.id
       @show_all   = false
 
@@ -84,14 +79,10 @@ module Liberta
     end
 
     get '/publishers/:id/all' do
-      @breadcrumbs << NavigationLink.new(0,
-                                         "/publishers/#{params[:id]}",
-                                         'Издател')
-      @breadcrumbs << NavigationLink.new(0,
-                                         "/publishers/#{params[:id]}/all",
-                                         'Всички публикации')
+      @breadcrumbs << NavigationLink.new(0, "/publishers/#{params[:id]}", 'Издател')
+      @breadcrumbs << NavigationLink.new(0, "/publishers/#{params[:id]}/all", 'Всички публикации')
 
-      publisher   = get_publisher(params[:id])
+      publisher   = Publisher.find id: params[:id]
       @title      = "Всички книги от #{publisher.name}"
       @top_prints = publisher.top_prints
       @id         = publisher.id
@@ -101,13 +92,11 @@ module Liberta
     end
 
     get '/publishers/:id' do
-      @breadcrumbs << NavigationLink.new(0,
-                                         "/publishers/#{params[:id]}/all",
-                                         'Издател')
+      @breadcrumbs << NavigationLink.new(0, "/publishers/#{params[:id]}/all", 'Издател')
 
-      publisher   = get_publisher(params[:id])
+      publisher   = Publisher.find id: params[:id]
       @title      = "Книги от #{publisher.name}"
-      @top_prints = publisher.top_prints.take 5
+      @top_prints = publisher.top_prints.take SEARCH_RESULTS_PER_PAGE
       @id         = publisher.id
       @show_all   = false
 
@@ -120,7 +109,7 @@ module Liberta
 
       add_news title, content
 
-      redirect '/'
+      redirect NAMESPACE
     end
   end
 end

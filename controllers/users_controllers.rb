@@ -5,17 +5,13 @@ module Liberta
     NAMESPACE = '/users'
 
     before do
-      @breadcrumbs << NavigationLink.new(0,
-                                         '/users',
-                                         'Потребители')
+      @breadcrumbs << NavigationLink.new(0, '/users', 'Потребители')
 
       set_active_navigation_link(NavigationLink.users_id)
     end
 
     get '/settings' do
-      @breadcrumbs << NavigationLink.new(0,
-                                         '/settings',
-                                         'Настройки')
+      @breadcrumbs << NavigationLink.new(0, '/settings', 'Настройки')
 
       redirect '/login' unless logged?
 
@@ -30,17 +26,17 @@ module Liberta
 
       logged_user.update email: email
 
-      redirect 'users/settings'
+      redirect NAMESPACE + "/settings"
     end
 
     post '/search' do
       names = params[:name].to_s.split ','
 
-      redirect "/users/search/1?name=#{names}&fn=#{params[:fn]}"
+      redirect NAMESPACE + "/search/1?name=#{names}&fn=#{params[:fn]}"
     end
 
     get '/' do
-      redirect '/users/search/1'
+      redirect NAMESPACE + "/search/1"
     end
 
     get '/search/:page' do
@@ -65,12 +61,9 @@ module Liberta
 
     get '/:id' do
       @user        = User.find id: params[:id]
-      @own_profile = logged? && (logged_user.id == @user.id)
       @title       = 'Профил'
 
-      @breadcrumbs << NavigationLink.new(0,
-                                         "/users/#{params[:id]}",
-                                         "#{@user.name}")
+      @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}", "#{@user.name}")
 
       erb :'profile.html'
     end
@@ -78,12 +71,8 @@ module Liberta
     get '/:id/recommendations' do
       @user = User.find id: params[:id]
 
-      @breadcrumbs << NavigationLink.new(0,
-                                         "/users/#{params[:id]}",
-                                         "#{@user.name}")
-      @breadcrumbs << NavigationLink.new(0,
-                                         "/users/#{params[:id]}/recommendations",
-                                         'Препоръки')
+      @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}", "#{@user.name}")
+      @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}/recommendations", 'Препоръки')
 
       erb :'recommendations.html'
     end
@@ -91,12 +80,8 @@ module Liberta
     get '/:id/read' do
       @user = User.find id: params[:id]
 
-      @breadcrumbs << NavigationLink.new(0,
-                                         "/users/#{params[:id]}",
-                                         "#{@user.name}")
-      @breadcrumbs << NavigationLink.new(0,
-                                         "/users/#{params[:id]}/read",
-                                         'Прочетени Книги')
+      @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}", "#{@user.name}")
+      @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}/read", 'Прочетени Книги')
 
       erb :'read.html'
     end
@@ -104,12 +89,8 @@ module Liberta
     get '/:id/wishlist' do
       @user = User.find id: params[:id]
 
-      @breadcrumbs << NavigationLink.new(0,
-                                         "/users/#{params[:id]}",
-                                         "#{@user.name}")
-      @breadcrumbs << NavigationLink.new(0,
-                                         "/users/#{params[:id]}/wishlist",
-                                         'Желани Книги')
+      @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}", "#{@user.name}")
+      @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}/wishlist", 'Желани Книги')
 
       erb :'wishlist.html'
     end
@@ -118,21 +99,16 @@ module Liberta
       @user = User.find id: params[:id]
       @copy = Copy.find inventory_number: params[:copy_inventory_number].to_i
 
-      loan_copy @user, @copy if @copy && @copy.free?
+      loan_copy(@user, @copy) if @copy && @copy.free?
 
-      redirect "/users/#{@user.id}"
+      redirect NAMESPACE + "/#{@user.id}"
     end
 
     get '/:id/loaned' do
       @user = User.find id: params[:id]
-      @own_profile = logged? && logged_user.id == @user.id
 
-      @breadcrumbs << NavigationLink.new(0,
-                                         "/users/#{params[:id]}",
-                                         "#{@user.name}")
-      @breadcrumbs << NavigationLink.new(0,
-                                         "/users/#{params[:id]}/wishlist",
-                                         'Невърнати Книги')
+      @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}", "#{@user.name}")
+      @breadcrumbs << NavigationLink.new(0, "/users/#{params[:id]}/wishlist", 'Невърнати Книги')
 
       erb :'loaned.html'
     end

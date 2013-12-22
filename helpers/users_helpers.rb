@@ -14,5 +14,9 @@ module Liberta
 
       notify_out_of_copies copy.print if copy.print.out_of_copies?
     end
+
+    def own_profile?(user)
+      logged? && logged_user.id == user.id
+    end
   end
 end

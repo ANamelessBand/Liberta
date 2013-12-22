@@ -21,18 +21,5 @@ module Liberta
         # TODO: add validation logic here
       end
     end
-
-    def read_notification(notification_id)
-      notification = Notification.find id: notification_id
-      notification.read
-    end
-
-    def get_author(author_id)
-      Author.find id: author_id
-    end
-
-    def get_publisher(publisher_id)
-      Publisher.find id: publisher_id
-    end
   end
 end

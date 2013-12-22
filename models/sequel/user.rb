@@ -56,7 +56,7 @@ class User < Sequel::Model
 
   def wish?(print)
     wishlists_dataset.where(print_id: print.id, is_satisfied: false)
-    .count.nonzero?
+                     .count.nonzero?
   end
 
   def current_loans

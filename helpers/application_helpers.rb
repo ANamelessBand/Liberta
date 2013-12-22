@@ -14,13 +14,14 @@ module Liberta
 
       interactive_class = interactive ? 'interactive' : ''
 
-      html = "<span class='stars s-#{rounded} #{interactive_class}'"\
-             "data-default='#{rounded}'>"
+      html = "<span "\
+               "class='stars s-#{rounded} #{interactive_class}'"\
+               "data-default='#{rounded}'>"
       if interactive
         html += "<input type='hidden' value='#{rating}' name='rating' />"
       end
 
-      "#{html}#{rounded} stars </span>"
+      html + "#{rounded} stars </span>"
     end
 
     def to_link(href, title, class_name = nil)
@@ -51,12 +52,6 @@ module Liberta
       print.authors.map do |author|
         to_link "/authors/#{author.id}", author.name
       end.join(', ')
-    end
-
-    def notify_copy_is_free(print)
-      User.wishing(print).each do |user|
-        Notification.free_copy user, print
-      end
     end
 
     def show_loans_table(loans, returned = false, supposed_return = false)
