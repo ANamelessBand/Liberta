@@ -1,4 +1,21 @@
-<div class="col-md-12">
+<% if @search %>
+	<form class="form-inline" role="form" method="get" action="/administration/search">
+	  <div class="form-group">
+	    <label class="sr-only" for="name">Име: </label>
+	    <input type="text" class="form-control" id="name" name="name"
+	    placeholder="Никола Таушанов" value='<%= "#{@names.join(' ')}"  if @names %>'/>
+	  </div>
+	  или
+	  <div class="form-group">
+	    <label class="sr-only" for="in">Инвентарен Номер: </label>
+	    <input type="text" class="form-control" id="in" name="in"
+	     placeholder="3000" value=<%= "\"#{@in}\"" %>/>
+	  </div>
+	  <button type="submit" class="btn btn-primary">Филтрирай</button>
+	</form>
+	</br>
+<% end %>
+<div class="col-md-14">
   <ul class="nav nav-tabs">
     <li class="<%= @add %>" ><a href="/administration">Добавете ново издание</a></li>
     <li class="<%= @remove %>" ><a href="#remove-print" data-toggle="tab">Премахни издание</a></li>
@@ -6,7 +23,7 @@
   </ul>
 </div>
 <div class="tab-content">
-	<div class="tab-pane active col-md-12">
+	<div class="tab-pane active col-md-14">
 		<%= erb template %>
 	</div>
 </div>
