@@ -5,7 +5,6 @@
 	    <input type="text" class="form-control" id="name" name="name"
 	    placeholder="Никола Таушанов" value='<%= "#{@names.join(' ')}"  if @names %>'/>
 	  </div>
-	  или
 	  <div class="form-group">
 	    <label class="sr-only" for="in">Инвентарен Номер: </label>
 	    <input type="text" class="form-control" id="in" name="in"
@@ -19,7 +18,7 @@
   <ul class="nav nav-tabs">
     <li class="<%= @add %>" ><a href="/administration">Добавете ново издание</a></li>
     <li class="<%= @remove %>" ><a href="#remove-print" data-toggle="tab">Премахни издание</a></li>
-    <li class="<%= @loaned %>" ><a href="/administration/loaned-copies">Невърнати книги</a></li>
+    <li class="<%= @loaned %>" ><a href="/administration/search">Невърнати книги</a></li>
   </ul>
 </div>
 <div class="tab-content">

@@ -29,6 +29,7 @@ module Liberta
       date = Date.today
       # Seriously?!
       a = params[:added_cover]
+
       print = Print.new title: name, language: language, isbn: isbn,
       pages: pages, date_added: date, price: price, format: format,
       publisher: publisher, description: description, cover: a
@@ -41,14 +42,12 @@ module Liberta
     end
 
     get '/search' do
-      names = params[:name].gsub(',', ' ').gsub(' ', '+')
+      names = params[:name].gsub(',', ' ').gsub(' ', '+') unless params[:name].nil?
       redirect NAMESPACE + "/search/1?name=#{names}&in=#{params[:in]}"
     end
 
     get '/search/:page' do
       @title  = 'Администриране'
-      puts params[:name]
-      puts params[:in]
       @names  = params[:name].split ' '
       @in     = params[:in]
       dataset = Loan.dataset.filter(date_returned: nil)
@@ -71,22 +70,9 @@ module Liberta
       end 
 
       @search = true
-      @loaned_copies = result.paginate(params[:page].to_i, SEARCH_RESULT_BY_PAGE)
+      @loaned_copies = result.paginate(params[:page].to_i, SEARCH_RESULTS_PER_PAGE)
       @add, @remove, @loaned = "", "", "active"
       erb :'administration.html', locals: {template: :'loaned_copies.html'}
-    end
-
-    get '/loaned-copies' do
-      redirect NAMESPACE + '/loaned-copies/1'
-    end
-    
-    get '/loaned-copies/:page' do
-        @title = "Администриране"
-        @search = true
-        dataset = Loan.dataset.filter(date_returned: nil)
-        @loaned_copies = dataset.paginate(params[:page].to_i, SEARCH_RESULT_BY_PAGE)
-        @add, @remove, @loaned = "", "", "active"
-        erb :'administration.html', locals: {template: :'loaned_copies.html'}
     end
   end
 end
