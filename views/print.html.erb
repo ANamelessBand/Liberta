@@ -7,13 +7,13 @@
       <th>Автори</th>
       <td>
         <% @print.authors.each do |author| %>
-          <a href="/authors/<%= author.id %>"><%= author.name %></a><br />
+          <a href=<%= "/authors/#{author.id}" %>><%= author.name %></a><br />
         <% end %>
       </td>
     </tr>
     <tr>
       <th>Издателство</th>
-      <td><a href="/publishers/<%=@print.publisher.id%>"><%= @print.publisher.name %></a></td>
+      <td><a href=<%= "/publishers/#{@print.publisher.id}" %>><%= @print.publisher.name %></a></td>
     </tr>
     <tr>
       <th>Формат</th>
@@ -29,12 +29,12 @@
     </tr>
     <tr>
       <th>Цена</th>
-      <td><%= @print.price.round(2) %></td>
+      <td><%= @print.price.round 2 %></td>
     </tr>
     <tr>
       <th>Тагове</th>
       <td>
-        <%= @print.tags.map(&:name).join(", ") %>
+        <%= @print.tags.map(&:name).join ', ' %>
       </td>
     </tr>
     <tr>
@@ -49,21 +49,21 @@
   <div class="well well-sm text-center">
     Свободни копия
     <div class="free-copies">
-      <%= @print.free_copies_count %> от <%= @print.copies_count %>
+      <%= @print.free_copies.count %> от <%= @print.copies.count %>
     </div>
   </div>
   <% if logged? %>
-    <% if logged_user.has_wish(@print) %>
-      <a class="btn btn-danger remove-wish" data-for="<%= @print.id %>">
-        <%= glyphicon_span('minus') %> премахни от желани
+    <% if logged_user.wish? @print %>
+      <a class="btn btn-danger remove-wish" data-for=<%= "#{@print.id}" %>>
+        <%= glyphicon_span 'minus' %> премахни от желани
       </a>
     <% else %>
-      <a class="btn btn-success add-wish" data-for="<%= @print.id %>">
-        <%= glyphicon_span('plus') %> добави в желани
+      <a class="btn btn-success add-wish" data-for=<%= "#{@print.id}" %>>
+        <%= glyphicon_span 'plus' %> добави в желани
       </a>
     <% end %>
   <% else %>
-    <a class="btn btn-success" href="/login"><%= glyphicon_span('plus') %> добави в желани</a>
+    <a class="btn btn-success" href="/login"><%= glyphicon_span 'plus' %> добави в желани</a>
   <% end %>
 </div>
 <div class="clearfix"></div>
@@ -80,10 +80,10 @@
     <h3 class="panel-title">Препоръки</h3>
   </div>
   <div class="panel-body">
-    <% if logged? and @current_recommendation.nil? %>
+    <% if logged? && @current_recommendation.nil? %>
       <a href="#recommendation_modal" class="btn btn-primary" data-toggle="modal">Препоръчай</a>
     <% end %>
-    <% if @print.recommendations.empty? %>
+    <% if @print.last_recommendations.empty? %>
       <p>Бъди пръв да препоръчаш тази книга!<p>
     <% else %>
       <table class="table table-striped from-top-2">
@@ -114,7 +114,7 @@
       <div class="modal fade" id="recommendation_modal">
         <div class="modal-dialog">
           <div class="modal-content">
-              <form id="news_upload_form" class="form-horizontal" method="post" action="/prints/<%= @print.id%>/add-recommendation">
+            <form id="news_upload_form" class="form-horizontal" method="post" action=<%= "/prints/#{@print.id}/add-recommendation" %>>
                 <fieldset>
                   <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -125,7 +125,7 @@
                     <legend>Добавяне на препоръка</legend>
 
                     оценка:
-                    <%= stars_span(0, true) %>
+                    <%= stars_span 0, true %>
 
                     <br />
                     <textarea rows="4" cols="50" id="recommendation_comment" class="form-control" required="" name="recommendation_comment" placeholder="Коментар..."></textarea>
@@ -143,7 +143,7 @@
     <% end %>
   </div>
 </div>
-<% if not @print.copies.empty? and admin? %>
+<% if !@print.copies.empty? && administrator? %>
 <div class="panel panel-primary">
   <div class="panel-heading">
     <h3 class="panel-title">Копия</h3>
@@ -160,7 +160,7 @@
         <% @print.copies.each do |copy| %>
         <tr>
           <td>
-            <a href="<%= @print.id.to_s.concat('/').concat copy.inventory_number.to_s %>"><%= copy.inventory_number %></a>
+            <a href="<%= "#{@print.id}/#{copy.inventory_number}" %>"><%= copy.inventory_number %></a>
           </td>
           <td>
             <% if copy.is_taken %>

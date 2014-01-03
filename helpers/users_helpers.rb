@@ -1,50 +1,22 @@
-module UsersHelpers
-  def logged?
-    not session[:user].nil?
-  end
-
-  def logged_user
-    User.find(id: session[:user]) if logged?
-  end
-
-  def admin?
-    logged? and logged_user.authorization_level == 0
-  end
-
-  def unread_notifications
-    Notification.where(user_id: logged_user.id, is_read: false).to_a if logged?
-  end
-
-  def unread_notifications?
-    unread_notifications && unread_notifications.count.nonzero?
-  end
-
-  def notify_all_copies_taken(print)
-    Wishlist.where(print: print, is_satisfied: false).each do |user_wish|
-      user = user_wish.user
-      Notification.create user: user,
-                          message: "Копията на #{print.title} са изчерпани.",
-                          is_read: false
+module Liberta
+  module UsersHelpers
+    def notify_out_of_copies(print)
+      User.wishing(print).each do |user|
+        Notification.out_of_copies user, print
+      end
     end
-  end
 
-  def remove_from_wishlist(user, print)
-    Wishlist.where(user: user, print: print).each do |user_wish|
-      user_wish.is_satisfied = true
-      user_wish.save
+    def loan_copy(user, copy)
+      # TODO: consider using BD transaction here.
+      Loan.add user, copy
+      copy.take
+      user.satisfy_wish copy.print
+
+      notify_out_of_copies copy.print if copy.print.out_of_copies?
     end
-  end
 
-  def loan_copy(user, copy)
-    Loan.create date_loaned: Date.today,
-                date_supposed_return: Date.today + 31,
-                copy: copy,
-                user: user
-
-    copy.is_taken = true
-    copy.save
-
-    remove_from_wishlist user, copy.print
-    notify_all_copies_taken copy.print if copy.print.copies.all? { |copy| copy.is_taken }
+    def own_profile?(user)
+      logged? && logged_user.id == user.id
+    end
   end
 end

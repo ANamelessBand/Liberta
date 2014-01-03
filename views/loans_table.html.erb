@@ -20,24 +20,28 @@
         <td class="cover"><img src=<%= "/img/prints/#{loan.copy.print.id}.png" %> /></td>
         <td><%= to_link "/prints/#{loan.copy.print.id}", loan.copy.print.title %></a></td>
         <td><%= authors_html loan.copy.print %></a></td>
-        <td><%= stars_span(loan.copy.print.rating @ratings_last_month) %></td>
+      <% if @ratings_last_month %>
+        <td><%= stars_span loan.copy.print.rating_last_month %></td>
+      <% else %>
+        <td><%= stars_span loan.copy.print.rating %></td>
+      <% end %>
         <td>
           <a href="#modal_<%=loan.copy.print.id%>" class="btn btn-xs btn-primary" title="описание" data-toggle="modal">
-            <%= glyphicon_span('info-sign') %>
+            <%= glyphicon_span 'info-sign' %>
           </a>
         <% if @to_wishlist %>
           <a href="#" class="btn btn-xs btn-success" title="добави в желани">
-            <%= glyphicon_span('plus') %>
+            <%= glyphicon_span 'plus' %>
           </a>
         <% end %>
           <% if logged? %>
-            <% if logged_user.has_wish(loan.copy.print) %>
+            <% if logged_user.wish? loan.copy.print %>
               <a class="btn btn-xs btn-danger remove-wish-xs" data-for="<%= loan.copy.print.id %>" title="премахни от желани">
-                <%= glyphicon_span('minus') %>
+                <%= glyphicon_span 'minus' %>
               </a>
             <% else %>
               <a class="btn btn-xs btn-success add-wish-xs" data-for="<%= loan.copy.print.id %>" title="добави в желани">
-                <%= glyphicon_span('plus') %>
+                <%= glyphicon_span 'plus' %>
               </a>
             <% end %>
           <% end %>

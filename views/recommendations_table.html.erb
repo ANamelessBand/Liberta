@@ -19,7 +19,7 @@
         <td class="cover"><img src=<%= "/img/prints/#{recommendation.print.id}.png" %> /></td>
 
         <td>
-          <%= to_link("../prints/#{recommendation.print.id}", recommendation.print.title) %>
+          <%= to_link "../prints/#{recommendation.print.id}", recommendation.print.title %>
         </td>
 
         <td><%= authors_html recommendation.print %></a></td>
@@ -27,9 +27,9 @@
         <td><%= stars_span recommendation.rating %></td>
 
         <td>
-          <% if recommendation.comment and recommendation.comment.length > 30 %>
+          <% if recommendation.comment && recommendation.comment.length > 30 %>
               <%= recommendation.comment[0..30] %>...
-               <a href="#modal_<%=recommendation.id%>"data-toggle="modal">виж още
+               <a href="#modal_<%=recommendation.id%>" data-toggle="modal">виж още
               </a>
           <% else %>
            <%= recommendation.comment %>

@@ -1,159 +1,136 @@
-class PrintsController < ApplicationController
+module Liberta
+  class PrintsController < ApplicationController
+    helpers PrintsHelpers
 
-  before do
-    @breadcrumbs << NavigationLink.new(0, "/prints", "Книги")
-    if request.path_info == '/most-liked'
-      set_active_navigation_link NavigationLink.most_liked_id
-    else
-      set_active_navigation_link NavigationLink.prints_id
-    end
-  end
+    NAMESPACE = '/prints'
 
-  get '/' do
-    @title = "Търсене в библиотеката"
+    before do
+      @breadcrumbs << NavigationLink.new(0, '/prints', 'Книги')
 
-    erb :'prints.html'
-  end
-
-  get '/search/:page' do
-    @breadcrumbs << NavigationLink.new(0, "/search/#{params[:page]}", "Резултати от търсенето")
-    @title = "Резултати от търсенето"
-
-    names = session[:last_search_names]
-    authors = session[:last_search_authors]
-    tags = session[:last_search_tags]
-    publishers = session[:last_search_publishers]
-    searchables = session[:last_search_searchables]
-
-    if searchables.empty?
-      search_results = Print.filter do |result|
-        #names.map { |name| result.title.downcase.include?(name.downcase) }.all?
-        result.search_matches(names, :title)
-      end
-      search_results = search_results.filter do |result|
-        #authors.map { |author| result.authors_string.downcase.include?(author.downcase) }.all?
-        result.search_matches(authors, :authors_string)
-      end
-      search_results = search_results.filter do |result|
-        #tags.map { |tag| result.tags_string.downcase.include?(tag.downcase) }.all?
-        result.search_matches(tags, :tags_string)
-      end
-      search_results = search_results.filter do |result|
-        #publishers.map { |publisher| result.publisher.name.downcase.include?(publisher.downcase) }.all?
-        result.search_matches(publishers, :publisher)
-      end
-    else
-      search_results = Print.filter do |result|
-        #searchables.map { |searchable| result.searchables_string.downcase.include?(searchable.downcase) }.all?
-        result.search_matches(searchables, :searchables_string)
+      if request.path_info == '/most-liked'
+        set_active_navigation_link NavigationLink.most_liked_id
+      else
+        set_active_navigation_link NavigationLink.prints_id
       end
     end
 
-    shown_results = search_results.paginate(params[:page].to_i, SEARCH_RESULT_BY_PAGE)
-    p shown_results
-    erb :'search.html', :locals => {:shown_results => shown_results}
-  end
+    get '/' do
+      @title = 'Търсене в библиотеката'
 
-  post '/search' do
-    session[:last_search_names] = (params[:name] || "").split(' ');
-    session[:last_search_authors] = (params[:author] || "").split(' ');
-    session[:last_search_tags] = (params[:tags] || "").split(' ');
-    session[:last_search_publishers] = (params[:publisher] || "").split(' ');
-    session[:last_search_searchables] = (params[:searchables] || "").split(' ');
-
-    redirect '/prints/search/1'
-  end
-
-  get '/most-liked' do
-    @breadcrumbs << NavigationLink.new(0, "/prints/most-liked", "Най-харесвани")
-
-    @title = "Най-харесвани книги"
-    all_prints = Print.all
-
-    @all_time_prints = all_prints.sort { |x, y| y.rating(false) <=> x.rating(false) }.take 5
-    @last_month_prints = all_prints.sort { |x, y| y.rating(true) <=> x.rating(true) }.take 5
-
-    erb :'most_liked.html'
-  end
-
-  get '/:id' do
-    @print = Print.find(id: params[:id])
-    @title = @print.title
-    @current_recommendation = logged? && Recommendation.find({user: logged_user, print: @print})
-
-    @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}", "#{@print.title}")
-
-    erb :'print.html'
-  end
-
-  post '/:id/add-recommendation' do
-    rating = params[:rating]
-    comment = params[:recommendation_comment]
-
-    back = "/prints/#{params[:id]}"
-    redirect back if rating == 0
-
-    current_user = logged_user
-    current_print = Print.find(id: params[:id])
-    date = Date.today
-
-    recommendation = Recommendation.find({user: current_user, print: current_print})
-    if recommendation.nil?
-      Recommendation.create rating: rating, comment: comment, date_of_comment: date, user: current_user, print: current_print
-    else
-      recommendation.update({rating: rating, comment: comment, date_of_comment: date})
+      erb :'prints.html'
     end
 
-    redirect back
-  end
+    get '/search/:page' do
+      @breadcrumbs << NavigationLink.new(0,
+                                         "/search/#{params[:page]}",
+                                         'Резултати от търсенето')
+      @title = 'Резултати от търсенето'
 
-  get '/:id/add-wishlist' do
-    @print = Print.find(id: params[:id])
+      titles      = params[:titles].to_s.split ','
+      authors     = params[:authors].to_s.split ','
+      tags        = params[:tags].to_s.split ','
+      publishers  = params[:publishers].to_s.split ','
+      searchables = params[:searchables].to_s.split ','
 
-    Wishlist.create(user: logged_user, print: @print, is_satisfied: false) unless logged_user.has_wish(@print)
+      search_results = search(titles, authors, tags, publishers, searchables)
+      @shown_results = search_results.paginate(params[:page].to_i,
+                                               SEARCH_RESULTS_PER_PAGE)
 
-    back = "/prints/" + @print.id.to_s
-    redirect back
-  end
-
-  get '/:id/remove-wishlist' do
-    @print = Print.find(id: params[:id])
-
-    wishlist = logged_user.wishlists.select { |wishlist| wishlist.print.id == @print.id }.first
-
-    unless wishlist.nil?
-      wishlist.delete
+      erb :'search.html'
     end
 
-    back = "/prints/" + @print.id.to_s
-    redirect back
-  end
+    post '/search' do
+      titles      = params[:title].to_s.gsub ' ', ','
+      authors     = params[:author].to_s.gsub ' ', ','
+      tags        = params[:tags].to_s.gsub ' ', ','
+      publishers  = params[:publisher].to_s.gsub ' ', ','
+      searchables = params[:searchables].to_s.gsub ' ', ','
 
-  get '/:id/:copy_id' do
-    @copy = Copy.find(inventory_number: params[:copy_id].to_i)
-    @print = @copy.print
-    @title = "#{@print.title} - #{@copy.inventory_number}"
+      # FIXME: This is basically constructing a GET form-submit request
+      # manually. There must be a better way to do this.
+      redirect "prints/search/1?"\
+               "titles=#{titles}&"\
+               "authors=#{authors}&"\
+               "tags=#{tags}&"\
+               "publishers=#{publishers}&"\
+               "searchables=#{searchables}"
+    end
 
-    @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}", "#{@print.title}")
-    @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}/#{params[:copy_id]}", "#{@print.title} - #{@copy.inventory_number}")
+    get '/most-liked' do
+      @breadcrumbs << NavigationLink.new(0, '/prints/most-liked', 'Най-харесвани')
 
-    erb :'copy.html'
-  end
+      @title = 'Най-харесвани книги'
 
-  get '/:id/:copy_id/return' do
-    @copy = Copy.find(inventory_number: params[:copy_id].to_i)
-    @print = @copy.print
-    @loan = @copy.loans.select { |loan| loan.date_returned.nil? }.last
+      @all_time_prints   = Print.best.take            SEARCH_RESULTS_PER_PAGE
+      @last_month_prints = Print.best_last_month.take SEARCH_RESULTS_PER_PAGE
 
-    @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}", "#{@print.title}")
-    @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}/#{params[:copy_id]}", "#{@print.title} - #{@copy.inventory_number}")
+      erb :'most_liked.html'
+    end
 
-    return_loan @loan
+    get '/:id' do
+      @print = Print.find(id: params[:id])
+      @title = @print.title
+      @current_recommendation = Recommendation.find(user: logged_user,
+                                                    print: @print) if logged?
 
-    notify_copy_is_free @print
+      @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}", "#{@print.title}")
 
-    back = "/prints/#{@print.id}/#{@copy.inventory_number}"
-    redirect back
+      erb :'print.html'
+    end
+
+    post '/:id/add-recommendation' do
+      rating  = params[:rating].to_f
+      comment = params[:recommendation_comment]
+
+      unless rating.zero?
+        print = Print.find id: params[:id]
+
+        Recommendation.add(logged_user, print, rating, comment)
+      end
+
+      redirect NAMESPACE + "/#{params[:id]}"
+    end
+
+    get '/:id/add-wishlist' do
+      print = Print.find id: params[:id]
+
+      Wishlist.add logged_user, print
+
+      redirect NAMESPACE + "/#{print.id}"
+    end
+
+    get '/:id/remove-wishlist' do
+      print = Print.find id: params[:id]
+
+      Wishlist.remove logged_user, print
+
+      redirect NAMESPACE + "/#{print.id}"
+    end
+
+    get '/:id/:copy_id' do
+      @copy  = Copy.find inventory_number: params[:copy_id].to_i
+      @print = @copy.print
+      @title = "#{@print.title} - #{@copy.inventory_number}"
+
+      @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}", "#{@print.title}")
+      @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}/#{params[:copy_id]}", "#{@print.title} - #{@copy.inventory_number}")
+
+      erb :'copy.html'
+    end
+
+    get '/:id/:copy_id/return' do
+      copy  = Copy.find inventory_number: params[:copy_id].to_i
+      print = copy.print
+      loan  = copy.current_loan
+
+      @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}", "#{print.title}")
+      @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}/#{params[:copy_id]}", "#{print.title} - #{copy.inventory_number}")
+
+      loan.return
+
+      notify_copy_is_free print
+
+      redirect NAMESPACE + "/#{print.id}/#{copy.inventory_number}"
+    end
   end
 end
-
