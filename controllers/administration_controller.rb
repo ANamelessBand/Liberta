@@ -39,7 +39,7 @@ class AdministrationController <  ApplicationController
   end
 
   get '/search' do
-    names = params[:name].gsub(' ', '+')
+    names = params[:name].gsub(',', ' ').gsub(' ', '+')
     redirect "administration/search/1?name=#{names}&in=#{params[:in]}"
   end
 
@@ -49,19 +49,27 @@ class AdministrationController <  ApplicationController
     puts params[:in]
     @names  = params[:name].split ' '
     @in     = params[:in]
-    loan_dataset = Loan.dataset.filter(date_returned: nil)
+    dataset = Loan.dataset.filter(date_returned: nil)
+
+    user_dataset = dataset.join(User, id: :user_id) unless @names.empty?
+    @names.each do |name|
+      user_dataset = user_dataset.where(Sequel.ilike(:name, "%#{name}%"))
+    end
 
     unless @in.nil? || @in.empty?
-      dataset = loan_dataset.join(Copy.where(inventory_number: @in.to_i), id: :copy_id)
+      copy_dataset = dataset.join(Copy.where(inventory_number: @in.to_i), id: :copy_id)
     end
 
-    @names.each do |name|
-      dataset = loan_dataset.join(User.where(Sequel.ilike(:name, "%#{name}%")), id: :user_id)
-    end
+    if copy_dataset and user_dataset
+      columns = [:copy_id, :user_id, :date_loaned, :date_supposed_return]
+      result  = user_dataset.select(*columns).union(
+                copy_dataset.select(*columns))
+    else
+      result = user_dataset || copy_dataset || dataset
+    end 
 
     @search = true
-    results = dataset || loan_dataset
-    @loaned_copies = results.paginate(params[:page].to_i, SEARCH_RESULT_BY_PAGE)
+    @loaned_copies = result.paginate(params[:page].to_i, SEARCH_RESULT_BY_PAGE)
     @add, @remove, @loaned = "", "", "active"
     erb :'administration.html', locals: {template: :'loaned_copies.html'}
   end
