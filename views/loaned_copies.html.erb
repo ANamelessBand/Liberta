@@ -26,7 +26,7 @@
         <td><%= loan.date_loaned %></td>
         <td><%= loan.date_supposed_return %></td>
         <td>
-          <a href='<%= "/prints/#{loan.copy.print.id}/#{loan.copy.id}/return" %>'>
+          <a href='<%= "/prints/#{loan.copy.print.id}/#{loan.copy.inventory_number}/return" %>'>
             <button type="submit" id="return_button" name="return_button" class="btn btn-success">Върни</button>
           </a>
         </td>
