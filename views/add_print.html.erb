@@ -1,0 +1,45 @@
+<table class="table table-striped table-hover">
+  <form id="print-add-form" class="form-horizontal" method="post" action="/administration/add-print" role="form">
+    <fieldset>
+      <div class="col-md-3 from-top-2">
+      <div class="cover pull-down-2">
+        <img src="/img/profile.png" alt="..." />
+      </div>
+      <input type="file" class="from-top-2" name="added_cover" />
+      </div>
+      <div class="col-md-4 from-top-2">
+      <label>Име на изданието</label>
+      <input type="text" class="form-control" placeholder="Под игото" required="true" name="added_name">
+      <br />
+      <label>Име на автора</label>
+      <input type="text" class="form-control" placeholder="Иван Вазов" required="true" name="added_author_name">
+      <br />
+      <label>Име на издателя</label>
+      <input type="text" class="form-control" placeholder="Просвета" required="true" name="added_publisher_name">
+      <br />
+      <label>ISBN</label>
+      <input type="text" class="form-control" placeholder="1-84356-028-3" required="true"name="added_ISBN">
+      <br />
+      <label>Описание на изданието</label>
+      <textarea rows="4" cols="50" class="form-control" required="true" placeholder="Под игото е роман..." name="added_description"></textarea>
+      <br />
+      <label>Брой страници</label>
+      <input type="text" class="form-control" placeholder="512" required="true" name="added_pages">
+      <br />
+      <label>Език на изданието</label>
+      <input type="text" class="form-control" placeholder="Български" required="true" name="added_language">
+      <br />
+      <label>Формат</label>
+      <input type="text" class="form-control" placeholder="Формат..." required="true" name="added_format">
+      <br />
+      <label>Тагове</label>
+      <input type="text" class="form-control" placeholder="роман" required="true" name="added_tags">
+      <br />
+      <label>Цена на изданието</label>
+      <input type="text" class="form-control" placeholder="19.85" required="true" name="added_price">
+      <br />
+      <button type="submit" id="save_button" name="save_button" class="btn btn-success">Запази</button>
+      </div>
+    </fieldset>
+  </form>
+</table>
