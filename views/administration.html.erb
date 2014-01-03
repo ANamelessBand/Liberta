@@ -1,18 +1,18 @@
-<% if @search %>
-	<form class="form-inline" role="form" method="get" action="/administration/search">
-	  <div class="form-group">
-	    <label class="sr-only" for="name">Име: </label>
-	    <input type="text" class="form-control" id="name" name="name"
-	    placeholder="Никола Таушанов" value='<%= "#{@names.join(' ')}"  if @names %>'/>
-	  </div>
-	  <div class="form-group">
-	    <label class="sr-only" for="in">Инвентарен Номер: </label>
-	    <input type="text" class="form-control" id="in" name="in"
-	     placeholder="3000" value=<%= "\"#{@in}\"" %>/>
-	  </div>
-	  <button type="submit" class="btn btn-primary">Филтрирай</button>
-	</form>
-	</br>
+<% if @show_search_bar %>
+  <form class="form-inline" role="form" method="get" action="/administration/search">
+    <div class="form-group">
+      <label class="sr-only" for="name">Име: </label>
+      <input type="text" class="form-control" id="name" name="name"
+      placeholder="Никола Таушанов" value='<%= "#{@names.join(' ')}"  if @names %>'/>
+    </div>
+    <div class="form-group">
+      <label class="sr-only" for="inventory_number">Инвентарен Номер: </label>
+      <input type="text" class="form-control" id="inventory_number" name="inventory_number"
+       placeholder="3000" value=<%= "\"#{@inventory_number}\"" %>/>
+    </div>
+    <button type="submit" class="btn btn-primary">Филтрирай</button>
+  </form>
+  </br>
 <% end %>
 <div class="col-md-14">
   <ul class="nav nav-tabs">
@@ -22,7 +22,7 @@
   </ul>
 </div>
 <div class="tab-content">
-	<div class="tab-pane active col-md-14">
-		<%= erb template %>
-	</div>
+  <div class="tab-pane active col-md-14">
+    <%= erb template %>
+  </div>
 </div>

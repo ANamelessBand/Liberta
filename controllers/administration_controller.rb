@@ -9,7 +9,7 @@ module Liberta
 
     get '/' do
       @title = "Администриране"
-      @search = false
+      @show_search_bar = false
       @add, @remove, @loaned = "active", "", ""
       erb :'administration.html', locals: {template: :'add_print.html'}
     end
@@ -43,25 +43,26 @@ module Liberta
 
     get '/search' do
       names = params[:name].gsub(',', ' ').gsub(' ', '+') unless params[:name].nil?
-      redirect NAMESPACE + "/search/1?name=#{names}&in=#{params[:in]}"
+      redirect NAMESPACE + "/search/1?name=#{names}&inventory_number=#{params[:inventory_number]}"
     end
 
     get '/search/:page' do
-      @title  = 'Администриране'
-      @names  = params[:name].split ' '
-      @in     = params[:in]
-      dataset = Loan.dataset.filter(date_returned: nil)
+      @title                = 'Администриране'
+      @names                = params[:name].split
+      @inventory_number     = params[:inventory_number]
+      dataset               = Loan.dataset.filter(date_returned: nil)
 
       user_dataset = dataset.join(User, id: :user_id) unless @names.empty?
       @names.each do |name|
         user_dataset = user_dataset.where(Sequel.ilike(:name, "%#{name}%"))
       end
 
-      unless @in.nil? || @in.empty?
-        copy_dataset = dataset.join(Copy.where(inventory_number: @in.to_i), id: :copy_id)
+      unless @inventory_number.nil? || @inventory_number.empty?
+        copy_dataset = dataset.join(Copy.where(inventory_number: @inventory_number.to_i),
+                                               id: :copy_id)
       end
 
-      if copy_dataset and user_dataset
+      if copy_dataset && user_dataset
         columns = [:copy_id, :user_id, :date_loaned, :date_supposed_return]
         result  = user_dataset.select(*columns).union(
                   copy_dataset.select(*columns))
@@ -69,7 +70,7 @@ module Liberta
         result = user_dataset || copy_dataset || dataset
       end 
 
-      @search = true
+      @show_search_bar = true
       @loaned_copies = result.paginate(params[:page].to_i, SEARCH_RESULTS_PER_PAGE)
       @add, @remove, @loaned = "", "", "active"
       erb :'administration.html', locals: {template: :'loaned_copies.html'}
