@@ -57,7 +57,7 @@ module Liberta
         user_dataset = user_dataset.where(Sequel.ilike(:name, "%#{name}%"))
       end
 
-      unless @inventory_number.nil? || @inventory_number.empty?
+      unless @inventory_number.empty?
         copy_dataset = dataset.join(Copy.where(inventory_number: @inventory_number.to_i),
                                                id: :copy_id)
       end
