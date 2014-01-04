@@ -13,7 +13,7 @@ module Liberta
 
     before '/:id*' do
       @publisher = Publisher.find id: params[:id]
-      @breadcrumbs << NavigationLink.new(0, "#{NAMESPACE}/#{params[:id]}/all", @publisher.name)
+      @breadcrumbs << NavigationLink.new(0, "#{NAMESPACE}/#{params[:id]}", @publisher.name)
 
       @id = @publisher.id
     end
