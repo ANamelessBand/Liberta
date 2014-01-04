@@ -2,10 +2,10 @@ module Liberta
   class PrintsController < ApplicationController
     helpers PrintsHelpers
 
-    NAMESPACE = '/prints'
+    NAMESPACE = '/prints'.freeze
 
     before do
-      @breadcrumbs << NavigationLink.new(0, '/prints', 'Книги')
+      @breadcrumbs << NavigationLink.new(0, NAMESPACE, 'Публикации')
 
       if request.path_info == '/most-liked'
         set_active_navigation_link NavigationLink.most_liked_id
@@ -57,9 +57,9 @@ module Liberta
     end
 
     get '/most-liked' do
-      @breadcrumbs << NavigationLink.new(0, '/prints/most-liked', 'Най-харесвани')
+      @breadcrumbs << NavigationLink.new(0, "#{NAMESPACE}/most-liked", 'Най-харесвани')
 
-      @title = 'Най-харесвани книги'
+      @title = 'Най-харесвани публикации'
 
       @all_time_prints   = Print.best.take            SEARCH_RESULTS_PER_PAGE
       @last_month_prints = Print.best_last_month.take SEARCH_RESULTS_PER_PAGE
@@ -73,7 +73,7 @@ module Liberta
       @current_recommendation = Recommendation.find(user: logged_user,
                                                     print: @print) if logged?
 
-      @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}", "#{@print.title}")
+      @breadcrumbs << NavigationLink.new(0, "#{NAMESPACE}/#{params[:id]}", "#{@print.title}")
 
       erb :'print.html'
     end
@@ -88,7 +88,7 @@ module Liberta
         Recommendation.add(logged_user, print, rating, comment)
       end
 
-      redirect NAMESPACE + "/#{params[:id]}"
+      redirect "#{NAMESPACE}/#{params[:id]}"
     end
 
     get '/:id/add-wishlist' do
@@ -96,7 +96,7 @@ module Liberta
 
       Wishlist.add logged_user, print
 
-      redirect NAMESPACE + "/#{print.id}"
+      redirect "#{NAMESPACE}/#{print.id}"
     end
 
     get '/:id/remove-wishlist' do
@@ -104,7 +104,7 @@ module Liberta
 
       Wishlist.remove logged_user, print
 
-      redirect NAMESPACE + "/#{print.id}"
+      redirect "#{NAMESPACE}/#{print.id}"
     end
 
     get '/:id/:copy_id' do
@@ -112,8 +112,8 @@ module Liberta
       @print = @copy.print
       @title = "#{@print.title} - #{@copy.inventory_number}"
 
-      @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}", "#{@print.title}")
-      @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}/#{params[:copy_id]}", "#{@print.title} - #{@copy.inventory_number}")
+      @breadcrumbs << NavigationLink.new(0, "#{NAMESPACE}/#{params[:id]}", "#{@print.title}")
+      @breadcrumbs << NavigationLink.new(0, "#{NAMESPACE}/#{params[:id]}/#{params[:copy_id]}", "#{@print.title} - #{@copy.inventory_number}")
 
       erb :'copy.html'
     end
@@ -123,14 +123,14 @@ module Liberta
       print = copy.print
       loan  = copy.current_loan
 
-      @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}", "#{print.title}")
-      @breadcrumbs << NavigationLink.new(0, "/prints/#{params[:id]}/#{params[:copy_id]}", "#{print.title} - #{copy.inventory_number}")
+      @breadcrumbs << NavigationLink.new(0, "#{NAMESPACE}/#{params[:id]}", "#{print.title}")
+      @breadcrumbs << NavigationLink.new(0, "#{NAMESPACE}/#{params[:id]}/#{params[:copy_id]}", "#{print.title} - #{copy.inventory_number}")
 
       loan.return
 
       notify_copy_is_free print
 
-      redirect NAMESPACE + "/#{print.id}/#{copy.inventory_number}"
+      redirect "#{NAMESPACE}/#{print.id}/#{copy.inventory_number}"
     end
   end
 end

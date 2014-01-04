@@ -59,6 +59,10 @@ end
 require './constants.rb'
 
 require_file = -> (file) { require file }
+
+# FIXME: This shouldn't be required like that, but is a quick fix, so we can
+# run the server.
+require_file.call('./models/sequel/print_utils.rb')
 Dir.glob('./{models,helpers}/**/*.rb').each &require_file
 
 require './controllers/application_controller'
@@ -70,10 +74,12 @@ Dir.glob('./controllers/**/*.rb').each &require_file
 #==============================================================================
 
 controllers = [
-               Liberta::WebsiteController,
-               Liberta::PrintsController,
-               Liberta::UsersController,
                Liberta::AdministrationController,
+               Liberta::AuthorsController,
+               Liberta::PrintsController,
+               Liberta::PublishersController,
+               Liberta::UsersController,
+               Liberta::WebsiteController,
               ]
 
 controllers.each do |controller|

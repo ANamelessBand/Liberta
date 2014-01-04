@@ -1,10 +1,10 @@
 module Liberta
   class AdministrationController <  ApplicationController
-    NAMESPACE = '/administration'
+    NAMESPACE = '/administration'.freeze
 
     before do
       redirect '/' unless administrator?
-      @breadcrumbs << NavigationLink.new(0, '/administration', 'Администриране')
+      @breadcrumbs << NavigationLink.new(0, NAMESPACE, 'Администриране')
     end
 
     get '/' do
@@ -68,7 +68,7 @@ module Liberta
                   copy_dataset.select(*columns))
       else
         result = user_dataset || copy_dataset || dataset
-      end 
+      end
 
       @show_search_bar = true
       @loaned_copies = result.paginate(params[:page].to_i, SEARCH_RESULTS_PER_PAGE)

@@ -1,6 +1,6 @@
 module Liberta
   class WebsiteController < ApplicationController
-    NAMESPACE = '/'
+    NAMESPACE = '/'.freeze
 
     helpers WebsiteHelpers
 
@@ -51,56 +51,6 @@ module Liberta
       Notification.mark_read params[:id]
 
       redirect NAMESPACE
-    end
-
-    get '/authors/:id/all' do
-      @breadcrumbs << NavigationLink.new(0, "/authors/#{params[:id]}", 'Автор')
-      @breadcrumbs << NavigationLink.new(0, "/authors/#{params[:id]}/all", 'Всички публикации')
-
-      author      = Author.finf id: params[:id]
-      @title      = "Всички книги от #{author.name}"
-      @top_prints = author.top_prints
-      @id         = author.id
-      @show_all   = true
-
-      erb :'prints_by.html'
-    end
-
-    get '/authors/:id' do
-      @breadcrumbs << NavigationLink.new(0, "/authors/#{params[:id]}", 'Автор')
-
-      author      = Author.find id: params[:id]
-      @title      = "Книги от #{author.name}"
-      @top_prints = author.top_prints.take SEARCH_RESULTS_PER_PAGE
-      @id         = author.id
-      @show_all   = false
-
-      erb :'prints_by.html'
-    end
-
-    get '/publishers/:id/all' do
-      @breadcrumbs << NavigationLink.new(0, "/publishers/#{params[:id]}", 'Издател')
-      @breadcrumbs << NavigationLink.new(0, "/publishers/#{params[:id]}/all", 'Всички публикации')
-
-      publisher   = Publisher.find id: params[:id]
-      @title      = "Всички книги от #{publisher.name}"
-      @top_prints = publisher.top_prints
-      @id         = publisher.id
-      @show_all   = true
-
-      erb :'prints_by.html'
-    end
-
-    get '/publishers/:id' do
-      @breadcrumbs << NavigationLink.new(0, "/publishers/#{params[:id]}/all", 'Издател')
-
-      publisher   = Publisher.find id: params[:id]
-      @title      = "Книги от #{publisher.name}"
-      @top_prints = publisher.top_prints.take SEARCH_RESULTS_PER_PAGE
-      @id         = publisher.id
-      @show_all   = false
-
-      erb :'prints_by.html'
     end
 
     post '/add-news' do
