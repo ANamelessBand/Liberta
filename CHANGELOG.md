@@ -5,7 +5,7 @@
 ### New features
 
 * [#13](https://github.com/ANamelessBand/Liberta/issues/13): Lazy load search results. Refactored search
-* [#14](https://github.com/ANamelessBand/Liberta/issues/14): See all print edition copies that need to be returned in the Administrative Interface
+* [#14](https://github.com/ANamelessBand/Liberta/issues/14): See all print edition copies that need to be returned from the Administrative Interface
 * [#21](https://github.com/ANamelessBand/Liberta/issues/21): Now integrated with PostgreSQL
 
 ### Development features
@@ -20,7 +20,7 @@
 * [#29](https://github.com/ANamelessBand/Liberta/issues/29): Fixed crashes and exceptions during search
 
 
-## 0.1-alpha (Initial Prerelease) - Released after HackFMI (28.10.2013)
+## [0.1-alpha prerelease](https://github.com/ANamelessBand/Liberta/releases/tag/0.1-alpha) - Released after HackFMI (28.10.2013)
 
 ### New features
 
@@ -30,5 +30,5 @@ Implemented initial functionality, including but not limited to:
 * User wishlists and notifications about Print Editions in wishlists
 * Statistics (top books by month and all-time)
 * News
-* Beginning of Administrative Interface
+* Initial implementation of the Administrative Interface
 
