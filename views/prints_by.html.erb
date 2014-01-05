@@ -1,4 +1,4 @@
 <%= show_print_table @top_prints %>
-<% if not @show_all %>
+<% unless show_all %>
 <a href="<%= @id %>/all" class="btn btn-info pull-right">Виж всички</a>
 <% end %>
