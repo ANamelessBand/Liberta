@@ -13,6 +13,9 @@ module Liberta
       user.satisfy_wish copy.print
 
       notify_out_of_copies copy.print if copy.print.out_of_copies?
+
+      copy.save!
+      user.save!
     end
 
     def own_profile?(user)
