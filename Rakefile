@@ -9,7 +9,7 @@ namespace :db do
 
   migrator    = Sequel::Migrator
   migrations  = settings['migrations_path']
-  environment = settings['environment']
+  environment = ENV['RAKE_ENV'] || 'development'
   env_settngs = settings[environment]
 
   # Setup Database Connection

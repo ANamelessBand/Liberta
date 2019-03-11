@@ -6,10 +6,6 @@ require 'sinatra/config_file'
 module Liberta
   Bundler.require :default
 
-#==============================================================================
-# Setup environments
-#==============================================================================
-
   class Base < Sinatra::Base
     register Sinatra::ConfigFile
     config_file 'config.yml'
@@ -20,6 +16,10 @@ module Liberta
     set :public_folder, File.expand_path(settings.public_path, __FILE__)
 
     enable :sessions
+
+    #==============================================================================
+    # Setup environments
+    #==============================================================================
 
     # call Bundle.require for each environment
     settings.environments.each do |environment|
