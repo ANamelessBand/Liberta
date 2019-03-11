@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'date'
 require 'bundler/setup'
+require 'sinatra/config_file'
 
 module Liberta
   Bundler.require :default
@@ -30,16 +31,16 @@ module Liberta
     configure :development do
       register Sinatra::Reloader
 
-      DB = Sequel.sqlite settings.development[:sqlite_path]
+      DB = Sequel.sqlite settings.sqlite_path
     end
 
     configure :production do
       disable :show_exceptions
 
-      db_host     = settings.production['db_host']
-      db_name     = settings.production['db_name']
-      db_user     = settings.production['db_user']
-      db_password = settings.production['db_password']
+      db_host     = settings.db_host
+      db_name     = settings.db_name
+      db_user     = settings.db_user
+      db_password = settings.db_password
 
       DB = Sequel.postgres(db_name,
                            host: db_host,

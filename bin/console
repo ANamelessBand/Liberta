@@ -6,6 +6,7 @@ require 'pry'
 
 DB = Sequel.sqlite('./database/liberta.db')
 
+require './models/sequel/print_utils.rb'
 Dir['./{models}/**/*.rb'].each { |file| require file }
 
 Pry.start
