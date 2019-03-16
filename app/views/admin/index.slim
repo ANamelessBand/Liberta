@@ -1,0 +1,28 @@
+
+- if @overdue.any?
+  h3.mt-5 Просрочени копия
+  table.table.table-striped
+    thead
+      th Потребител
+      th Публикация
+      th Дата на връщане
+    tbody
+      - @overdue.each do |copy|
+        tr
+          td= link_to copy.current_loan.user.email, copy.current_loan.user
+          td= link_to copy.print.title, copy.print
+          td.text-danger= copy.current_loan.time_supposed_return.strftime("%B %e, %Y")
+
+- if @wishlists.any?
+  h3.mt-5 Желани публкации
+  table.table.table-striped
+    thead
+      th Потребител
+      th Публикация
+      th Свободни копия
+    tbody
+      - @wishlists.each do |wishlist|
+        tr
+          td= link_to wishlist.user.email, wishlist.user
+          td= link_to wishlist.print.title, wishlist.print
+          td= wishlist.print.free_copies.count

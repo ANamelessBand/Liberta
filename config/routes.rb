@@ -42,5 +42,7 @@ Rails.application.routes.draw do
     get :autocomplete_tag_name, on: :collection
   end
 
+  get :admin, to: 'admin#index'
+
   root to: "home#index"
 end

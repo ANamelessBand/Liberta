@@ -30,10 +30,12 @@ html(lang="en")
           button.close(type="button" data-dismiss="alert" aria-label="Close")
             span(aria-hidden="true") &times;
 
-      .d-flex.align-items-center.pb-2.mt-4.mb-2.border-bottom
-        h1
-          = yield :title
-        .ml-auto.pl-5(style='flex-shrink: 0')= yield :actions
+      - if content_for? :title
+        .d-flex.align-items-center.pb-2.mt-4.mb-2.border-bottom
+          h1
+            = yield :title
+          - if content_for? :actions
+            .ml-auto.pl-5(style='flex-shrink: 0')= yield :actions
 
       = yield
 

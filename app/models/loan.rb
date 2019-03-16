@@ -20,6 +20,10 @@ class Loan < ApplicationRecord
     not returned?
   end
 
+  def overdue?
+    time_supposed_return < Time.now
+  end
+
   def return!
     self.time_returned = Time.now
     save!

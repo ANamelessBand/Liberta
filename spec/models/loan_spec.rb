@@ -36,6 +36,17 @@ RSpec.describe Loan, type: :model do
     end
   end
 
+  describe "#overdue?" do
+    it "is false by default" do
+      expect(subject.overdue?).to be false
+    end
+
+    it "is true when the time of supposed return is in the past" do
+      subject.time_supposed_return = 3.days.ago
+      expect(subject.unreturned?).to be true
+    end
+  end
+
   describe "#return!" do
     it "marks the loan as returned" do
       expect(subject.returned?).to be false

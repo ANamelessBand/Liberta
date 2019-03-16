@@ -1,27 +1,30 @@
-table.table.table-striped
-  thead
-    tr
-      th Публикация
-      th Автори
-      th Взета на
-      - if @user == current_user || admin?
-        th Срок за връщане
-      th Върната на
-      - if admin?
-        th Админ
-  tbody
-    - @user.loans.each do |loan|
+- if @user.loans.empty?
+  .alert.alert-info Няма история за взети книги
+- else
+  table.table.table-striped
+    thead
       tr
-        td= print_link_with_cover(loan.print)
-        td= authors_html(loan.print)
-        td= loan.time_loaned.to_s(:long)
+        th Публикация
+        th Автори
+        th Взета
         - if @user == current_user || admin?
-          td= loan.time_supposed_return.to_s(:long)
-        td
-          - if loan.returned?
-            = loan.time_returned.to_s(:long)
-          - else
-            | не е върната
+          th Срок за връщане
+        th Върната
         - if admin?
-          th= link_to print_copy_path(loan.print, loan.copy), class: 'btn btn-xs btn-outline-primary' do
-            - fa_icon 'share', text: 'към копието'
+          th Админ
+    tbody
+      - @user.loans.each do |loan|
+        tr
+          td= print_link_with_cover(loan.print)
+          td= authors_html(loan.print)
+          td преди #{time_ago_in_words(loan.time_loaned)}
+          - if @user == current_user || admin?
+            td(class=(loan.overdue? ? 'text-danger' : ''))=loan.time_supposed_return.strftime("%B %e, %Y")
+          td
+            - if loan.returned?
+              | преди #{time_ago_in_words(loan.time_returned)}
+            - else
+              | не е върната
+          - if admin?
+            th= link_to print_copy_path(loan.print, loan.copy), class: 'btn btn-xs btn-outline-primary' do
+              - fa_icon 'share', text: 'към копието'

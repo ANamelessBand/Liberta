@@ -27,7 +27,7 @@ class LoansController < ApplicationController
 
   def extend
     @loan.extend!
-    redirectback fallback_location: print_copy_path(@loan.print, @loan.copy),
+    redirect_back fallback_location: print_copy_path(@loan.print, @loan.copy),
         success: "Срокът за връщане беше удължен успешно!"
   end
 

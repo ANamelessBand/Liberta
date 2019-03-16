@@ -27,10 +27,10 @@
           - @copy.loans.each do |loan|
             tr
               td= link_to loan.user.name, loan.user
-              td= loan.time_loaned.to_s(:long)
-              td= loan.time_supposed_return.to_s(:long)
+              td= loan.time_loaned.strftime("%B %e, %Y")
+              td(class=(loan.overdue? ? 'text-danger' : ''))= loan.time_supposed_return.strftime("%B %e, %Y")
               - if loan.time_returned
-                td= loan.time_returned.to_s(:long)
+                td= loan.time_returned.strftime("%B %e, %Y")
                 td
               - else
                 td Не е върната

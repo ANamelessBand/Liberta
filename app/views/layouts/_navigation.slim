@@ -2,6 +2,10 @@ nav.navbar.navbar-expand-md.navbar-dark.bg-dark.fixed-top(role="navigation")
   = link_to 'Libertà', root_path, class: 'navbar-brand ml-4'
   .collapse.navbar-collapse
     ul.navbar-nav.mr-auto
+      - if admin?
+        li.nav-item(class=('active' if current_page? admin_path))
+          = link_to admin_path, class: 'nav-link' do
+            - fa_icon 'cog', text: 'Администрация'
       li.nav-item(class=('active' if current_page? root_path))
         = link_to root_path, class: 'nav-link' do
           - fa_icon 'newspaper-o', text: 'Новини'
@@ -50,6 +54,7 @@ nav.navbar.navbar-expand-md.navbar-dark.bg-dark.fixed-top(role="navigation")
             .dropdown-menu.dropdown-menu-right
               = link_to "Моите книги", current_user, class: 'dropdown-item'
               = link_to 'Профил', edit_user_registration_path, class: 'dropdown-item'
+              .dropdown-divider
               = link_to 'Изход', destroy_user_session_path, method: :delete, class: 'dropdown-item'
         - else
           li.nav-item= link_to new_user_registration_path, class: 'nav-link' do
