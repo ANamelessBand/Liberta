@@ -9,28 +9,6 @@
 
 jQuery.railsAutocomplete.options.showNoMatches = false;
 
-// function changeWish(operation, element, addButton, removeButton) {
-//   var $this = $(element);
-//   var $id = $this.data('for');
-//   var url = '/prints/' + $id;
-
-//   if (operation == 'add') {
-//     url += '/add-wishlist';
-//     newButton = addButton;
-//   } else if (operation == 'remove') {
-//     url += '/remove-wishlist';
-//     newButton = removeButton;
-//   }
-
-//   $.ajax({
-//     url: url,
-//     success: function() {
-//       $this.after(newButton);
-//       $this.remove();
-//     }
-//   });
-// }
-
 jQuery.fn.textNodes = function() {
   return this.contents().filter(function() {
     return this.nodeType === Node.TEXT_NODE && this.nodeValue.trim() !== '';
@@ -57,11 +35,11 @@ $(function() {
 
   // Wishlist Buttons
   $(document).on('ajax:success', '.add-wish', function() {
-    changeWish($(this), 'премахни от желани', 'remove-wishlist');
+    changeWish($(this), 'премахни от желани', 'remove_wishlist');
   });
 
   $(document).on('ajax:success', '.remove-wish', function() {
-    changeWish($(this), 'добави в желани', 'add-wishlist');
+    changeWish($(this), 'добави в желани', 'add_wishlist');
   });
 
   // Stars
