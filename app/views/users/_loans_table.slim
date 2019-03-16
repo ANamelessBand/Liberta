@@ -4,15 +4,24 @@ table.table.table-striped
       th Публикация
       th Автори
       th Взета на
+      - if @user == current_user || admin?
+        th Срок за връщане
       th Върната на
+      - if admin?
+        th Админ
   tbody
     - @user.loans.each do |loan|
       tr
         td= print_link_with_cover(loan.print)
         td= authors_html(loan.print)
         td= loan.time_loaned.to_s(:long)
+        - if @user == current_user || admin?
+          td= loan.time_supposed_return.to_s(:long)
         td
           - if loan.returned?
             = loan.time_returned.to_s(:long)
           - else
             | не е върната
+        - if admin?
+          th= link_to print_copy_path(loan.print, loan.copy), class: 'btn btn-xs btn-outline-primary' do
+            - fa_icon 'share', text: 'към копието'

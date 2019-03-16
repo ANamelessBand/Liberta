@@ -8,6 +8,8 @@
         th Автори
         th Рейтинг
         th Коментар
+        - if @user == current_user || admin?
+          th Действия
     tbody
       - recommendations.each do |recommendation|
         tr
@@ -20,14 +22,21 @@
               a(data-toggle="modal" href="#modal_#{recommendation.id}" class="ml-1") виж още
             - else
               = recommendation.comment
-          .modal.fade(id="modal_#{recommendation.id}")
-            .modal-dialog
-              .modal-content
-                .modal-header
-                  h5.modal-title Коментар
-                  button.close(aria-label="Close" data-dismiss="modal" type="button")
-                    span(aria-hidden="true") &times;
-                .modal-body
-                  p= recommendation.comment
-                .modal-footer
-                  button.btn.btn-outline-primary(data-dismiss="modal" type="button") Затвори
+            .modal.fade(id="modal_#{recommendation.id}")
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    h5.modal-title Коментар
+                    button.close(aria-label="Close" data-dismiss="modal" type="button")
+                      span(aria-hidden="true") &times;
+                  .modal-body
+                    p= recommendation.comment
+                  .modal-footer
+                    button.btn.btn-outline-primary(data-dismiss="modal" type="button") Затвори
+          - if @user == current_user || admin?
+            td= link_to print_recommendation_path(recommendation.print, recommendation),
+                method: :delete,
+                data: { confirm: 'Are you sure?' },
+                class: 'btn btn-xs btn-outline-danger' do
+              - fa_icon 'times', text: 'изтрий'
+
