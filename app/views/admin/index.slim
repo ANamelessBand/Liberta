@@ -1,5 +1,3 @@
-
-- if @overdue.any?
   h3.mt-5 Просрочени копия
   table.table.table-striped
     thead
@@ -8,6 +6,9 @@
       th Дата на връщане
       th Действия
     tbody
+      - if @overdue.empty?
+        tr
+          td(colspan="4") няма просрочени копия
       - @overdue.each do |copy|
         tr
           td= link_to copy.current_loan.user.email, copy.current_loan.user
@@ -23,7 +24,6 @@
                 class: 'btn btn-xs btn-outline-success ml-2' do
               - fa_icon 'refresh', text: 'върни'
 
-- if @wishlists.any?
   h3.mt-5 Желани публкации
   table.table.table-striped
     thead
@@ -31,6 +31,9 @@
       th Публикация
       th Свободни копия
     tbody
+      - if @wishlists.empty?
+        tr
+          td(colspan="3") няма желани публикации
       - @wishlists.each do |wishlist|
         tr
           td= link_to wishlist.user.email, wishlist.user
