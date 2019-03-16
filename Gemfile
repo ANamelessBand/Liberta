@@ -12,7 +12,7 @@ gem "puma", "~> 3.11"
 gem "bootstrap"
 gem "jquery-rails"
 gem "sass-rails", "~> 5.0"
-gem "uglifier", "~> 1.3.0"
+gem "uglifier", "~> 2.7.0"
 gem "font-awesome-rails"
 
 gem "jquery-ui-rails"
@@ -27,8 +27,6 @@ gem "omniauth-google-oauth2"
 gem "kaminari"
 gem "breadcrumbs_on_rails"
 
-gem "travis"
-
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", "~> 1.1.0", require: false
 
@@ -37,6 +35,7 @@ group :development, :test do
   gem "rspec-rails"
   gem "factory_bot_rails"
   gem "faker"
+  gem "travis"
 end
 
 group :development do

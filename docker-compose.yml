@@ -1,0 +1,9 @@
+version: '3'
+services:
+  web:
+    build: .
+    command: bundle exec puma -p 3000
+    volumes:
+      - ./data:/var/www/liberta/db/production
+    ports:
+      - '3000:3000'
