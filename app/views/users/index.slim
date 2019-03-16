@@ -19,10 +19,11 @@
           td= user.name
           - if admin?
             td
-              - if user.admin
-                = link_to revoke_admin_user_path(user), method: :post, class: 'btn btn-xs btn-outline-danger' do
-                  - fa_icon 'minus', text: 'премахни админ права'
-              - else
-                = link_to make_admin_user_path(user), method: :post, class: 'btn btn-xs btn-outline-success' do
-                  - fa_icon 'plus', text: 'дай админ права'
+              - if user != current_user
+                - if user.admin
+                  = link_to revoke_admin_user_path(user), method: :post, class: 'btn btn-xs btn-outline-danger' do
+                    - fa_icon 'minus', text: 'премахни админ права'
+                - else
+                  = link_to make_admin_user_path(user), method: :post, class: 'btn btn-xs btn-outline-success' do
+                    - fa_icon 'plus', text: 'дай админ права'
   = paginate @users
