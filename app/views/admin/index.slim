@@ -13,8 +13,15 @@
           td= link_to copy.current_loan.user.email, copy.current_loan.user
           td= link_to copy.print.title, copy.print
           td.text-danger= copy.current_loan.time_supposed_return.strftime("%B %e, %Y")
-          td= link_to print_copy_path(copy.print, copy), class: 'btn btn-xs btn-outline-primary' do
-            - fa_icon 'share', text: 'към копието'
+          td
+            = link_to print_copy_path(copy.print, copy), class: 'btn btn-xs btn-outline-primary' do
+              - fa_icon 'share', text: 'към копието'
+            = link_to extend_print_copy_loan_path(copy.print, copy, copy.current_loan),
+                class: 'btn btn-xs btn-outline-primary ml-2' do
+              - fa_icon 'mail-forward', text: 'още 7 дни'
+            = link_to return_print_copy_loan_path(copy.print, copy, copy.current_loan),
+                class: 'btn btn-xs btn-outline-success ml-2' do
+              - fa_icon 'refresh', text: 'върни'
 
 - if @wishlists.any?
   h3.mt-5 Желани публкации
