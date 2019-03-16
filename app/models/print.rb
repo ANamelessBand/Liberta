@@ -29,7 +29,7 @@ class Print < ApplicationRecord
   def rating
     ratings = recommendations.map &:rating
 
-    return 0 if ratings.empty?
+    return 0.0 if ratings.empty?
 
     ratings.sum / ratings.count
   end

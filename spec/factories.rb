@@ -8,11 +8,19 @@ FactoryBot.define do
   factory :copy do
     print
     inventory_number { Faker::Number.number(4) }
+
+    trait :loaned do
+      loans { [create(:loan)] }
+    end
   end
 
   factory :loan do
     user
     copy
+
+    trait :returned do
+      time_returned { Time.now }
+    end
   end
 
   factory :news do
@@ -22,6 +30,15 @@ FactoryBot.define do
 
   factory :notification do
     user
+    message { Faker::Lorem.sentence }
+
+    trait :read do
+      read { true }
+    end
+
+    trait :unread do
+      read { false }
+    end
   end
 
   factory :print do
@@ -48,8 +65,14 @@ FactoryBot.define do
     email { Faker::Internet.email }
     password { Faker::Internet.password(8) }
     password_confirmation { password }
+
+    trait :admin do
+      admin { true }
+    end
   end
 
   factory :wishlist do
+    user
+    print
   end
 end

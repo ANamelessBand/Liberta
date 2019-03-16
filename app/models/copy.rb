@@ -9,7 +9,7 @@ class Copy < ApplicationRecord
   validates :inventory_number, presence: true, numericality: true
 
   def taken?
-    loans.any? { |loan| loan.time_returned.nil? }
+    loans.any? &:unreturned?
   end
 
   def free?
@@ -18,7 +18,6 @@ class Copy < ApplicationRecord
 
   def current_loan
     return nil unless taken?
-
-    loans.find { |loan| loan.time_returned.nil? }
+    loans.find &:unreturned?
   end
 end

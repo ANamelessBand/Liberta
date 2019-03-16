@@ -6,7 +6,7 @@ class CreateNotifications < ActiveRecord::Migration[5.2]
       t.string :message, null: false
       t.boolean :read, default: false
 
-      t.references :user
+      t.references :user, null: false
 
       t.timestamps
     end

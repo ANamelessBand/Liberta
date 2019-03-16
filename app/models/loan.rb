@@ -6,8 +6,18 @@ class Loan < ApplicationRecord
 
   delegate :print, to: :copy, allow_nil: true
 
+  after_initialize :init
+
+  def init
+    self.time_supposed_return ||= Time.now + 7.days
+  end
+
   def returned?
     time_returned.present?
+  end
+
+  def unreturned?
+    not returned?
   end
 
   def return!
