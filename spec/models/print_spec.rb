@@ -77,6 +77,17 @@ RSpec.describe Print, type: :model do
     end
   end
 
+  describe "#last_recommendations" do
+    it "returns the last 5 recommendations of this print" do
+      recommendations = (0...10).to_a.map { create(:recommendation, print: subject) }
+      expect(subject.last_recommendations).to match_array recommendations.last(5)
+    end
+
+    it "returns an empty array if there are no recommendations" do
+      expect(subject.last_recommendations).to be_empty
+    end
+  end
+
   describe "#free_copies" do
     it "returns all free copies" do
       copy1 = create(:copy, print: subject)
@@ -103,14 +114,31 @@ RSpec.describe Print, type: :model do
     end
   end
 
-  describe "#last_recommendations" do
-    it "returns the last 5 recommendations of this print" do
-      recommendations = (0...10).to_a.map { create(:recommendation, print: subject) }
-      expect(subject.last_recommendations).to match_array recommendations.last(5)
-    end
+  describe "#wished_by" do
+    it "returns all the users who have added this print to their wishlist" do
+      user1 = create(:user)
+      user2 = create(:user)
+      user3 = create(:user)
+      create(:wishlist, print: subject, user: user1)
+      create(:wishlist, print: subject, user: user2)
 
-    it "returns an empty array if there are no recommendations" do
-      expect(subject.last_recommendations).to be_empty
+      expect(subject.wished_by).to match_array [user1, user2]
+    end
+  end
+
+  describe "#notify_copy_returned!" do
+    it "notifies all users that have this print in their wishlist that a copy has been returned" do
+      user1 = create(:user)
+      user2 = create(:user)
+      user3 = create(:user)
+      create(:wishlist, print: subject, user: user1)
+      create(:wishlist, print: subject, user: user2)
+
+      subject.notify_copy_returned!
+
+      expect(user1.notifications.unread.length).to be 1
+      expect(user2.notifications.unread.length).to be 1
+      expect(user3.unread_notifications?).to be false
     end
   end
 end

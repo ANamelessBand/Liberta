@@ -21,10 +21,6 @@ class User < ApplicationRecord
     end
   end
 
-  def unread_notifications?
-    notifications.unread.any?
-  end
-
   def wish?(print)
     wish_for(print).present?
   end
@@ -39,5 +35,17 @@ class User < ApplicationRecord
 
   def has_recommended?(print)
     not recommendations.find { |r| r.print == print }.nil?
+  end
+
+  def unread_notifications?
+    notifications.unread.any?
+  end
+
+  def notify!(message)
+    Notification.create(user: self, message: message)
+  end
+
+  def mark_notifications_as_read!
+    notifications.each(&:read!)
   end
 end

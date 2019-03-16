@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class PrintsController < ApplicationController
-  before_action :set_print,     except: [:index, :best, :new, :create]
-  before_action :require_admin, except: [:index, :best, :show]
+  before_action :set_print,         only: [:show, :edit, :update, :destroy, :add_wishlist, :remove_wishlist]
+  before_action :require_admin,     only: [:new, :create, :edit, :update, :destroy]
+  before_action :require_signed_in, only: [:add_wishlist, :remove_wishlist]
 
   autocomplete :print, :title
   add_breadcrumb "Библиотека", :prints_path
@@ -24,7 +25,6 @@ class PrintsController < ApplicationController
   end
 
   def add_wishlist
-    @print = Print.find params[:id]
     Wishlist.create!(user: current_user, print: @print)
   end
 

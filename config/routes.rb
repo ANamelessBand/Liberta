@@ -8,21 +8,22 @@ Rails.application.routes.draw do
 
   resources :users, only: [:index, :show] do
     get :autocomplete_user_email, on: :collection
+
+    post :mark_notifications_as_read, on: :member
   end
 
   resources :prints do
     get :autocomplete_print_title, on: :collection
 
+    post :add_wishlist, on: :member
+    post :remove_wishlist, on: :member
+
     resources :recommendations, only: [:create, :destroy]
-
-
-    post "add-wishlist", on: :member
-    post "remove-wishlist", on: :member
 
     resources :copies, only: [:show, :create, :destroy] do
       resources :loans, only: [:create] do
-        get "return", on: :member
-        get "extend", on: :member
+        get :return, on: :member
+        get :extend, on: :member
       end
     end
   end

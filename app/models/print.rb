@@ -34,6 +34,10 @@ class Print < ApplicationRecord
     ratings.sum / ratings.count
   end
 
+  def last_recommendations
+    recommendations.take(5)
+  end
+
   def free_copies
     copies.filter(&:free?)
   end
@@ -42,7 +46,11 @@ class Print < ApplicationRecord
     not free_copies.empty?
   end
 
-  def last_recommendations
-    recommendations.take(5)
+  def wished_by
+    wishlists.map(&:user)
+  end
+
+  def notify_copy_returned!
+    wished_by.each { |user| user.notify! "Върнато е копие на \"#{title}\". Свободни копия: #{free_copies.count}" }
   end
 end

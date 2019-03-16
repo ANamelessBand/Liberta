@@ -10,22 +10,6 @@ RSpec.describe User, type: :model do
 
   subject { create(:user) }
 
-  describe "#unread_notifications?" do
-    it "is true when the user has unread notifications" do
-      subject.notifications << create(:notification, :read, user: subject)
-      subject.notifications << create(:notification, :unread, user: subject)
-
-      expect(subject.unread_notifications?).to be true
-    end
-
-    it "is false when the user has no unread notifications" do
-      subject.notifications << create(:notification, :read, user: subject)
-      subject.notifications << create(:notification, :read, user: subject)
-
-      expect(subject.unread_notifications?).to be false
-    end
-  end
-
   context "has a print added to their wishlist" do
     before :each do
       @print = create(:print)
@@ -94,6 +78,43 @@ RSpec.describe User, type: :model do
     it "is false when the user hasn't recommended a given print" do
       print = create(:print)
       expect(subject.has_recommended? print).to be false
+    end
+  end
+
+  describe "#unread_notifications?" do
+    it "is true when the user has unread notifications" do
+      subject.notifications << create(:notification, :read, user: subject)
+      subject.notifications << create(:notification, :unread, user: subject)
+
+      expect(subject.unread_notifications?).to be true
+    end
+
+    it "is false when the user has no unread notifications" do
+      subject.notifications << create(:notification, :read, user: subject)
+      subject.notifications << create(:notification, :read, user: subject)
+
+      expect(subject.unread_notifications?).to be false
+    end
+  end
+
+  describe "#notify!" do
+    it "notifies the user with a given message" do
+      subject.notify! "test message"
+
+      expect(subject.unread_notifications?).to be true
+      expect(subject.notifications.unread.first.message).to eq "test message"
+    end
+  end
+
+  describe "mark_notifications_as_read!" do
+    it "marks all notifications as read" do
+      subject.notifications << create(:notification) << create(:notification)
+
+      expect(subject.unread_notifications?).to be true
+
+      subject.mark_notifications_as_read!
+
+      expect(subject.unread_notifications?).to be false
     end
   end
 end

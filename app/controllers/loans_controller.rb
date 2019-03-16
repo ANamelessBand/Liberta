@@ -18,13 +18,14 @@ class LoansController < ApplicationController
 
   def return
     @loan.return!
+    @loan.print.notify_copy_returned!
 
-    redirect_to print_copy_path(@loan.copy.print, @loan.copy), success: "Копието беше върнато успешно!"
+    redirect_to print_copy_path(@loan.print, @loan.copy), success: "Копието беше върнато успешно!"
   end
 
   def extend
     @loan.extend!
-    redirect_to print_copy_path(@loan.copy.print, @loan.copy), success: "Срокът за връщане беше удължен успешно!"
+    redirect_to print_copy_path(@loan.print, @loan.copy), success: "Срокът за връщане беше удължен успешно!"
   end
 
 private
@@ -33,7 +34,7 @@ private
     @loan = Loan.find params[:id]
 
     if @loan.returned?
-      redirect_to print_copy_path(loan.copy.print, loan.copy), alert: "Грешка: това копие е вече върнато."
+      redirect_to print_copy_path(@loan.print, @loan.copy), alert: "Грешка: това копие е вече върнато."
     end
   end
 end

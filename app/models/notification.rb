@@ -7,4 +7,9 @@ class Notification < ApplicationRecord
 
   scope :read,   -> { where read: true }
   scope :unread, -> { where read: false }
+
+  def read!
+    self.read = true
+    save
+  end
 end

@@ -23,6 +23,10 @@ private
     deny_access unless admin?
   end
 
+  def require_signed_in
+    deny_access unless user_signed_in?
+  end
+
   def set_time_zone
     Time.zone = "Sofia"
   end
