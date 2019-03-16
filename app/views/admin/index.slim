@@ -6,12 +6,15 @@
       th Потребител
       th Публикация
       th Дата на връщане
+      th Действия
     tbody
       - @overdue.each do |copy|
         tr
           td= link_to copy.current_loan.user.email, copy.current_loan.user
           td= link_to copy.print.title, copy.print
           td.text-danger= copy.current_loan.time_supposed_return.strftime("%B %e, %Y")
+          td= link_to print_copy_path(copy.print, copy), class: 'btn btn-xs btn-outline-primary' do
+            - fa_icon 'share', text: 'към копието'
 
 - if @wishlists.any?
   h3.mt-5 Желани публкации
