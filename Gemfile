@@ -11,7 +11,7 @@ gem "puma", "~> 3.11"
 
 gem "bootstrap"
 gem "jquery-rails"
-gem "sass-rails", "~> 5.0"
+gem "sassc-rails"
 gem "uglifier", "~> 2.7.0"
 gem "font-awesome-rails"
 
