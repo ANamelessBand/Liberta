@@ -18,9 +18,11 @@
             = link_to print_copy_path(copy.print, copy), class: 'btn btn-xs btn-outline-primary' do
               - fa_icon 'share', text: 'към копието'
             = link_to extend_print_copy_loan_path(copy.print, copy, copy.current_loan),
+                method: :post,
                 class: 'btn btn-xs btn-outline-primary ml-2' do
               - fa_icon 'mail-forward', text: 'още 7 дни'
             = link_to return_print_copy_loan_path(copy.print, copy, copy.current_loan),
+                method: :post,
                 class: 'btn btn-xs btn-outline-success ml-2' do
               - fa_icon 'refresh', text: 'върни'
 

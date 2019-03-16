@@ -24,8 +24,8 @@ Rails.application.routes.draw do
 
     resources :copies, only: [:show, :create, :destroy] do
       resources :loans, only: [:create] do
-        get :return, on: :member
-        get :extend, on: :member
+        post :return, on: :member
+        post :extend, on: :member
       end
     end
   end
