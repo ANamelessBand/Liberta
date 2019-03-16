@@ -9,6 +9,9 @@ RSpec.describe CopiesController, type: :controller do
     subject { get :show, params: { id: 42, print_id: 1 } }
 
     it "renders template" do
+      allow(Copy).to receive(:find).with("42").and_return(copy)
+      subject
+
       expect(response).to render_template
     end
 
