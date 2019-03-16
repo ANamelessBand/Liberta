@@ -1,0 +1,21 @@
+#news_modal.modal.fade(role="dialog")
+  .modal-dialog
+    .modal-content
+      .modal-header
+        h5.modal-title Добавяне на новина
+        button.close(aria-label="Close" data-dismiss="modal" type="button")
+          span(aria-hidden="true") &times;
+      = form_for News.new, class: 'form-horizontal' do |f|
+        .modal-body
+          fieldset
+            = f.label :title, 'Заглавие:'
+            = f.text_field :title,
+                class: 'form-control',
+                required: true,
+                placeholder: 'Нова книга в библиотеката'
+            br
+            = f.label :content, 'Съдържание:'
+            = f.text_area :content, class: 'form-control', cols: 50, rows: 4, required: true
+        .modal-footer
+          button.btn.btn-outline-primary(data-dismiss="modal" type="button") Затвори
+          button.btn.btn-success(name="save_button" type="submit") Публикувай

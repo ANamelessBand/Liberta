@@ -1,0 +1,27 @@
+- content_for :title, "Автори"
+- content_for :actions do
+  = render partial: "/basic_search_form",
+      locals: { path: authors_path, autocomplete_path: autocomplete_author_name_authors_path, placeholder: "J. R. R. Tolkien" }
+
+- if @authors.empty?
+  .alert.alert-info.mb-0 Няма намерени автори
+- else
+  table.table.table-striped
+    thead
+      tr
+        th Име
+        th Брой публикации
+        - if admin?
+          th Админ
+    tbody
+      - @authors.each do |author|
+        tr
+          td= link_to author.name, author
+          td= author.prints.count
+          - if admin?
+            td= link_to author_path(author),
+                method: :delete,
+                class: "btn btn-xs btn-outline-danger",
+                data: { confirm: "Are you sure?" } do
+              - fa_icon "times", text: "изтрий"
+  = paginate @authors

@@ -1,0 +1,27 @@
+- content_for :title, 'Тагове'
+- content_for :actions do
+  = render partial: '/basic_search_form',
+      locals: { path: tags_path, autocomplete_path: autocomplete_tag_name_tags_path, placeholder: 'Programming' }
+
+- if @tags.empty?
+  .alert.alert-info.mb-0 Няма намерени тагове
+- else
+  table.table.table-striped
+    thead
+      tr
+        th Име
+        th Брой публикации
+        - if admin?
+          th Админ
+    tbody
+      - @tags.each do |tag|
+        tr
+          td= link_to tag.name, tag
+          td= tag.prints.count
+          - if admin?
+            td= link_to tag_path(tag),
+                method: :delete,
+                class: 'btn btn-xs btn-outline-danger',
+                data: { confirm: "Are you sure?" } do
+              - fa_icon 'times', text: 'изтрий'
+  = paginate @tags

@@ -14,14 +14,18 @@ module Liberta
 
       interactive_class = interactive ? 'interactive' : ''
 
-      html = "<span "\
-               "class='stars s-#{rounded} #{interactive_class}'"\
-               "data-default='#{rounded}'>"
-      if interactive
-        html += "<input type='hidden' value='#{rating}' name='rating' />"
+      content_tag(:span, classes: ['starss', "s-#{rounded}", interactive_class], "data-default": rounder) do
+        "<input type='hidden' value='#{rating}' name='rating' />" if interactive
       end
 
-      html + "#{rounded} stars </span>"
+      # html = "<span "\
+      #          "class='stars s-#{rounded} #{interactive_class}'"\
+      #          "data-default='#{rounded}'>"
+      # if interactive
+      #   html += "<input type='hidden' value='#{rating}' name='rating' />"
+      # end
+
+      # html + "#{rounded} stars </span>"
     end
 
     def to_link(href, title, class_name = nil)

@@ -1,0 +1,45 @@
+tr
+  td= print_link_with_cover(print)
+  td= authors_html(print)
+  td= stars_span print.rating
+  td
+    - if print.has_copies?
+      = fa_icon 'check', class: 'text-success'
+    - else
+      = fa_icon 'times', class: 'text-danger'
+  td
+    a.btn.btn-xs.btn-outline-primary.mr-1.icon(
+      data-toggle="modal"
+      href="#modal_print_#{print.id}"
+      title="описание"
+    )
+      = fa_icon 'info'
+    = render partial: 'prints/details_modal', locals: { print: print }
+
+    - if user_signed_in?
+      - if current_user.wish? print
+        a.btn.btn-xs.btn-danger.remove-wish-xs.icon(
+          data-for=print.id
+          href="javascript:void;"
+          title="премахни от желани"
+        )
+          = fa_icon 'minus'
+      - else
+        a.btn.btn-xs.btn-success.add-wish-xs.icon(
+          data-for=print.id
+          href="javascript:void;"
+          title="добави в желани"
+        )
+          = fa_icon 'plus'
+
+  - if admin?
+    td
+      = link_to edit_print_path(print), class: 'btn btn-outline-primary btn-xs' do
+        - fa_icon 'pencil-square-o', title: 'редактирай'
+
+      = link_to print_path(print.id),
+          method: :delete,
+          data: { confirm: 'Are you sure?' },
+          class: 'btn btn-outline-danger btn-xs ml-1' do
+        - fa_icon 'times', title: 'изтрий'
+

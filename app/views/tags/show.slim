@@ -1,0 +1,3 @@
+- content_for :title, "Таг: #{@tag.name}"
+= render partial: 'prints/prints_table', locals: { prints: @prints }
+= paginate @prints

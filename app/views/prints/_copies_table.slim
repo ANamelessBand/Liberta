@@ -1,0 +1,41 @@
+- if admin?
+  .card.my-4
+    .card-header
+      h6.card-title.mb-0 Копия
+    .card-body
+      table.table.table-striped
+        thead
+          tr
+            th Библиотечен номер
+            th Свободно
+            th Действия
+        tbody
+          - @print.copies.each do |copy|
+            tr
+              td
+                = link_to copy.inventory_number, print_copy_path(@print, copy)
+              td
+                = fa_icon (copy.taken? ? 'times' : 'check')
+              td
+                - if copy.taken?
+                  = link_to return_print_copy_loan_path(@print, copy, copy.current_loan),
+                      class: 'btn btn-xs btn-outline-primary' do
+                    - fa_icon 'refresh', text: 'върни'
+                - else
+                  a.btn.btn-outline-primary.btn-xs(data-toggle="modal" href="#modal_loan_copy_#{copy.id}")
+                    = fa_icon 'share', text: 'отдай'
+                  = render partial: 'copies/loan_modal', locals: { copy: copy }
+                = link_to print_copy_path(@print, copy),
+                    method: :delete,
+                    data: { confirm: 'Are you sure?' },
+                    class: 'btn btn-xs btn-outline-danger ml-2' do
+                  - fa_icon 'times', text: 'изтрий'
+          tr
+            td(colspan='3')
+              = form_for [@print, Copy.new], html: { class: 'form-inline' } do |f|
+                .form-group
+                  = f.number_field :inventory_number,
+                      placeholder: '1234',
+                      required: true,
+                      class: 'form-control'
+                  = f.submit 'ново копие', class: 'btn btn-sm btn-outline-success ml-2'

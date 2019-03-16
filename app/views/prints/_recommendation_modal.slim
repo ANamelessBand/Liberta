@@ -1,0 +1,22 @@
+#recommendation_modal.modal.fade(role="dialog")
+  .modal-dialog
+    .modal-content
+      = form_for [@print, Recommendation.new], class: 'form-horizontal' do |f|
+        fieldset
+          .modal-header
+            h5.modal-title Добавяне на препоръка
+            button.close(aria-label="Close" data-dismiss="modal" type="button")
+              span(aria-hidden="true") &times;
+          .modal-body
+            .mb-3 Oценка: #{stars_span 0, true}
+            = f.label :comment, 'Коментар: '
+            = f.text_area :comment,
+                cols: 50,
+                rows: 4,
+                class: 'form-control',
+                placeholder: 'Важното е да сме живи и здрави'
+          .modal-footer
+            button.btn.btn-outline-primary(data-dismiss="modal" type="button")
+              = fa_icon 'times', text: 'Затвори'
+            button#save_button.btn.btn-success(name="save_button" type="submit")
+              = fa_icon 'check', text: 'Препоръчай'

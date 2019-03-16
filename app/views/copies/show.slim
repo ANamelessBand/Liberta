@@ -1,0 +1,45 @@
+- content_for :title, "#{@copy.print.title} - #{@copy.inventory_number}"
+- content_for :actions do
+  - if @copy.free?
+    a.mr-3.btn.btn-outline-primary(data-toggle="modal" href="#modal_loan_copy_#{@copy.id}")
+      = fa_icon 'share', text: 'отдай'
+    = render partial: 'copies/loan_modal', locals: { copy: @copy }
+  h3.d-inline-block.align-middle
+    - if @copy.taken?
+      span.py-2.px-3.bg-danger.text-white.align-middle Заето
+    - else
+      span.py-2.px-3.bg-success.text-white.align-middle Свободно
+
+.card
+  .card-header
+    h6.card-title.mb-0 История
+  .card-body
+    - unless @copy.loans.empty?
+      table.table.table-striped
+        thead
+          tr
+            th Отдаденo на
+            th Дата на отдаване
+            th Краен срок
+            th Дата на връщане
+            th Действия
+        tbody
+          - @copy.loans.each do |loan|
+            tr
+              td= link_to loan.user.name, loan.user
+              td= loan.time_loaned.to_s(:long)
+              td= loan.time_supposed_return.to_s(:long)
+              - if loan.time_returned
+                td= loan.time_returned.to_s(:long)
+                td
+              - else
+                td Не е върната
+                td
+                  = link_to extend_print_copy_loan_path(@copy.print, @copy, loan),
+                      class: 'btn btn-xs btn-outline-primary' do
+                    - fa_icon 'mail-forward', text: 'още 7 дни'
+                  = link_to return_print_copy_loan_path(@copy.print, @copy, loan),
+                      class: 'btn btn-xs btn-outline-success ml-2' do
+                    - fa_icon 'refresh', text: 'върни'
+    - else
+      div Това копие на "#{@copy.print.title}" все още не е отдавано.

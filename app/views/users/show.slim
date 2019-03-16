@@ -1,0 +1,15 @@
+- content_for :title, @user.email
+ul.nav.nav-tabs
+  li.nav-item
+    a.nav-link.active(data-toggle="tab" href="#history") История
+  li.nav-item
+    a.nav-link(data-toggle="tab" href="#recommended") Препоръчани
+  li.nav-item
+    a.nav-link(data-toggle="tab" href="#wishlist") Желани
+.tab-content
+  #history.tab-pane.active
+    = render partial: 'prints/prints_table', locals: { prints: @user.loaned_prints }
+  #recommended.tab-pane
+    = render partial: 'recommendations_table', locals: { recommendations: @user.recommendations }
+  #wishlist.tab-pane
+    = render partial: 'prints/prints_table', locals: { prints: @user.wishlists.map(&:print) }

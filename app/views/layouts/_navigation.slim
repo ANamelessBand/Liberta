@@ -1,0 +1,52 @@
+nav.navbar.navbar-expand-md.navbar-dark.bg-dark.fixed-top(role="navigation")
+  = link_to 'Libertà', root_path, class: 'navbar-brand ml-4'
+  .collapse.navbar-collapse
+    ul.navbar-nav.mr-auto
+      li.nav-item(class=('active' if current_page? root_path))
+        = link_to root_path, class: 'nav-link' do
+          - fa_icon 'newspaper-o', text: 'Новини'
+      li.nav-item(class=('active' if current_page? prints_path))
+        = link_to prints_path, class: 'nav-link' do
+          - fa_icon 'book', text: 'Библиотека'
+      li.nav-item(class=('active' if current_page? prints_most_liked_path))
+        = link_to prints_most_liked_path, class: 'nav-link' do
+          - fa_icon 'star-o', text: 'Топ 10'
+      li.nav-item.dropdown
+        a.nav-link.dropdown-toggle(data-toggle="dropdown" href="#") Други
+        .dropdown-menu
+          = link_to 'Автори',      authors_path,    class: 'dropdown-item'
+          = link_to 'Издателства', publishers_path, class: 'dropdown-item'
+          = link_to 'Тагове',      tags_path,       class: 'dropdown-item'
+          = link_to 'Потребители', users_path,      class: 'dropdown-item'
+
+    .navbar
+      ul.navbar-nav
+        / Notifications
+        - if user_signed_in?
+          li.nav-item
+            a.nav-link.dropdown-toggle(data-toggle="dropdown" href="#")
+              - if current_user.unread_notifications?
+                span#notifications-count.bg-danger.text-white.px-1
+                  = current_user.notifications.unread.count
+              = fa_icon 'flag-o', class: 'mx-1'
+            .dropdown-menu.dropdown-menu-right
+              - if current_user.unread_notifications?
+                - current_user.notifications.unread.each_with_index do |notification, i|
+                  a.dropdown-item.notification(data-for=notification.id)
+                    = notification.message
+              - else
+                a.dropdown-item(href="javascript:void;") Няма непрочетени известия
+
+        / Profile links
+        - if user_signed_in?
+          li.nav-item
+            a.nav-link.dropdown-toggle(data-toggle="dropdown" href="javascript:void;")
+              = fa_icon 'user-circle-o', class: 'mr-1'
+              = current_user.name.split(" ").first
+              b.caret
+            .dropdown-menu.dropdown-menu-right
+              = link_to "Профил", current_user, class: 'dropdown-item'
+              = link_to 'Изход', destroy_user_session_path, method: :delete, class: 'dropdown-item'
+        - else
+          li.nav-item
+            = link_to 'Влез', new_user_session_path, class: 'nav-link'

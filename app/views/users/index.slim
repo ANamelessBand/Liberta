@@ -1,0 +1,18 @@
+- content_for :title, 'Потребители'
+- content_for :actions do
+  = render partial: '/basic_search_form', locals: { path: users_path, autocomplete_path: '', placeholder: 'Иван Иванов' }
+
+- if @users.empty?
+  .alert.alert-info.from-top-2 Няма намерени потребители
+- else
+  table.table.table-striped.table-hover.from-top-2
+    thead
+      tr
+        th Снимка
+        th Потребител
+    tbody
+      - @users.each do |user|
+        tr
+          td.cover todo: image
+          td= link_to user.name, user
+  = paginate @users

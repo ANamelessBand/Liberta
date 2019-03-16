@@ -1,0 +1,47 @@
+- content_for :title, @print.title
+- if admin?
+  - content_for :actions do
+    = link_to edit_print_path(@print), class: 'btn btn-outline-primary' do
+      - fa_icon 'pencil-square-o', text: 'редактирай'
+    = link_to print_path(@print),
+        method: :delete,
+        data: { confirm: 'Are you sure?' },
+        class: 'btn btn-outline-danger ml-2' do
+      - fa_icon 'times', text: 'изтрий'
+
+= render 'copies_table'
+
+- if @print.cover_url.present?
+  img.float-left(async="" src=@print.cover_url style="height: 320px; min-width: 220px")
+.float-left.ml-4
+  = render partial: 'details_table', locals: { print: @print }
+
+.float-left.ml-4
+  .card.bg-light.text-center.p-3.mb-2(class=(@print.free_copies.count > 0 ? 'border-success' : 'border-danger'))
+    | Свободни копия
+    .free-copies
+      | #{@print.free_copies.count} от #{@print.copies.count}
+
+  - if user_signed_in?
+    - if current_user.wish? @print
+      = link_to print_wishlist_path(@print, current_user.wish_for(@print)),
+          method: :delete,
+          class: 'btn btn-danger remove-wish' do
+        = fa_icon 'minus', text: 'премахни от желани'
+    - else
+      = link_to print_wishlists_path(@print), method: :post, class: 'btn btn-outline-success add-wish' do
+        = fa_icon 'plus', text: 'добави в желани'
+  - else
+    = link_to new_user_session_path, class: 'btn btn-outline-success' do
+      - fa_icon 'plus', text: 'добави в желани'
+.clearfix
+
+- if @print.description.present?
+  .card
+    .card-header
+      h6.card-title.mb-0 Описание
+    .card-body
+      = @print.description
+
+= render 'recommendations_table'
+

@@ -1,0 +1,33 @@
+- if recommendations.empty?
+  .alert.alert-info Няма намерени препоръки
+- else
+  table.table.table-striped
+    thead
+      tr
+        th Книга
+        th Автор
+        th Рейтинг
+        th Коментар
+    tbody
+      - recommendations.each do |recommendation|
+        tr
+          td= print_link_with_cover(recommendation.print)
+          td= authors_html recommendation.print
+          td= stars_span   recommendation.rating
+          td
+            - if recommendation.comment.length > 30
+              = truncate(recommendation.comment)
+              a(data-toggle="modal" href="#modal_#{recommendation.id}" class="ml-1") виж още
+            - else
+              = recommendation.comment
+          .modal.fade(id="modal_#{recommendation.id}")
+            .modal-dialog
+              .modal-content
+                .modal-header
+                  h5.modal-title Коментар
+                  button.close(aria-label="Close" data-dismiss="modal" type="button")
+                    span(aria-hidden="true") &times;
+                .modal-body
+                  p= recommendation.comment
+                .modal-footer
+                  button.btn.btn-outline-primary(data-dismiss="modal" type="button") Затвори

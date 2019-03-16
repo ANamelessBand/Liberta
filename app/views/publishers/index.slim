@@ -1,0 +1,27 @@
+- content_for :title, 'Издателства'
+- content_for :actions do
+  = render partial: '/basic_search_form',
+      locals: { path: publishers_path, autocomplete_path: autocomplete_publisher_name_publishers_path, placeholder: 'The Pragmatic Bookshelf' }
+
+- if @publishers.empty?
+  .alert.alert-info.mb-0 Няма намерени издателства
+- else
+  table.table.table-striped
+    thead
+      tr
+        th Име
+        th Брой публикации
+        - if admin?
+          th Админ
+    tbody
+      - @publishers.each do |publisher|
+        tr
+          td= link_to publisher.name, publisher
+          td= publisher.prints.count
+          - if admin?
+            td= link_to publisher_path(publisher),
+                method: :delete,
+                class: 'btn btn-xs btn-outline-danger',
+                data: { confirm: "Are you sure?" } do
+              - fa_icon 'times', text: 'изтрий'
+  = paginate @publishers

@@ -1,0 +1,33 @@
+.card.mt-4
+  .card-header
+    h6.card-title.mb-0 Препоръки
+  .card-body
+    - if user_signed_in? && !current_user.has_recommended?(@print)
+      a.btn.btn-primary.btn-sm(data-toggle="modal" href="#recommendation_modal")
+        = fa_icon 'star-o', text: 'Препоръчай'
+
+    - if @print.last_recommendations.empty?
+      p.mt-4 Бъди пръв да препоръчаш тази книга!
+    - else
+      table.table.table-striped.mt-4
+        thead
+          tr
+            th Потребител
+            th Рейтинг
+            th Коментар
+            th Действия
+        tbody
+          - @print.recommendations.each do |recommendation|
+            tr
+              td= link_to recommendation.user.name, recommendation.user
+              td= stars_span recommendation.rating
+              td= recommendation.comment
+              td
+                - if (user_signed_in? && recommendation.user == current_user) || admin?
+                  = link_to print_recommendation_path(@print, recommendation),
+                      method: :delete,
+                      data: { confirm: 'Are you sure?' },
+                      class: 'btn btn-xs btn-outline-danger' do
+                    - fa_icon 'times', text: 'изтрий'
+
+    = render partial: 'recommendation_modal', locals: { print: @print } if user_signed_in?

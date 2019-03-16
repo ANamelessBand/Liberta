@@ -1,0 +1,32 @@
+- content_for :title, 'Libertà'
+.row
+  .col-md
+    .card
+      .card-header
+        | Новини
+        - if admin?
+          button.btn.btn-primary.btn-xs.ml-2(data-toggle="modal" href="#news_modal")
+            = fa_icon 'plus', text: 'добави'
+          = render partial: 'add_news_modal'
+      .card-body
+
+        - if @last_news.empty?
+          p.mb-0 Все още няма новини.
+
+        - @last_news.each do |entry|
+          h4
+            = entry.title
+            - if admin?
+              = link_to entry,
+                  method: :delete,
+                  data: { confirm: 'Are you sure?' },
+                  class: 'btn btn-outline-danger btn-xs ml-2' do
+                - fa_icon 'times', text: 'изтрий'
+          em Преди #{time_ago_in_words(entry.created_at)}
+          p.mt-3= entry.content
+          hr
+  .col-md
+    .card
+      .card-header Най-нови публикации
+      .card-body
+        = render partial: 'prints/prints_table', locals: { prints: @last_prints }

@@ -17,7 +17,6 @@
     <tr>
       <% @prints.each do |recommendation| %>
         <td class="cover"><img src=<%= "/img/prints/#{recommendation.print.id}.png" %> /></td>
-
         <td>
           <%= to_link "../prints/#{recommendation.print.id}", recommendation.print.title %>
         </td>

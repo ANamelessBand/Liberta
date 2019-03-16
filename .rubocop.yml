@@ -1,0 +1,9 @@
+inherit_gem:
+  rubocop-rails_config:
+    - config/rails.yml
+
+AllCops:
+  Exclude:
+    - 'sinatra-app/**/*'
+    - 'bin/*'
+    - 'db/schema.rb'

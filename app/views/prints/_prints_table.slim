@@ -1,0 +1,16 @@
+- if prints.empty?
+  .alert.alert-info.mb-0 Няма намерени публикации
+- else
+  table.table.table-striped
+    thead
+      tr
+        / th Корица
+        th Публикация
+        th Автори
+        th Рейтинг
+        th Налична
+        th Действия
+        - if admin?
+          th(style="min-width: 75px") Админ
+    tbody
+      = render partial: "prints/print_row", collection: prints, as: :print

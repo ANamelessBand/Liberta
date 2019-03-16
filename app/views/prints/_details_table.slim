@@ -1,0 +1,27 @@
+table.table.book-details
+  tr
+    th Автори
+    td
+      - print.authors.each do |author|
+        = link_to author.name, author
+        br
+  tr
+    th Издателство
+    td= link_to print.publisher.name, print.publisher
+  tr
+    th Формат
+    td= print.format
+  tr
+    th Език
+    td= print.language
+  tr
+    th Страници
+    td= print.pages
+  tr
+    th Тагове
+    td
+      - print.tags.each do |tag|
+        = link_to tag.name, tag, class: 'btn btn-outline-primary btn-xs mr-1'
+  tr
+    th Рейтинг
+    td= stars_span print.rating
