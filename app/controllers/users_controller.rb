@@ -11,7 +11,7 @@ class UsersController < ApplicationController
   add_breadcrumb "Потребители", :users_path
 
   def index
-    @users = helpers.search_and_paginate(User, :email)
+    @users = search_and_paginate(User, :email)
 
     add_breadcrumb("Търсене за: #{params[:search]}", users_path) unless params[:search].blank?
   end

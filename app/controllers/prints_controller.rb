@@ -9,7 +9,7 @@ class PrintsController < ApplicationController
   add_breadcrumb "Библиотека", :prints_path
 
   def index
-    @prints = helpers.search_and_paginate(Print, :title)
+    @prints = search_and_paginate(Print, :title)
 
     add_breadcrumb("Търсене за: #{params[:search]}", prints_path) unless params[:search].blank?
   end

@@ -1,15 +1,6 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
-  def search_and_paginate(model, field_name = :name, should_paginate = true)
-    params[:search].strip! if params[:search]
-
-    @entities = model
-    @entities = @entities.where("#{field_name} LIKE ?", "%#{params[:search]}%") if params[:search]
-    @entities = @entities.order  field_name
-    @entities = @entities.page   params[:page] if should_paginate
-  end
-
   def authors_html(print)
     print.authors.map { |author| link_to author.name, author }.join(", ").html_safe
   end

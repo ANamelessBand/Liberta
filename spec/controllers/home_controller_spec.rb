@@ -9,7 +9,7 @@ RSpec.describe HomeController, type: :controller do
   let (:prints) { FactoryBot.create_list(:print, 10) }
 
   describe "GET index" do
-    it "assigns last_news" do
+    it "assigns @last_news" do
       allow(News).to receive_message_chain(:order, :last).and_return(news)
 
       subject
@@ -17,7 +17,7 @@ RSpec.describe HomeController, type: :controller do
       expect(assigns(:last_news)).to eq news
     end
 
-    it "assigns last_prints" do
+    it "assigns @last_prints" do
       allow(Print).to receive_message_chain(:order, :last).and_return(prints)
 
       subject

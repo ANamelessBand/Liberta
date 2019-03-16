@@ -7,7 +7,7 @@ class TagsController < ApplicationController
   add_breadcrumb "Тагове", :tags_path
 
   def index
-    @tags = helpers.search_and_paginate(Tag)
+    @tags = search_and_paginate(Tag)
 
     add_breadcrumb("Търсене за: #{params[:search]}", tags_path) unless params[:search].blank?
   end

@@ -25,14 +25,14 @@ RSpec.describe AdminController, type: :controller do
 
       let (:wishlists) { FactoryBot.create_list(:wishlist, 5) }
 
-      it "assigns all wishlists" do
+      it "assigns all @wishlists" do
         expect(Wishlist).to receive(:all).and_return(wishlists)
         subject
 
         expect(assigns(:wishlists)).to eq wishlists
       end
 
-      it "assigns overdue copies" do
+      it "assigns @overdue copies" do
         expect(Copy).to receive(:all).and_return(copies)
         subject
 

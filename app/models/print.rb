@@ -12,6 +12,8 @@ class Print < ApplicationRecord
 
   validates_presence_of :title, :language, :publisher_id
 
+  scope :for_author, -> (author_id) { joins(:authors).where("authors.id == :id", id: author_id) }
+
   paginates_per 10
 
   def self.best

@@ -59,7 +59,7 @@ RSpec.describe CopiesController, type: :controller do
           post :create, params: params
         end
 
-        it "assigns the new copy" do
+        it "assigns the new @copy" do
           post :create, params: params
           expect(assigns(:copy)).to eq copy
         end

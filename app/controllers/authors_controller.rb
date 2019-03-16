@@ -7,14 +7,13 @@ class AuthorsController < ApplicationController
   add_breadcrumb "Автори", :authors_path
 
   def index
-    @authors = helpers.search_and_paginate(Author)
+    @authors = search_and_paginate(Author)
 
     add_breadcrumb("Търсене за: #{params[:search]}", authors_path) unless params[:search].blank?
   end
 
   def show
-    @prints = Print.joins(:authors)
-        .where("authors.id == :id", id: params[:id])
+    @prints = Print.for_author(params[:id])
         .order(:title)
         .page(params[:page])
 

@@ -36,4 +36,13 @@ private
   def set_time_zone
     Time.zone = "Sofia"
   end
+
+  def search_and_paginate(model, field_name = :name, should_paginate = true)
+    params[:search].strip! if params[:search]
+
+    @entities = model
+    @entities = @entities.where("#{field_name} LIKE ?", "%#{params[:search]}%") if params[:search]
+    @entities = @entities.order  field_name
+    @entities = @entities.page   params[:page] if should_paginate
+  end
 end

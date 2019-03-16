@@ -7,7 +7,7 @@ class PublishersController < ApplicationController
   add_breadcrumb "Издателства", :publishers_path
 
   def index
-    @publishers = helpers.search_and_paginate(Publisher)
+    @publishers = search_and_paginate(Publisher)
 
     add_breadcrumb("Търсене за: #{params[:search]}", publishers_path) unless params[:search].blank?
   end
