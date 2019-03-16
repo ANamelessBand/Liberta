@@ -27,6 +27,8 @@ gem "omniauth-google-oauth2"
 gem "kaminari"
 gem "breadcrumbs_on_rails"
 
+gem "travis"
+
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", "~> 1.1.0", require: false
 
