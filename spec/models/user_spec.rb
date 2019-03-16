@@ -56,10 +56,11 @@ RSpec.describe User, type: :model do
       print3 = create(:print)
       copy3 = create(:copy, print: print3)
 
-      loan1 = create(:loan, user: subject, copy: copy1)
-      loan2 = create(:loan, user: subject, copy: copy3)
+      create(:loan, user: subject, copy: copy1)
+      create(:loan, user: subject, copy: copy3)
 
-      expect(subject.loaned_prints).to eq [print1, print3]
+      expect(subject.loaned_prints).to match_array [print1, print3]
+      expect(subject.loaned_prints).not_to include copy2
     end
 
     it "is empty if the user has no loaned prints" do

@@ -35,7 +35,7 @@ RSpec.describe Print, type: :model do
   describe "#author_names" do
     it "returns a comma-separated list of author names" do
       author1 = create(:author, name: "author 1")
-      author2 = create(:author, name: "author 2")
+      create(:author, name: "author 2")
       author3 = create(:author, name: "author 3")
 
       subject.authors << author1 << author3
@@ -51,7 +51,7 @@ RSpec.describe Print, type: :model do
   describe "#tag_names" do
     it "returns a comma-separated list of tag names" do
       tag1 = create(:tag, name: "tag 1")
-      tag2 = create(:tag, name: "tag 2")
+      create(:tag, name: "tag 2")
       tag3 = create(:tag, name: "tag 3")
 
       subject.tags << tag1 << tag3
@@ -94,7 +94,8 @@ RSpec.describe Print, type: :model do
       copy2 = create(:copy, print: subject)
       copy3 = create(:copy, :loaned, print: subject)
 
-      expect(subject.free_copies).to eq [copy1, copy2]
+      expect(subject.free_copies).to match_array [copy1, copy2]
+      expect(subject.free_copies).not_to include copy3
     end
 
     it "returns an empty array if there are no copies" do
@@ -123,6 +124,7 @@ RSpec.describe Print, type: :model do
       create(:wishlist, print: subject, user: user2)
 
       expect(subject.wished_by).to match_array [user1, user2]
+      expect(subject.wished_by).not_to include user3
     end
   end
 

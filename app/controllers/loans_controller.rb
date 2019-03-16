@@ -8,7 +8,7 @@ class LoansController < ApplicationController
     user = User.find_by email: params[:user]
     copy = Copy.find params[:copy_id]
 
-    loan = Loan.create! user: user,
+    Loan.create! user: user,
         copy: copy,
         time_loaned: Time.now,
         time_supposed_return: Time.now + 7.days
