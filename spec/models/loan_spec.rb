@@ -41,9 +41,16 @@ RSpec.describe Loan, type: :model do
       expect(subject.overdue?).to be false
     end
 
-    it "is true when the time of supposed return is in the past" do
+    it "is true when the time of supposed return is in the past and the copy is still not returned" do
+      subject.time_returned = nil
       subject.time_supposed_return = 3.days.ago
       expect(subject.unreturned?).to be true
+    end
+
+    it "is false when the time of supposed return is in the past but the copy has been returned" do
+      subject.time_returned = 3.days.ago
+      subject.time_supposed_return = 5.days.ago
+      expect(subject.overdue?).to be false
     end
   end
 

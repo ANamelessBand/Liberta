@@ -21,7 +21,7 @@ class Loan < ApplicationRecord
   end
 
   def overdue?
-    time_supposed_return < Time.now
+    unreturned? && time_supposed_return < Time.now
   end
 
   def return!
