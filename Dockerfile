@@ -20,7 +20,7 @@ RUN npm install -g yarn
 
 COPY Gemfile Gemfile
 COPY Gemfile.lock Gemfile.lock
-RUN bundle install --jobs 20 --retry 5 --without development test
+RUN bundle install --jobs 4 --retry 5 --without development test
 
 COPY . .
 
