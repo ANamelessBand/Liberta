@@ -1,4 +1,6 @@
-desc 'Inserts realistic fake data for development purposes'
+# frozen_string_literal: true
+
+desc "Inserts realistic fake data for development purposes"
 task fake: :environment do
   authors = [
     "George R. R. Martin",

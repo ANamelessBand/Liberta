@@ -2,8 +2,17 @@
 
 require "factory_bot_rails"
 
+require "simplecov"
 require "coveralls"
-Coveralls.wear!
+
+Coveralls.wear! "rails"
+
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+  SimpleCov::Formatter::HTMLFormatter,
+  Coveralls::SimpleCov::Formatter
+])
+
+SimpleCov.start "rails"
 
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods

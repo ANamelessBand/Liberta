@@ -382,6 +382,7 @@ DEPENDENCIES
   rubocop-rails_config
   sass-rails (~> 5.0)
   shoulda-matchers
+  simplecov
   slim-rails
   spring
   spring-watcher-listen (~> 2.0.0)

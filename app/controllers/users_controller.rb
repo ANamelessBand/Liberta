@@ -17,7 +17,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    breadcrumb_name = @user == current_user ? "Моите книги": "Книгите на #{@user.email}"
+    breadcrumb_name = @user == current_user ? "Моите книги" : "Книгите на #{@user.email}"
     add_breadcrumb breadcrumb_name, user_path
   end
 

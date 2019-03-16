@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(version: 2019_03_16_105743) do
     t.string "isbn"
     t.text "description"
     t.integer "pages"
-    t.integer "publisher_id"
+    t.integer "publisher_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "cover_url"
