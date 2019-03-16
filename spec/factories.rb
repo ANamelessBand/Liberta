@@ -12,6 +12,10 @@ FactoryBot.define do
     trait :loaned do
       loans { [create(:loan)] }
     end
+
+    trait :overdue do
+      loans { [create(:loan, :overdue)] }
+    end
   end
 
   factory :loan do
@@ -20,6 +24,10 @@ FactoryBot.define do
 
     trait :returned do
       time_returned { Time.now }
+    end
+
+    trait :overdue do
+      time_supposed_return { Time.now - 1.days }
     end
   end
 
