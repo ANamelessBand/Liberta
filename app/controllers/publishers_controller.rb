@@ -13,10 +13,7 @@ class PublishersController < ApplicationController
   end
 
   def show
-    @prints = Print.where("publisher_id == :id", id: params[:id])
-        .order(:title)
-        .page(params[:page])
-
+    @prints = Print.for_publisher(params[:id]).order(:title).page(params[:page])
     @publisher = Publisher.find params[:id]
 
     add_breadcrumb @publisher.name, publisher_path

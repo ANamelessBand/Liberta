@@ -12,7 +12,9 @@ class Print < ApplicationRecord
 
   validates_presence_of :title, :language, :publisher_id
 
-  scope :for_author, -> (author_id) { joins(:authors).where("authors.id == :id", id: author_id) }
+  scope :for_author,    -> (author_id) { joins(:authors).where("authors.id == :id", id: author_id) }
+  scope :for_publisher, -> (publisher_id) { where("publisher_id == :id", id: publisher_id) }
+  scope :for_tag,       -> (tag_id) { joins(:tags).where("tags.id == :id", id: tag_id) }
 
   paginates_per 10
 

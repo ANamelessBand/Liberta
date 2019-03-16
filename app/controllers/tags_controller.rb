@@ -13,11 +13,7 @@ class TagsController < ApplicationController
   end
 
   def show
-    @prints = Print.joins(:tags)
-        .where("tags.id == :id", id: params[:id])
-        .order(:title)
-        .page(params[:page])
-
+    @prints = Print.for_tag(params[:id]).order(:title).page(params[:page])
     @tag = Tag.find params[:id]
 
     add_breadcrumb @tag.name, tag_path

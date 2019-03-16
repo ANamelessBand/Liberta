@@ -13,10 +13,7 @@ class AuthorsController < ApplicationController
   end
 
   def show
-    @prints = Print.for_author(params[:id])
-        .order(:title)
-        .page(params[:page])
-
+    @prints = Print.for_author(params[:id]).order(:title).page(params[:page])
     @author = Author.find params[:id]
 
     add_breadcrumb @author.name, author_path

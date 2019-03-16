@@ -18,6 +18,44 @@ RSpec.describe Print, type: :model do
 
   subject { create(:print) }
 
+  describe "::for_author" do
+    it "returns the prints for a given author" do
+      author1 = create(:author)
+      author2 = create(:author)
+      print1 = create(:print, authors: [author1])
+      print2 = create(:print, authors: [author1])
+      print3 = create(:print, authors: [author2])
+      print4 = create(:print, authors: [author1, author2])
+
+      expect(Print.for_author(author1.id)).to match_array [print1, print2, print4]
+    end
+  end
+
+  describe "::for_publisher" do
+    it "returns the prints for a given publisher" do
+      publisher1 = create(:publisher)
+      publisher2 = create(:publisher)
+      print1 = create(:print, publisher: publisher1)
+      print2 = create(:print, publisher: publisher1)
+      print3 = create(:print, publisher: publisher2)
+
+      expect(Print.for_publisher(publisher1.id)).to match_array [print1, print2]
+    end
+  end
+
+  describe "::for_tags" do
+    it "returns the prints for a given tag" do
+      tag1 = create(:tag)
+      tag2 = create(:tag)
+      print1 = create(:print, tags: [tag1])
+      print2 = create(:print, tags: [tag1])
+      print3 = create(:print, tags: [tag2])
+      print4 = create(:print, tags: [tag1, tag2])
+
+      expect(Print.for_tag(tag1.id)).to match_array [print1, print2, print4]
+    end
+  end
+
   describe "::best" do
     it "returns the best prints by rating" do
       print1 = create(:print)
