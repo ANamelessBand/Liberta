@@ -58,6 +58,7 @@ GEM
     breadcrumbs_on_rails (3.0.1)
     builder (3.2.3)
     byebug (11.0.0)
+    coderay (1.1.2)
     concurrent-ruby (1.1.5)
     coveralls (0.7.1)
       multi_json (~> 1.3)
@@ -95,6 +96,7 @@ GEM
     ffi (1.10.0)
     font-awesome-rails (4.7.0.4)
       railties (>= 3.2, < 6.0)
+    formatador (0.2.5)
     gh (0.15.1)
       addressable (~> 2.4.0)
       backports
@@ -104,6 +106,20 @@ GEM
       net-http-pipeline
     globalid (0.4.2)
       activesupport (>= 4.2.0)
+    guard (2.15.0)
+      formatador (>= 0.2.4)
+      listen (>= 2.7, < 4.0)
+      lumberjack (>= 1.0.12, < 2.0)
+      nenv (~> 0.1)
+      notiffany (~> 0.0)
+      pry (>= 0.9.12)
+      shellany (~> 0.0)
+      thor (>= 0.18.1)
+    guard-compat (1.2.1)
+    guard-rspec (4.7.3)
+      guard (~> 2.1)
+      guard-compat (~> 1.1)
+      rspec (>= 2.99.0, < 4.0)
     hashie (3.6.0)
     highline (1.7.10)
     http-cookie (1.0.3)
@@ -140,6 +156,7 @@ GEM
     loofah (2.2.3)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
+    lumberjack (1.0.13)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
     marcel (0.3.3)
@@ -156,12 +173,16 @@ GEM
     multi_json (1.13.1)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
+    nenv (0.3.0)
     net-http-persistent (2.9.4)
     net-http-pipeline (1.0.1)
     netrc (0.11.0)
     nio4r (2.3.1)
     nokogiri (1.10.1)
       mini_portile2 (~> 2.4.0)
+    notiffany (0.1.1)
+      nenv (~> 0.1)
+      shellany (~> 0.0)
     oauth2 (1.4.1)
       faraday (>= 0.8, < 0.16.0)
       jwt (>= 1.0, < 3.0)
@@ -184,6 +205,9 @@ GEM
       ast (~> 2.4.0)
     popper_js (1.14.5)
     powerpack (0.1.2)
+    pry (0.12.2)
+      coderay (~> 1.1.0)
+      method_source (~> 0.9.0)
     psych (3.1.0)
     puma (3.12.0)
     pusher-client (0.6.2)
@@ -205,6 +229,10 @@ GEM
       bundler (>= 1.3.0)
       railties (= 5.2.2)
       sprockets-rails (>= 2.0.0)
+    rails-controller-testing (1.0.4)
+      actionpack (>= 5.0.1.x)
+      actionview (>= 5.0.1.x)
+      activesupport (>= 5.0.1.x)
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
@@ -277,6 +305,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
+    shellany (0.0.1)
     shoulda-matchers (4.0.1)
       activesupport (>= 4.2.0)
     simplecov (0.16.1)
@@ -356,6 +385,7 @@ DEPENDENCIES
   factory_bot_rails
   faker
   font-awesome-rails
+  guard-rspec
   jquery-rails
   jquery-ui-rails
   kaminari
@@ -363,6 +393,7 @@ DEPENDENCIES
   omniauth-google-oauth2
   puma (~> 3.11)
   rails (~> 5.2.2)
+  rails-controller-testing
   rails-i18n
   rails-jquery-autocomplete
   rspec

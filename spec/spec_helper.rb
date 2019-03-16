@@ -4,15 +4,22 @@ require "factory_bot_rails"
 
 require "simplecov"
 require "coveralls"
+require 'devise'
 
-Coveralls.wear! "rails"
+require_relative "support/controller_helpers.rb"
 
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-  SimpleCov::Formatter::HTMLFormatter,
-  Coveralls::SimpleCov::Formatter
-])
+unless ARGV.any? {|e| e =~ /guard-rspec/ }
+  Coveralls.wear! "rails"
 
-SimpleCov.start "rails"
+  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+    SimpleCov::Formatter::HTMLFormatter,
+    Coveralls::SimpleCov::Formatter
+  ])
+
+  SimpleCov.start "rails"
+end
+
+
 
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
@@ -42,4 +49,6 @@ RSpec.configure do |config|
   config.shared_context_metadata_behavior = :apply_to_host_groups
 
   config.order = :random
+
+  config.extend ControllerHelpers, type: :controller
 end

@@ -12,23 +12,24 @@ class CopiesController < ApplicationController
   end
 
   def create
-    copy = Copy.new
+    @copy = Copy.new(copy_params)
+    @copy.print = Print.find params[:print_id]
 
-    copy.inventory_number = params[:copy][:inventory_number]
-
-    print = Print.find params[:print_id]
-
-    copy.print = print
-
-    if copy.save
-      redirect_back fallback_location: print_path(print), success: "Копието беше добавено успешно!"
+    if @copy.save
+      redirect_back fallback_location: print_path(@copy.print), success: "Копието беше добавено успешно!"
     else
-      redirect_to prints_path(print), warning: "Възникна грешка при добавяне на копиетп!"
+      redirect_to prints_path, warning: "Възникна грешка при добавяне на копиетп!"
     end
   end
 
   def destroy
     Copy.destroy params[:id]
     redirect_back fallback_location: print_path(params[:print_id]), success: "Копието беше изтрито успешно!"
+  end
+
+private
+
+  def copy_params
+    params.require(:copy).permit(:inventory_number)
   end
 end

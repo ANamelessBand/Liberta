@@ -45,12 +45,14 @@ group :development do
   gem "spring-watcher-listen", "~> 2.0.0"
   gem "rubocop", require: false
   gem "rubocop-rails_config", require: false
+  gem 'guard-rspec', require: false
 end
 
 group :test do
   gem "shoulda-matchers"
   gem "simplecov"
   gem "coveralls"
+  gem "rails-controller-testing"
 end
 
 group :tasks do
