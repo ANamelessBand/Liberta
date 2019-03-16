@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PrintsController < ApplicationController
-  before_action :set_print, except: [:index, :best, :new, :create]
+  before_action :set_print,     except: [:index, :best, :new, :create]
   before_action :require_admin, except: [:index, :best, :show]
 
   autocomplete :print, :title
@@ -68,7 +68,6 @@ class PrintsController < ApplicationController
   end
 
   def destroy
-    debugger
     @print.destroy!
     redirect_to prints_path, success: "Публикацията беше изтрита успешно! "
   end
