@@ -1,7 +1,7 @@
 desc 'Inserts realistic fake data for development purposes'
 task fake: :environment do
   authors = [
-    "J. J. Martin",
+    "George R. R. Martin",
     "Joe Kutner",
     "Dave Thomas",
     "Chad Fowler",
