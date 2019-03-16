@@ -14,7 +14,11 @@ Rails.application.routes.draw do
     get :autocomplete_print_title, on: :collection
 
     resources :recommendations, only: [:create, :destroy]
-    resources :wishlists, only: [:create, :destroy]
+
+
+    post "add-wishlist", on: :member
+    post "remove-wishlist", on: :member
+
     resources :copies, only: [:show, :create, :destroy] do
       resources :loans, only: [:create] do
         get "return", on: :member

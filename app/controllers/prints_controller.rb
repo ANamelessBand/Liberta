@@ -23,6 +23,16 @@ class PrintsController < ApplicationController
     add_breadcrumb @print.title, print_path
   end
 
+  def add_wishlist
+    @print = Print.find params[:id]
+    Wishlist.create!(user: current_user, print: @print)
+  end
+
+  def remove_wishlist
+    w = Wishlist.find_by_user_id_and_print_id current_user.id, params[:id]
+    w.destroy!
+  end
+
   ## Admin operations
 
   def new

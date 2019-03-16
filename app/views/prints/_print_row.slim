@@ -18,18 +18,20 @@ tr
 
     - if user_signed_in?
       - if current_user.wish? print
-        a.btn.btn-xs.btn-danger.remove-wish-xs.icon(
-          data-for=print.id
-          href="javascript:void;"
-          title="премахни от желани"
-        )
+        = link_to remove_wishlist_print_path(print),
+            remote: true,
+            method: :post,
+            title: 'премахни от желани',
+            data: { print_id: print.id },
+            class: "btn btn-xs btn-danger remove-wish icon" do
           = fa_icon 'minus'
       - else
-        a.btn.btn-xs.btn-success.add-wish-xs.icon(
-          data-for=print.id
-          href="javascript:void;"
-          title="добави в желани"
-        )
+        = link_to add_wishlist_print_path(print),
+            remote: true,
+            method: :post,
+            title: 'добави в желани',
+            data: { print_id: print.id },
+            class: 'btn btn-xs btn-success add-wish icon' do
           = fa_icon 'plus'
 
   - if admin?

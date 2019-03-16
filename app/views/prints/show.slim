@@ -24,12 +24,18 @@
 
   - if user_signed_in?
     - if current_user.wish? @print
-      = link_to print_wishlist_path(@print, current_user.wish_for(@print)),
-          method: :delete,
+      = link_to remove_wishlist_print_path(@print),
+          remote: true,
+          method: :post,
+          data: { print_id: @print.id, text: true },
           class: 'btn btn-danger remove-wish' do
         = fa_icon 'minus', text: 'премахни от желани'
     - else
-      = link_to print_wishlists_path(@print), method: :post, class: 'btn btn-outline-success add-wish' do
+      = link_to add_wishlist_print_path(@print),
+          remote: true,
+          method: :post,
+          data: { print_id: @print.id, text: true },
+          class: 'btn btn-success add-wish' do
         = fa_icon 'plus', text: 'добави в желани'
   - else
     = link_to new_user_session_path, class: 'btn btn-outline-success' do

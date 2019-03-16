@@ -1,0 +1,8 @@
+bg:
+  views:
+    pagination:
+      first: '&laquo; Първа'
+      last: Последна &raquo;
+      next: Следваща &rsaquo;
+      previous: '&lsaquo; Предишна'
+      truncate: '&hellip;'
