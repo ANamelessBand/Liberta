@@ -21,7 +21,7 @@ class CopiesController < ApplicationController
     copy.print = print
 
     if copy.save
-      redirect_to print_path(print), success: "Копието беше добавено успешно!"
+      redirect_back fallback_location: print_path(print), success: "Копието беше добавено успешно!"
     else
       redirect_to prints_path(print), warning: "Възникна грешка при добавяне на копиетп!"
     end
@@ -29,6 +29,6 @@ class CopiesController < ApplicationController
 
   def destroy
     Copy.destroy params[:id]
-    redirect_to print_path(params[:print_id]), success: "Копието беше изтрито успешно!"
+    redirect_back fallback_location: print_path(params[:print_id]), success: "Копието беше изтрито успешно!"
   end
 end

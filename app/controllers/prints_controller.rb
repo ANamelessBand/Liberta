@@ -46,7 +46,7 @@ class PrintsController < ApplicationController
     set_print_associations(@print)
 
     if @print.save
-      redirect_to prints_path, notice: "Публикацията беше запазена успешно!"
+      redirect_to print_path(@print), notice: "Публикацията беше запазена успешно!"
     else
       render :new
     end

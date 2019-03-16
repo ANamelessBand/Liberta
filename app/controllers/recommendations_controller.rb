@@ -9,14 +9,14 @@ class RecommendationsController < ApplicationController
         rating: params[:rating].to_f,
         comment: params[:recommendation][:comment]
 
-    redirect_to print_path(@print), success: "Препоръката беше добавена успешно!"
+    redirect_back fallback_location: print_path(@print), success: "Препоръката беше добавена успешно!"
   end
 
   def destroy
     deny_access if current_user != Recommendation.find(params[:id]).user && !current_user.admin?
 
     Recommendation.destroy params[:id]
-    redirect_to print_path(@print), success: "Препоръката беше изтрита успешно!"
+    redirect_back fallback_location: print_path(@print), success: "Препоръката беше изтрита успешно!"
   end
 
 private

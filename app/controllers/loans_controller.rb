@@ -13,19 +13,22 @@ class LoansController < ApplicationController
         time_loaned: Time.now,
         time_supposed_return: Time.now + 7.days
 
-    redirect_to print_copy_path(copy.print, copy), success: "Копието беше отдадено успешно!"
+    redirect_back fallback_location: print_copy_path(copy.print, copy),
+        success: "Копието беше отдадено успешно!"
   end
 
   def return
     @loan.return!
     @loan.print.notify_copy_returned!
 
-    redirect_to print_copy_path(@loan.print, @loan.copy), success: "Копието беше върнато успешно!"
+    redirect_back fallback_location: print_copy_path(@loan.print, @loan.copy),
+        success: "Копието беше върнато успешно!"
   end
 
   def extend
     @loan.extend!
-    redirect_to print_copy_path(@loan.print, @loan.copy), success: "Срокът за връщане беше удължен успешно!"
+    redirectback fallback_location: print_copy_path(@loan.print, @loan.copy),
+        success: "Срокът за връщане беше удължен успешно!"
   end
 
 private
