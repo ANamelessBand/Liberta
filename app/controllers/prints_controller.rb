@@ -68,6 +68,7 @@ class PrintsController < ApplicationController
   end
 
   def destroy
+    debugger
     @print.destroy!
     redirect_to prints_path, success: "Публикацията беше изтрита успешно! "
   end

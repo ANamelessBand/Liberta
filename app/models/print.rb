@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Print < ApplicationRecord
-  has_many :copies, dependent: :destroy
+  has_many :copies
   has_many :recommendations, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :wishlists, dependent: :destroy
 

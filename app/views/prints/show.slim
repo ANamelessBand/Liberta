@@ -29,14 +29,14 @@
           method: :post,
           data: { print_id: @print.id, text: true },
           class: 'btn btn-danger remove-wish' do
-        = fa_icon 'minus', text: 'премахни от желани'
+        - fa_icon 'minus', text: 'премахни от желани'
     - else
       = link_to add_wishlist_print_path(@print),
           remote: true,
           method: :post,
           data: { print_id: @print.id, text: true },
           class: 'btn btn-success add-wish' do
-        = fa_icon 'plus', text: 'добави в желани'
+        - fa_icon 'plus', text: 'добави в желани'
   - else
     = link_to new_user_session_path, class: 'btn btn-outline-success' do
       - fa_icon 'plus', text: 'добави в желани'

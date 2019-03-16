@@ -24,8 +24,8 @@ ActiveRecord::Schema.define(version: 2019_03_13_123927) do
   end
 
   create_table "copies", force: :cascade do |t|
-    t.integer "inventory_number"
-    t.integer "print_id"
+    t.integer "inventory_number", null: false
+    t.integer "print_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["print_id"], name: "index_copies_on_print_id"
@@ -58,13 +58,12 @@ ActiveRecord::Schema.define(version: 2019_03_13_123927) do
   end
 
   create_table "prints", force: :cascade do |t|
-    t.integer "pages"
     t.string "title", null: false
     t.string "language", null: false
     t.string "format"
     t.string "isbn"
     t.text "description"
-    t.boolean "is_loanable", default: true
+    t.integer "pages"
     t.integer "publisher_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -86,8 +85,8 @@ ActiveRecord::Schema.define(version: 2019_03_13_123927) do
   create_table "recommendations", force: :cascade do |t|
     t.string "comment"
     t.float "rating", default: 0.0
-    t.integer "user_id"
-    t.integer "print_id"
+    t.integer "user_id", null: false
+    t.integer "print_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["print_id"], name: "index_recommendations_on_print_id"

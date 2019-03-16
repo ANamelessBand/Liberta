@@ -19,9 +19,11 @@
           td= link_to publisher.name, publisher
           td= publisher.prints.count
           - if admin?
-            td= link_to publisher_path(publisher),
-                method: :delete,
-                class: 'btn btn-xs btn-outline-danger',
-                data: { confirm: "Are you sure?" } do
-              - fa_icon 'times', text: 'изтрий'
+            td
+              - if publisher.prints.empty?
+                = link_to publisher_path(publisher),
+                    method: :delete,
+                    class: 'btn btn-xs btn-outline-danger',
+                    data: { confirm: "Are you sure?" } do
+                  - fa_icon 'times', text: 'изтрий'
   = paginate @publishers
