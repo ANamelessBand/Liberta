@@ -1,0 +1,15 @@
+- content_for :title, 'Забравена парола'
+
+= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+  .row
+    .col-md-auto= render "devise/shared/error_messages", resource: resource
+
+  .row
+    .col-md-auto
+      .form-group
+        = f.label :email
+        = f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control'
+      .actions
+        = f.submit "Изпрати инструкции за възстановяване на паролата", class: 'btn btn-primary'
+
+.mt-4= render "devise/shared/links"

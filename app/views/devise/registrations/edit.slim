@@ -1,0 +1,46 @@
+- content_for :title, "Редакция на профил"
+
+= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+  .row
+    .col-md-auto= render "devise/shared/error_messages", resource: resource
+
+  .row
+    .col-md-auto
+      .form-group
+        = f.label :email, 'Email:'
+        = f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control'
+
+      - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+        div Currently waiting confirmation for: #{resource.unconfirmed_email}
+
+      .form-group
+        = f.label :name, 'Име:'
+        = f.text_field :name, class: 'form-control'
+
+      .form-group
+        = f.label :password, 'Парола:'
+        i &nbsp;(остави празно ако не искаш промяна)
+        br
+        = f.password_field :password, autocomplete: "new-password", class: 'form-control'
+        - if @minimum_password_length
+          em минимум #{@minimum_password_length} знака
+
+      .form-group
+        = f.label :password_confirmation, 'Повтори паролата:'
+        = f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control'
+
+      .form-group
+        = f.label :current_password, 'Текуща парола: *'
+        i &nbsp;(задължителна за да потвърдим промените)
+        = f.password_field :current_password, autocomplete: "current-password", class: 'form-control'
+
+      .form-group
+        = f.submit "Редактирай", class: 'btn btn-success'
+
+.mt-4
+  h3 Изтриване на профил
+  div= button_to "Изтрий",
+      registration_path(resource_name),
+      method: :delete,
+      data: { confirm: "Are you sure?" },
+      class: 'btn btn-danger'

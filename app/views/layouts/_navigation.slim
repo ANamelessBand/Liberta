@@ -48,8 +48,11 @@ nav.navbar.navbar-expand-md.navbar-dark.bg-dark.fixed-top(role="navigation")
               = current_user.email.split("@").first
               b.caret
             .dropdown-menu.dropdown-menu-right
-              = link_to "Профил", current_user, class: 'dropdown-item'
+              = link_to "Моите книги", current_user, class: 'dropdown-item'
+              = link_to 'Профил', edit_user_registration_path, class: 'dropdown-item'
               = link_to 'Изход', destroy_user_session_path, method: :delete, class: 'dropdown-item'
         - else
-          li.nav-item
-            = link_to 'Влез', new_user_session_path, class: 'nav-link'
+          li.nav-item= link_to new_user_registration_path, class: 'nav-link' do
+            - fa_icon 'plus', text: 'Регистрация'
+          li.nav-item= link_to new_user_session_path, class: 'nav-link' do
+            - fa_icon 'user-circle-o', text: 'Вход'

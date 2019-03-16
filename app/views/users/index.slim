@@ -1,6 +1,6 @@
 - content_for :title, 'Потребители'
 - content_for :actions do
-  = render partial: '/basic_search_form', locals: { path: users_path, autocomplete_path: autocomplete_user_email_users_path, placeholder: 'Иван Иванов' }
+  = render partial: '/basic_search_form', locals: { path: users_path, autocomplete_path: autocomplete_user_email_users_path, placeholder: 'ivan@ivanov.name' }
 
 - if @users.empty?
   .alert.alert-info.from-top-2 Няма намерени потребители
@@ -8,9 +8,19 @@
   table.table.table-striped.table-hover.from-top-2
     thead
       tr
-        th email
+        th Email
+        - if admin?
+          th Админ
     tbody
       - @users.each do |user|
         tr
           td= link_to user.email, user
+          - if admin?
+            td
+              - if user.admin
+                = link_to revoke_admin_user_path(user), method: :post, class: 'btn btn-xs btn-outline-danger' do
+                  - fa_icon 'minus', text: 'премахни админ права'
+              - else
+                = link_to make_admin_user_path(user), method: :post, class: 'btn btn-xs btn-outline-success' do
+                  - fa_icon 'plus', text: 'дай админ права'
   = paginate @users

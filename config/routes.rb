@@ -10,12 +10,14 @@ Rails.application.routes.draw do
     get :autocomplete_user_email, on: :collection
 
     post :mark_notifications_as_read, on: :member
+    post :make_admin,                 on: :member
+    post :revoke_admin,               on: :member
   end
 
   resources :prints do
     get :autocomplete_print_title, on: :collection
 
-    post :add_wishlist, on: :member
+    post :add_wishlist,    on: :member
     post :remove_wishlist, on: :member
 
     resources :recommendations, only: [:create, :destroy]
