@@ -10,7 +10,7 @@ class User < ApplicationRecord
   has_many :recommendations, dependent: :destroy
   has_many :notifications,   dependent: :destroy
   has_many :wishlists,       dependent: :destroy
-  has_many :loans,           dependent: :destroy
+  has_many :loans, -> { order(time_loaned: :desc) }, dependent: :destroy
 
   # def self.from_omniauth(auth)
   #   where(provider: auth.provider, uid: auth.uid).first_or_create do |user|

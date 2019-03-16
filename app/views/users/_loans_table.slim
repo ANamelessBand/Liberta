@@ -1,0 +1,18 @@
+table.table.table-striped
+  thead
+    tr
+      th Публикация
+      th Автори
+      th Взета на
+      th Върната на
+  tbody
+    - @user.loans.each do |loan|
+      tr
+        td= print_link_with_cover(loan.print)
+        td= authors_html(loan.print)
+        td= loan.time_loaned.to_s(:long)
+        td
+          - if loan.returned?
+            = loan.time_returned.to_s(:long)
+          - else
+            | не е върната

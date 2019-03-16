@@ -9,12 +9,14 @@
     thead
       tr
         th Email
+        th Име
         - if admin?
           th Админ
     tbody
       - @users.each do |user|
         tr
           td= link_to user.email, user
+          td= user.name
           - if admin?
             td
               - if user.admin

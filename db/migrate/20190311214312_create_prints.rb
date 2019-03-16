@@ -10,7 +10,7 @@ class CreatePrints < ActiveRecord::Migration[5.2]
       t.text :description
       t.integer :pages
 
-      t.references :publisher
+      t.references :publisher, null: false
 
       t.timestamps
     end

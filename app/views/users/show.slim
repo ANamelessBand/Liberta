@@ -1,4 +1,7 @@
-- content_for :title, @user.email
+- if @user == current_user
+  - content_for :title, "Моите книги"
+- else
+  - content_for :title, "Книгите на #{@user.email}"
 ul.nav.nav-tabs
   li.nav-item
     a.nav-link.active(data-toggle="tab" href="#history") История
@@ -8,7 +11,7 @@ ul.nav.nav-tabs
     a.nav-link(data-toggle="tab" href="#wishlist") Желани
 .tab-content
   #history.tab-pane.active
-    = render partial: 'prints/prints_table', locals: { prints: @user.loaned_prints }
+    = render 'loans_table'
   #recommended.tab-pane
     = render partial: 'recommendations_table', locals: { recommendations: @user.recommendations }
   #wishlist.tab-pane

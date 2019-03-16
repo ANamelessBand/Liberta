@@ -17,7 +17,8 @@ class UsersController < ApplicationController
   end
 
   def show
-    add_breadcrumb @user.email, user_path
+    breadcrumb_name = @user == current_user ? "Моите книги": "Книгите на #{@user.email}"
+    add_breadcrumb breadcrumb_name, user_path
   end
 
   def mark_notifications_as_read
