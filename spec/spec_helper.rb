@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
-require "simplecov"
 require "factory_bot_rails"
-SimpleCov.start "rails"
+
+require "coveralls"
+Coveralls.wear!
 
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods

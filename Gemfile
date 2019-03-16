@@ -52,7 +52,7 @@ end
 
 group :test do
   gem "shoulda-matchers"
-  gem "simplecov"
+  gem 'coveralls', require: false
 end
 
 group :tasks do
