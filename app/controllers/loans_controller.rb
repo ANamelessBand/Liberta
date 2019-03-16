@@ -8,13 +8,18 @@ class LoansController < ApplicationController
     user = User.find_by email: params[:user]
     copy = Copy.find params[:copy_id]
 
-    Loan.create! user: user,
+    @loan = Loan.new user: user,
         copy: copy,
         time_loaned: Time.now,
         time_supposed_return: Time.now + 7.days
 
-    redirect_back fallback_location: print_copy_path(copy.print, copy),
-        success: "Копието беше отдадено успешно!"
+    if @loan.save
+      redirect_back fallback_location: print_copy_path(copy.print, copy),
+          success: "Копието беше отдадено успешно!"
+    else
+      redirect_back fallback_location: print_copy_path(copy.print, copy),
+          alert: "Грешка: Не съществува потребител с адрес: #{params[:user]}!"
+    end
   end
 
   def return
