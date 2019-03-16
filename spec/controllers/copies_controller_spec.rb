@@ -85,7 +85,6 @@ RSpec.describe CopiesController, type: :controller do
       it "deletes the copy if found" do
         expect(Copy).to receive(:destroy).with("42")
         subject
-        expect(response).to redirect_back
       end
 
       it "redirects back" do
