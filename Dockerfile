@@ -1,9 +1,10 @@
 FROM ruby:2.6.0-alpine3.8
 
-RUN apk add --no-cache alpine-sdk \
+RUN apk add --no-cache build-base \
   sqlite \
   sqlite-dev \
   nodejs \
+  npm \
   tzdata
 
 ENV RAILS_ROOT /var/www/liberta
