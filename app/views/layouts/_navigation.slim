@@ -42,7 +42,7 @@ nav.navbar.navbar-expand-md.navbar-dark.bg-dark.fixed-top(role="navigation")
           li.nav-item
             a.nav-link.dropdown-toggle(data-toggle="dropdown" href="javascript:void;")
               = fa_icon 'user-circle-o', class: 'mr-1'
-              = current_user.name.split(" ").first
+              = current_user.email.split("@").first
               b.caret
             .dropdown-menu.dropdown-menu-right
               = link_to "Профил", current_user, class: 'dropdown-item'

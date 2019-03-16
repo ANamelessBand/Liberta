@@ -22,6 +22,8 @@ gem "slim-rails"
 gem "rails-i18n"
 
 gem "devise"
+gem 'omniauth-google-oauth2'
+
 gem "kaminari"
 gem "breadcrumbs_on_rails"
 
