@@ -9,9 +9,11 @@
       section.modal-card-body
         .field
           = label_tag :email, 'Email: ', class: 'label'
-          = text_field_tag :email, nil,
-              class: 'input',
-              placeholder: 'user@example.com'
+          .control.has-icons-left
+            = text_field_tag :email, nil,
+                class: 'input',
+                placeholder: 'user@example.com'
+            span.icon.is-small.is-left= fa_icon 'envelope'
       footer.modal-card-foot.justify-flex-end
         button.button.is-outlined.is-link(data-dismiss="modal" type="button") затвори
         = submit_tag 'добави', class: 'button is-success'
