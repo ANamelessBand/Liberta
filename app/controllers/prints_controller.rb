@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class PrintsController < ApplicationController
-  before_action :set_print,         only: [:show, :edit, :update, :destroy, :add_wishlist, :remove_wishlist]
   before_action :require_admin,     only: [:new, :create, :edit, :update, :destroy]
   before_action :require_signed_in, only: [:add_wishlist, :remove_wishlist]
+  before_action :set_print,         only: [:show, :edit, :update, :destroy, :add_wishlist]
 
   autocomplete :print, :title, full: true
   add_breadcrumb "Библиотека", :prints_path
@@ -30,7 +30,8 @@ class PrintsController < ApplicationController
 
   def remove_wishlist
     w = Wishlist.find_by_user_id_and_print_id current_user.id, params[:id]
-    w.destroy!
+    # TODO: Return meaningful error
+    w.destroy! if w.present?
   end
 
   ## Admin operations
