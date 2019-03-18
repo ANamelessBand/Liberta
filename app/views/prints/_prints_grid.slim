@@ -9,7 +9,19 @@
 
         section.print.media-content
           .content(style='height: 100%')
-            p.title.is-4= link_to print.title, print, class: 'has-text-dark'
+            p.title.is-4.is-pulled-left
+              = link_to print.title, print, class: 'has-text-dark'
+              - if admin?
+                .is-pulled-right
+                  = link_to edit_print_path(print), class: 'button is-outlined is-link is-xsmall is-icon-only ml-10', title: 'редактирай' do
+                    span.icon.is-small= fa_icon 'pencil-square-o'
+                  = link_to print_path(print.id),
+                      method: :delete,
+                      data: { confirm: 'Are you sure?' },
+                      title: 'изтрий',
+                      class: 'button is-outlined is-danger is-xsmall is-icon-only ml-10' do
+                    span.icon.is-small= fa_icon 'times'
+            .is-clearfix
             p= stars_span(print.rating)
             p= truncate(print.description, length: 120)
           div
@@ -30,3 +42,5 @@
                     data: { print_id: print.id, text: true },
                     class: 'button is-success add-wish ml-10' do
                   - icon_with_text 'plus', 'желани'
+
+
