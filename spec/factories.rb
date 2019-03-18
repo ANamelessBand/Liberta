@@ -22,6 +22,10 @@ FactoryBot.define do
     user
     copy
 
+    trait :unreturned do
+      time_returned { nil }
+    end
+
     trait :returned do
       time_returned { Time.now }
     end

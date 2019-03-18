@@ -17,7 +17,7 @@
           td
             = link_to print_copy_path(copy.print, copy), class: 'button is-outlined is-link is-xsmall' do
               - icon_with_text 'share', 'към копието'
-            = link_to extend_print_copy_loan_path(copy.print, copy, copy.current_loan),
+            = link_to extend_loan_print_copy_loan_path(copy.print, copy, copy.current_loan),
                 method: :post,
                 class: 'button is-outlined is-link is-xsmall ml-5' do
               - icon_with_text 'mail-forward', "още #{Rails.configuration.default_loan_time} дни"

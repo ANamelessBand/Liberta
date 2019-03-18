@@ -35,7 +35,7 @@
               - else
                 td Не е върната
                 td
-                  = link_to extend_print_copy_loan_path(@copy.print, @copy, loan),
+                  = link_to extend_loan_print_copy_loan_path(@copy.print, @copy, loan),
                       method: :post,
                       class: 'button is-outlined is-link is-xsmall' do
                     - icon_with_text 'mail-forward', "още #{Rails.configuration.default_loan_time} дни"

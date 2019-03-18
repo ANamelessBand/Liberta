@@ -2,7 +2,7 @@
 
 class LoansController < ApplicationController
   before_action :require_admin
-  before_action :set_and_check_returned, only: [:return, :extend]
+  before_action :set_and_check_returned, only: [:return, :extend_loan]
 
   def create
     user = User.find_by email: params[:user]
@@ -11,7 +11,7 @@ class LoansController < ApplicationController
     @loan = Loan.new user: user,
         copy: copy,
         time_loaned: Time.now,
-        time_supposed_return: Time.now + 7.days
+        time_supposed_return: Time.now + Rails.configuration.default_loan_time.days
 
     if @loan.save
       redirect_back fallback_location: print_copy_path(copy.print, copy),
@@ -30,7 +30,7 @@ class LoansController < ApplicationController
         success: "Копието беше върнато успешно!"
   end
 
-  def extend
+  def extend_loan
     @loan.extend!
     redirect_back fallback_location: print_copy_path(@loan.print, @loan.copy),
         success: "Срокът за връщане беше удължен успешно!"

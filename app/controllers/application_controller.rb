@@ -37,6 +37,7 @@ private
     Time.zone = "Sofia"
   end
 
+  # TODO: Reimplement as concern?
   def search_and_paginate(model, field_name = :name, should_paginate = true)
     params[:search].strip! if params[:search]
 
