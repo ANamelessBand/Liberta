@@ -21,11 +21,12 @@ class AuthorsController < ApplicationController
 
   def destroy
     author = Author.find params[:id]
-    unless author.prints.empty?
-      redirect_to authors_path, alert: "Грешка: авторът има регистрирани публикации."
-    else
+
+    if author.prints.empty?
       author.destroy!
       redirect_to authors_path, success: "Авторът беше изтрит успешно!"
+    else
+      redirect_to authors_path, alert: "Грешка: авторът има регистрирани публикации."
     end
   end
 end

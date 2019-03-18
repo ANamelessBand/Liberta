@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class RecommendationsController < ApplicationController
+  before_action :require_signed_in
   before_action :set_print
 
   def create
@@ -13,7 +14,10 @@ class RecommendationsController < ApplicationController
   end
 
   def destroy
-    deny_access if current_user != Recommendation.find(params[:id]).user && !current_user.admin?
+    if current_user != Recommendation.find(params[:id]).user && !current_user.admin?
+      deny_access
+      return
+    end
 
     Recommendation.destroy params[:id]
     redirect_back fallback_location: print_path(@print), success: "Препоръката беше изтрита успешно!"

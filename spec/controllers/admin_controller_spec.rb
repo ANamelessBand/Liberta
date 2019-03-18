@@ -23,7 +23,7 @@ RSpec.describe AdminController, type: :controller do
       let (:overdue2) { create(:copy, :overdue) }
       let (:copies)   { [copy, overdue1, overdue2] }
 
-      let (:wishlists) { FactoryBot.create_list(:wishlist, 5) }
+      let (:wishlists) { create_list(:wishlist, 5) }
 
       it "assigns all @wishlists" do
         expect(Wishlist).to receive(:all).and_return(wishlists)

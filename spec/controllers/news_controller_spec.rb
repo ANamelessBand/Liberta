@@ -12,21 +12,25 @@ RSpec.describe NewsController, type: :controller do
           { news: { title: "test", content: "test content" } }
         end
 
+        subject { post :create, params: params }
+
         it { should permit(:title, :content).for(:create, params: params).on(:news) }
 
         it "creates the news" do
           expect(News).to receive(:create!)
-          post :create, params: params
+          subject
         end
 
         it "redirects to the home page" do
-          post :create, params: params
+          subject
           expect(response).to redirect_to root_path
         end
       end
 
-      it "throws an error with invalid parameters" do
-        expect { post :create, params: { news: { title: "test" } } }.to raise_error ActiveRecord::RecordInvalid
+      context "with invalid params" do
+        it "raises an error" do
+          expect { post :create, params: { news: { title: "test" } } }.to raise_error ActiveRecord::RecordInvalid
+        end
       end
     end
 
@@ -42,6 +46,7 @@ RSpec.describe NewsController, type: :controller do
       it "redirects to the home page" do
         allow(News).to receive(:destroy).with("42").and_return(news)
         subject
+
         expect(response).to redirect_to root_path
       end
     end

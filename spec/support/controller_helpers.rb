@@ -17,11 +17,12 @@ module ControllerHelpers
 
   def sign_out
     before do
+      allow(controller).to receive(:user_signed_in?).and_return(false)
       allow(controller).to receive(:current_user).and_return(nil)
     end
   end
 
-  def redirect_back
+  def redirects_back
     let(:back) { "http://google.com" }
     before { request.env["HTTP_REFERER"] = back }
   end

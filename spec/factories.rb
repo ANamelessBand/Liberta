@@ -58,6 +58,12 @@ FactoryBot.define do
 
   factory :publisher do
     name { Faker::Book.publisher }
+
+    trait :with_prints do
+      after(:create) do |publisher, evaluator|
+        create_list(:print, 10, publisher: publisher)
+      end
+    end
   end
 
   factory :recommendation do

@@ -19,8 +19,6 @@ unless ARGV.any? { |e| e =~ /guard-rspec/ }
   SimpleCov.start "rails"
 end
 
-
-
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 

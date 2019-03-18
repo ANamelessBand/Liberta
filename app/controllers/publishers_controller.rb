@@ -21,11 +21,12 @@ class PublishersController < ApplicationController
 
   def destroy
     publisher = Publisher.find params[:id]
-    unless publisher.prints.empty?
-      redirect_to publishers_path, alert: "Грешка: издателството има регистрирани публикации."
-    else
+
+    if publisher.prints.empty?
       publisher.destroy!
       redirect_to publishers_path, success: "Издателството беше изтрито успешно!"
+    else
+      redirect_to publishers_path, alert: "Грешка: издателството има регистрирани публикации."
     end
   end
 end

@@ -10,6 +10,17 @@ RSpec.describe User, type: :model do
 
   subject { create(:user) }
 
+  describe "#name_or_email" do
+    it "returns name if present" do
+      user = create(:user, name: "test user")
+      expect(user.name_or_email).to eq "test user"
+    end
+
+    it "returns email if no name present" do
+      expect(subject.name_or_email).to eq subject.email
+    end
+  end
+
   context "has a print added to their wishlist" do
     before :each do
       @print = create(:print)

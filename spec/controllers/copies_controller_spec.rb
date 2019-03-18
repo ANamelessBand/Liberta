@@ -41,14 +41,19 @@ RSpec.describe CopiesController, type: :controller do
       sign_in_as :admin
 
       let (:print) { create(:print) }
-      before { allow(Print).to receive(:find).and_return(print) }
+
+      before do
+        allow(Print).to receive(:find).and_return(print)
+      end
 
       context "with valid params" do
-        redirect_back
+        redirects_back
 
         let (:params) do
           { print_id: print.id, copy: { inventory_number: 1 } }
         end
+
+        subject { post :create, params: params }
 
         before { allow(Copy).to receive(:new).and_return(copy) }
 
@@ -56,31 +61,33 @@ RSpec.describe CopiesController, type: :controller do
 
         it "looks up print by print_id" do
           expect(Print).to receive(:find).with(print.id.to_s)
-          post :create, params: params
+          subject
         end
 
         it "assigns the new @copy" do
-          post :create, params: params
+          subject
           expect(assigns(:copy)).to eq copy
         end
 
         it "redirects back" do
-          post :create, params: params
+          subject
           expect(response).to redirect_back
         end
       end
 
-      it "redirects to all prints when unable to save" do
-        post :create, params: { print_id: print.id, copy: { id: 1 } }
-        expect(response.redirect_url).to end_with prints_path
+      context "with invalid params" do
+        it "redirects to all prints" do
+          post :create, params: { print_id: print.id, copy: { id: 1 } }
+          expect(response.redirect_url).to end_with prints_path
+        end
       end
     end
   end
 
   describe "DELETE destroy" do
-    subject { delete :destroy, params: { id: 42, print_id: 1 } }
+    redirects_back
 
-    redirect_back
+    subject { delete :destroy, params: { id: 42, print_id: 1 } }
 
     context "when admin" do
       sign_in_as :admin
@@ -94,6 +101,12 @@ RSpec.describe CopiesController, type: :controller do
         allow(Copy).to receive(:destroy).with("42")
         subject
         expect(response).to redirect_back
+      end
+
+      context "when copy doesn't exist" do
+        it "raises an error" do
+          expect { subject }.to raise_error ActiveRecord::RecordNotFound
+        end
       end
     end
 

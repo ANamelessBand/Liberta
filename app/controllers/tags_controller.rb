@@ -21,11 +21,12 @@ class TagsController < ApplicationController
 
   def destroy
     tag = Tag.find params[:id]
-    unless tag.prints.empty?
-      redirect_to tags_path, alert: "Грешка: тагът има регистрирани публикации."
-    else
+
+    if tag.prints.empty?
       tag.destroy!
       redirect_to tags_path, success: "Тагът беше изтрит успешно!"
+    else
+      redirect_to tags_path, alert: "Грешка: тагът има регистрирани публикации."
     end
   end
 end
