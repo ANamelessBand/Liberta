@@ -19,7 +19,7 @@
         tbody
           - @print.recommendations.each do |recommendation|
             tr
-              td= link_to recommendation.user.name, recommendation.user
+              td= link_to recommendation.user.name_or_email, recommendation.user
               td= stars_span recommendation.rating
               td= recommendation.comment
               td

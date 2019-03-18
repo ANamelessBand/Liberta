@@ -22,6 +22,14 @@ class User < ApplicationRecord
   #   end
   # end
 
+  def name_or_email
+    if name.present?
+      name
+    else
+      email
+    end
+  end
+
   def wish?(print)
     wish_for(print).present?
   end

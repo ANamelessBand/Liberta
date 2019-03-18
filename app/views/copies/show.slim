@@ -26,7 +26,7 @@
         tbody
           - @copy.loans.each do |loan|
             tr
-              td= link_to loan.user.name, loan.user
+              td= link_to loan.user.name_or_email, loan.user
               td= loan.time_loaned.strftime("%B %e, %Y")
               td(class=(loan.overdue? ? 'has-text-danger' : ''))= loan.time_supposed_return.strftime("%B %e, %Y")
               - if loan.time_returned
@@ -38,7 +38,7 @@
                   = link_to extend_print_copy_loan_path(@copy.print, @copy, loan),
                       method: :post,
                       class: 'button is-outlined is-link is-xsmall' do
-                    - icon_with_text 'mail-forward', 'още 7 дни'
+                    - icon_with_text 'mail-forward', "още #{Rails.configuration.default_loan_time} дни"
                   = link_to return_print_copy_loan_path(@copy.print, @copy, loan),
                       method: :post,
                       class: 'button is-outlined is-success is-xsmall ml-10' do

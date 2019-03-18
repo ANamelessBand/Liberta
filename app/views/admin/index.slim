@@ -11,7 +11,7 @@
           td(colspan="4") няма просрочени копия
       - @overdue.each do |copy|
         tr
-          td= link_to copy.current_loan.user.email, copy.current_loan.user
+          td= link_to copy.current_loan.user.name_or_email, copy.current_loan.user
           td= link_to copy.print.title, copy.print
           td.has-text-danger= copy.current_loan.time_supposed_return.strftime("%B %e, %Y")
           td
@@ -20,7 +20,7 @@
             = link_to extend_print_copy_loan_path(copy.print, copy, copy.current_loan),
                 method: :post,
                 class: 'button is-outlined is-link is-xsmall ml-5' do
-              - icon_with_text 'mail-forward', 'още 7 дни'
+              - icon_with_text 'mail-forward', "още #{Rails.configuration.default_loan_time} дни"
             = link_to return_print_copy_loan_path(copy.print, copy, copy.current_loan),
                 method: :post,
                 class: 'button is-outlined is-success is-xsmall ml-5' do
@@ -38,6 +38,6 @@
           td(colspan="3") няма желани публикации
       - @wishlists.each do |wishlist|
         tr
-          td= link_to wishlist.user.email, wishlist.user
+          td= link_to wishlist.user.name_or_email, wishlist.user
           td= link_to wishlist.print.title, wishlist.print
           td= wishlist.print.free_copies.count

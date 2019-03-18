@@ -9,7 +9,7 @@ RSpec.describe Loan, type: :model do
   subject { create(:loan) }
 
   before do
-    allow(Rails.configuration).to receive(:default_loan_time).and_return(7.days)
+    allow(Rails.configuration).to receive(:default_loan_time).and_return(7)
   end
 
   describe "#new" do

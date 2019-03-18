@@ -12,4 +12,5 @@
   = render partial: 'prints/prints_table', locals: { prints: @prints }
 - else
   = render partial: 'prints/prints_grid', locals: { prints: @prints }
+
 = paginate @prints

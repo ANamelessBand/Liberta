@@ -12,10 +12,12 @@ Rails.application.routes.draw do
 
   resources :users, only: [:index, :show] do
     get :autocomplete_user_email, on: :collection
+    post :custom_create,          on: :collection
 
     post :mark_notifications_as_read, on: :member
     post :make_admin,                 on: :member
     post :revoke_admin,               on: :member
+    delete :custom_delete,            on: :member
   end
 
   resources :prints do

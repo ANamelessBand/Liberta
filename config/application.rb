@@ -36,6 +36,6 @@ module Liberta
 
     config.i18n.default_locale = :bg
 
-    config.default_loan_time = 20.days
+    config.default_loan_time = 20
   end
 end

@@ -1,0 +1,17 @@
+.modal(id="new_user_modal")
+  .modal-background.animated.fadeIn.fastest
+  .modal-card.animated.fadeInDown.fastest
+    header.modal-card-head
+      h5.modal-card-title Нов потребител
+      button.delete(aria-label="Close" data-dismiss="modal" type="button")
+
+    = form_tag custom_create_users_path do
+      section.modal-card-body
+        .field
+          = label_tag :email, 'Email: ', class: 'label'
+          = text_field_tag :email, nil,
+              class: 'input',
+              placeholder: 'user@example.com'
+      footer.modal-card-foot.justify-flex-end
+        button.button.is-outlined.is-link(data-dismiss="modal" type="button") затвори
+        = submit_tag 'добави', class: 'button is-success'

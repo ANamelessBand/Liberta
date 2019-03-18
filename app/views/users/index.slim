@@ -1,6 +1,10 @@
 - content_for :title, 'Потребители'
 - content_for :actions do
   = render partial: '/basic_search_form', locals: { path: users_path, autocomplete_path: autocomplete_user_email_users_path, placeholder: 'ivan@ivanov.name' }
+  - if admin?
+    a.button.is-success.ml-10(data-toggle="modal" href="#new_user_modal")
+      = icon_with_text 'plus', 'добави'
+    = render partial: 'users/new_modal'
 
 - if @users.empty?
   p Няма намерени потребители.
@@ -30,4 +34,10 @@
                       method: :post,
                       class: 'button is-outlined is-success is-xsmall' do
                     - icon_with_text 'plus', 'дай админ права'
+                = link_to custom_delete_user_path(user),
+                    method: :delete,
+                    data: { confirm: "Are you sure?" },
+                    class: 'button is-danger is-xsmall ml-10' do
+                  - icon_with_text 'times', 'изтрий'
+
   = paginate @users

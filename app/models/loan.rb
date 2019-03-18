@@ -9,7 +9,7 @@ class Loan < ApplicationRecord
   after_initialize :init
 
   def init
-    self.time_supposed_return ||= Time.now + Rails.configuration.default_loan_time
+    self.time_supposed_return ||= Time.now + Rails.configuration.default_loan_time.days
   end
 
   def returned?
@@ -29,7 +29,7 @@ class Loan < ApplicationRecord
     save!
   end
 
-  def extend!(duration = Rails.configuration.default_loan_time)
+  def extend!(duration = Rails.configuration.default_loan_time.days)
     self.time_supposed_return += duration
     save!
   end

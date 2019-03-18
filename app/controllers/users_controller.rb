@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   autocomplete :user, :email, full: true
 
   before_action :require_signed_in, only: [:mark_notifications_as_read]
-  before_action :require_admin, only: [:make_admin, :revoke_admin]
+  before_action :require_admin, only: [:make_admin, :revoke_admin, :custom_create, :custom_delete]
 
   before_action :set_user, only: [:show, :mark_notifications_as_read, :make_admin, :revoke_admin]
 
@@ -40,6 +40,24 @@ class UsersController < ApplicationController
     redirect_back fallback_location: root_path
   end
 
+  def custom_create
+    password = Faker::Internet.password
+    @user = User.new email: params[:email],
+        password: password,
+        password_confirmation: password
+
+    if @user.save!
+      redirect_back fallback_location: users_path, success: "Потребителят беше създаден успешно!"
+    else
+      redirect_back fallback_location: users_Path, warning: "Възникна грешка при създаване на потребителя!"
+    end
+  end
+
+  def custom_delete
+    User.destroy params[:id]
+
+    redirect_back fallback_location: users_path, success: "Потребителят беше изтрит успешно!"
+  end
 private
 
   def set_user
