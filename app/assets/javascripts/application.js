@@ -8,7 +8,7 @@
 jQuery.railsAutocomplete.options.showNoMatches = false;
 
 function forEach(parent, selector, fn) {
-  return (parent.querySelectorAll(selector) || []).forEach(fn);
+  return (Array.prototype.slice.call(parent.querySelectorAll(selector), 0) || []).forEach(fn);
 }
 
 function changeWish(oldElement, isAdd) {
@@ -54,7 +54,16 @@ function changeWish(oldElement, isAdd) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  // Handle Bulma Tabs
+  // Open Bulma Navbar Burger
+  forEach(document, '.navbar-burger', function(navbarBurger) {
+    navbarBurger.addEventListener('click', function() {
+      var target = document.getElementById(this.dataset.target);
+      this.classList.toggle('is-active');
+      target.classList.toggle('is-active');
+    });
+  });
+
+  // Switch Bulma Tabs
   forEach(document, '[data-toggle=tab]', function(tabToggler) {
     tabToggler.addEventListener('click', function(event) {
       event.preventDefault();
