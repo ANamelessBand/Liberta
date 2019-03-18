@@ -1,4 +1,4 @@
-table.table.book-details
+table.table.print-details.is-fullwidth
   tr
     th Автори
     td
@@ -21,7 +21,8 @@ table.table.book-details
     th Тагове
     td
       - print.tags.each do |tag|
-        = link_to tag.name, tag, class: 'btn btn-outline-primary btn-xs mr-1'
+        = link_to tag, class: 'button is-outlined is-link is-xsmall mr-5'
+          - icon_with_text 'tag', tag.name
   tr
     th Рейтинг
     td= stars_span print.rating

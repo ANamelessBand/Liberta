@@ -1,6 +1,20 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
+  def navbar_item_class(for_path)
+    ["navbar-item", current_page?(for_path) ? "is-active" : ""]
+  end
+
+  def icon_with_text(icon, text, is_small = false)
+    icon_tag = content_tag(:span, class: ["icon", is_small ? "is-small" : ""]) do
+      fa_icon icon
+    end
+
+    text_tag = content_tag(:span, text)
+
+    [icon_tag, text_tag].join.html_safe
+  end
+
   def authors_html(print)
     print.authors.map { |author| link_to author.name, author }.join(", ").html_safe
   end

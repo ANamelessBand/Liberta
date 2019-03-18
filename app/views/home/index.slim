@@ -1,32 +1,37 @@
 - content_for :title, 'Libertà'
-.row
-  .col-md
+.columns
+  .column
     .card
-      .card-header
-        | Новини
-        - if admin?
-          button.btn.btn-primary.btn-xs.ml-2(data-toggle="modal" href="#news_modal")
-            = fa_icon 'plus', text: 'добави'
-          = render partial: 'add_news_modal'
-      .card-body
-
+      header.card-header
+        .card-header-title.is-block
+          .level
+            .level-left
+              .level-item Новини
+            - if admin?
+              .level-right
+                .level-item
+                  a.button.is-link.is-xsmall(data-toggle="modal" href="#news_modal")
+                    = icon_with_text 'plus', 'добави'
+                  = render partial: 'add_news_modal'
+      .card-content
         - if @last_news.empty?
-          p.mb-0 Все още няма новини.
+          p Все още няма новини.
 
         - @last_news.each do |entry|
-          h4
+          h4.title.is-4
             = entry.title
             - if admin?
               = link_to entry,
                   method: :delete,
                   data: { confirm: 'Are you sure?' },
-                  class: 'btn btn-outline-danger btn-xs ml-2' do
-                - fa_icon 'times', text: 'изтрий'
+                  class: 'is-pulled-right button is-outlined is-danger is-xsmall ml-10' do
+                - icon_with_text 'times', 'изтрий'
           em Преди #{time_ago_in_words(entry.created_at)}
-          p.mt-3= entry.content
+          p= entry.content
           hr
-  .col-md
+  .column
     .card
-      .card-header Най-нови публикации
-      .card-body
+      header.card-header
+        .card-header-title Най-нови публикации
+      .card-content
         = render partial: 'prints/prints_table', locals: { prints: @last_prints }

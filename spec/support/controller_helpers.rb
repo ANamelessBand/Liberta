@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ControllerHelpers
   def sign_in_as(role)
     let(:current_user) do
@@ -20,13 +22,13 @@ module ControllerHelpers
   end
 
   def redirect_back
-    let(:back) { 'http://google.com' }
-    before { request.env['HTTP_REFERER'] = back }
+    let(:back) { "http://google.com" }
+    before { request.env["HTTP_REFERER"] = back }
   end
 
   RSpec::Matchers.define :deny_access do
     match do |response|
-      response.request.flash[:alert].present? and response.redirect_url == 'http://test.host/'
+      response.request.flash[:alert].present? && (response.redirect_url == "http://test.host/")
     end
 
     failure_message { |response| "expected action to deny access" }

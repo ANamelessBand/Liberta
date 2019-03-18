@@ -3,8 +3,8 @@
   = render partial: '/basic_search_form',
       locals: { path: prints_path, autocomplete_path: autocomplete_print_title_prints_path, placeholder: 'Lord of the Rings' }
   - if admin?
-    = link_to new_print_path, class: 'btn btn-success ml-2' do
-        - fa_icon 'plus', text: 'добави'
+    = link_to new_print_path, class: 'button is-success ml-10' do
+      - icon_with_text 'plus', 'добави'
 
 = render partial: 'prints/prints_table', locals: { prints: @prints }
 = paginate @prints

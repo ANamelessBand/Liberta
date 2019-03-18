@@ -1,43 +1,44 @@
 doctype html
 html(lang="en")
   head
-    meta(content=("text/html; charset=UTF-8") http-equiv="Content-Type")
-    title Libertà :: #{yield :title}
+    meta(content="text/html; charset=UTF-8" http-equiv="Content-Type")
+    title
+      | Libertà
+      - if content_for?(:title)
+        | &nbsp;:: #{yield :title}
     = csrf_meta_tags
     = csp_meta_tag
-    = stylesheet_link_tag 'application', media: 'all'
-    = javascript_include_tag 'application'
+    = stylesheet_link_tag "application", media: "all"
+    = javascript_include_tag "application"
     meta(content="width=device-width, initial-scale=1.0" name="viewport")
   body
     = render partial: 'layouts/navigation'
 
-    main.container(role="main")
-      = render_breadcrumbs builder: ::BootstrapBreadcrumbsBuilder
+    main.section(role="main")
+      .container
+        - if success
+          .notification.is-success
+            = success
+            button.delete
+        - if notice
+          .notification.is-link
+            = notice
+            button.delete
+        - if alert
+          .notification.is-warning
+            = alert
+            button.delete
 
-      - if success
-        #success-alert.alert.alert-success.alert-dismissible.fade.show(role="alert")
-          = success
-          button.close(type="button" data-dismiss="alert" aria-label="Close")
-            span(aria-hidden="true") &times;
-      - if notice
-        #info-alert.alert.alert-info.alert-dismissible.fade.show(role="alert")
-          = notice
-          button.close(type="button" data-dismiss="alert" aria-label="Close")
-            span(aria-hidden="true") &times;
-      - if alert
-        #warning-alert.alert.alert-warning.alert-dismissible.fade.show(role="alert")
-          = alert
-          button.close(type="button" data-dismiss="alert" aria-label="Close")
-            span(aria-hidden="true") &times;
+        = render_breadcrumbs builder: ::BulmaBreadcrumbsBuilder
 
-      - if content_for? :title
-        .d-flex.align-items-center.pb-2.mt-4.mb-2.border-bottom
-          h1
-            = yield :title
-          - if content_for? :actions
-            .ml-auto.pl-5(style='flex-shrink: 0')= yield :actions
+        - if content_for? :title
+          .level
+            .level-left(style='max-width: 80%')
+              h1.title.is-2= yield :title
+            - if content_for? :actions
+              .level-right=yield :actions
 
-      = yield
+        = yield
 
     footer.footer
       .container Libertà - from FMI for FMI thanks to HackFMI

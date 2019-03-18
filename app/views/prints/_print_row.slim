@@ -4,16 +4,16 @@ tr
   td= stars_span print.rating
   td
     - if print.has_copies?
-      = fa_icon 'check', class: 'text-success'
+      = fa_icon 'check', class: 'has-text-success'
     - else
-      = fa_icon 'times', class: 'text-danger'
+      = fa_icon 'times', class: 'has-text-danger'
   td
-    a.btn.btn-xs.btn-outline-primary.mr-1.icon(
+    a.button.is-outlined.is-link.is-xsmall.is-icon-only.mr-5(
       data-toggle="modal"
       href="#modal_print_#{print.id}"
       title="описание"
     )
-      = fa_icon 'info'
+      span.icon.is-small= fa_icon 'info'
     = render partial: 'prints/details_modal', locals: { print: print }
 
     - if user_signed_in?
@@ -23,25 +23,26 @@ tr
             method: :post,
             title: 'премахни от желани',
             data: { print_id: print.id },
-            class: "btn btn-xs btn-danger remove-wish icon" do
-          = fa_icon 'minus'
+            class: "button is-danger is-xsmall is-icon-only remove-wish" do
+          span.icon.is-small= fa_icon 'minus'
       - else
         = link_to add_wishlist_print_path(print),
             remote: true,
             method: :post,
             title: 'добави в желани',
             data: { print_id: print.id },
-            class: 'btn btn-xs btn-success add-wish icon' do
-          = fa_icon 'plus'
+            class: 'button is-success is-xsmall is-icon-only add-wish' do
+          span.icon.is-small= fa_icon 'plus'
 
   - if admin?
     td
-      = link_to edit_print_path(print), class: 'btn btn-outline-primary btn-xs' do
-        - fa_icon 'pencil-square-o', title: 'редактирай'
+      = link_to edit_print_path(print), class: 'button is-outlined is-link is-xsmall is-icon-only mr-5',  title: 'редактирай' do
+        span.icon.is-small= fa_icon 'pencil-square-o'
 
       = link_to print_path(print.id),
           method: :delete,
           data: { confirm: 'Are you sure?' },
-          class: 'btn btn-outline-danger btn-xs ml-1' do
-        - fa_icon 'times', title: 'изтрий'
+          title: 'изтрий',
+          class: 'button is-outlined is-danger is-xsmall is-icon-only' do
+        span.icon.is-small= fa_icon 'times'
 

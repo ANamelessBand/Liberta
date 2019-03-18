@@ -4,11 +4,11 @@ require "factory_bot_rails"
 
 require "simplecov"
 require "coveralls"
-require 'devise'
+require "devise"
 
 require_relative "support/controller_helpers.rb"
 
-unless ARGV.any? {|e| e =~ /guard-rspec/ }
+unless ARGV.any? { |e| e =~ /guard-rspec/ }
   Coveralls.wear! "rails"
 
   SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([

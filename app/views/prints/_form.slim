@@ -1,60 +1,65 @@
 = form_for print do |f|
-  = f.submit 'Запази', class: 'btn btn-success mb-4'
+  = f.submit 'Запази', class: 'button is-success mb-20'
 
-  .row
-    .col
-      .form-group
-        = f.label :title, 'Заглавие *'
-        = f.text_field :title, class: 'form-control', required: true
+  .columns
+    .column
+      .field
+        = f.label :title, 'Заглавие *', class: 'label'
+        = f.text_field :title, class: 'input', required: true, placeholder: 'A Game of Thrones'
 
-      .form-group
-        = label_tag :authors_names, 'Автори *'
+      .field
+        = label_tag :authors_names, 'Автори *', class: 'label'
         = autocomplete_field_tag :authors_names,
             print.author_names,
             autocomplete_author_name_authors_path,
-            class: 'form-control',
+            class: 'input',
             required: true,
-            'data-delimiter' => ', ', :multiple => true
+            placeholder: 'George R. R. Martin',
+            'data-delimiter' => ', ',
+            :multiple => true
 
-      .form-group
-        = label_tag :publisher_name, 'Издателство *'
+      .field
+        = label_tag :publisher_name, 'Издателство *', class: 'label'
         = autocomplete_field_tag :publisher_name,
             print.publisher.try(:name),
             autocomplete_publisher_name_publishers_path,
-            class: 'form-control',
+            class: 'input',
+            placeholder: 'Bantam Spectra',
             required: true
 
-      .form-group
-        = f.label :language, 'Език *'
-        = f.text_field :language, class: 'form-control', required: true
+      .field
+        = f.label :language, 'Език *', class: 'label'
+        = f.text_field :language, class: 'input', required: true, placeholder: 'English'
 
-      .form-group
-        = f.label :cover_url, 'Линк към корица'
-        = f.text_field :cover_url, class: 'form-control'
+      .field
+        = f.label :cover_url, 'Линк към корица', class: 'label'
+        = f.text_field :cover_url, class: 'input'
 
-    .col
-      .form-group
-        = label_tag :tags, 'Тагове'
+    .column
+      .field
+        = label_tag :tags, 'Тагове', class: 'label'
         = autocomplete_field_tag :tags,
             print.tag_names,
             autocomplete_tag_name_tags_path,
-            class: 'form-control', 'data-delimiter' => ', ', :multiple => true
+            placeholder: 'Roman, Novel, Poetry',
+            class: 'input',
+            'data-delimiter' => ', ',
+            :multiple => true
 
-      .form-group
-        = f.label :format, 'Формат'
-        = f.text_field :format, class: 'form-control'
+      .field
+        = f.label :format, 'Формат', class: 'label'
+        = f.text_field :format, class: 'input', placeholder: 'Книга'
 
-      .form-group
-        = f.label :isbn, 'ISBN'
-        = f.text_field :isbn, class: 'form-control'
+      .field
+        = f.label :isbn, 'ISBN', class: 'label'
+        = f.text_field :isbn, class: 'input', placeholder: '9780553588484'
 
-      .form-group
-        = f.label :pages, 'Брой страници'
-        = f.text_field :pages, class: 'form-control', type: :number
-  .row
-    .col
-      .form-group
-        = f.label :description, 'Описание'
-        = f.text_area :description, class: 'form-control', rows: 10
+      .field
+        = f.label :pages, 'Брой страници', class: 'label'
+        = f.text_field :pages, class: 'input', type: :number, placeholder: '835'
 
-  = f.submit 'Запази', class: 'btn btn-success'
+  .field
+    = f.label :description, 'Описание', class: 'label'
+    = f.text_area :description, class: 'textarea', rows: 10
+
+  = f.submit 'Запази', class: 'button is-success'

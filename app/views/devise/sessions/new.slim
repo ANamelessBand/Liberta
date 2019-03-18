@@ -1,23 +1,27 @@
-- content_for :title, "Вход"
-
 = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-  .row
-    .col-md-auto
-      .form-group
-        = f.label :email, "Email:"
-        = f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control'
+  .column.is-4.is-offset-4
+    h3.title.is-3.has-text-grey.has-text-centered Вход
+    .my-10.has-text-centered= link_to "Назад", root_path
+    .box.with-image
+      figure.image
+        = image_tag "/images/avatar-placeholder.gif", class: 'avatar'
 
-      .form-group
-        = f.label :password, 'Парола:'
-        = f.password_field :password, autocomplete: "current-password", class: 'form-control'
+      .field.mt-20
+        .control.has-icons-left
+          = f.email_field :email, autofocus: true, autocomplete: "email", class: 'input', placeholder: 'john@doe.com'
+          span.icon.is-small.is-left= fa_icon 'envelope'
+
+      .field
+        .control.has-icons-left
+          = f.password_field :password, autocomplete: "current-password", class: 'input', placeholder: '******'
+          span.icon.is-small.is-left= fa_icon 'lock'
 
       - if devise_mapping.rememberable?
-        .form-group
-          .form-check
-            = f.check_box :remember_me, class: "form-check-input"
-            = f.label :remember_me, "Запомни ме", class: "form-check-label"
+        .field
+          = f.check_box :remember_me
+          = f.label :remember_me, "Запомни ме", class: 'checkbox ml-10'
 
-      .actions
-        = f.submit "Влез", class: "btn btn-primary"
+      .field.mt-20
+        = f.submit "Влез", class: "button is-info is-fullwidth"
 
-.mt-4= render "devise/shared/links"
+      .mt-20= render "devise/shared/links"

@@ -3,60 +3,132 @@
 //= require jquery_ujs
 //= require jquery-ui/widgets/autocomplete
 //= require autocomplete-rails
-//= require popper
-//= require bootstrap
 //= require_tree .
 
-jQuery.railsAutocomplete.options.showNoMatches = false;
-
-jQuery.fn.textNodes = function() {
-  return this.contents().filter(function() {
-    return this.nodeType === Node.TEXT_NODE && this.nodeValue.trim() !== '';
-  });
-};
-
-function changeWish($this, title, href) {
-  $this.toggleClass('add-wish btn-success remove-wish btn-danger');
-  $this.attr('title', title);
-  $this.attr('href', '/prints/' + $this.data('print-id') + '/' + href);
-
-  if ($this.data('text')) {
-    $this.textNodes().replaceWith(' ' + title);
-  }
-
-  $this.find('.fa').toggleClass('fa-plus fa-minus');
+function forEach(parent, selector, fn) {
+  return (parent.querySelectorAll(selector) || []).forEach(fn);
 }
 
-$(function() {
-  // Bootstrap Popovers
-  $(document)
-    .find('[data-toggle=popover]')
-    .popover();
+function changeWish(oldElement, isAdd) {
+  var element = oldElement.cloneNode(true);
+  var newTitle;
+  var newHref;
 
-  // Wishlist Buttons
-  $(document).on('ajax:success', '.add-wish', function() {
-    changeWish($(this), 'премахни от желани', 'remove_wishlist');
+  if (isAdd) {
+    newTitle = 'премахни от желани';
+    newHref = 'remove_wishlist';
+    element.addEventListener('click', function() {
+      changeWish(element, false);
+    });
+  } else {
+    newTitle = 'добави в желани';
+    newHref = 'add_wishlist';
+    element.addEventListener('click', function() {
+      changeWish(element, true);
+    });
+  }
+
+  element.classList.toggle('add-wish');
+  element.classList.toggle('is-success');
+  element.classList.toggle('remove-wish');
+  element.classList.toggle('is-danger');
+  element.setAttribute('title', newTitle);
+  element.setAttribute('href', '/prints/' + element.dataset.printId + '/' + newHref);
+
+  var icon = element.querySelector('.fa');
+  icon.classList.toggle('fa-plus');
+  icon.classList.toggle('fa-minus');
+
+  if (element.dataset.text) {
+    var textNode = element.childNodes[element.childNodes.length - 1];
+    textNode.innerText = newTitle;
+  }
+
+  oldElement.parentNode.replaceChild(element, oldElement);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle Bulma Tabs
+  forEach(document, '[data-toggle=tab]', function(tabToggler) {
+    tabToggler.addEventListener('click', function(event) {
+      event.preventDefault();
+
+      var tabContent = document.getElementsByClassName('tab-pane');
+      var tablinks = document.getElementsByClassName('tab-link');
+
+      for (var item of tabContent) {
+        item.classList.remove('is-active');
+      }
+
+      for (var item of tablinks) {
+        item.classList.remove('is-active');
+      }
+
+      document.getElementById(this.getAttribute('href').substr(1)).classList.add('is-active');
+      this.parentNode.classList.add('is-active');
+    });
   });
 
-  $(document).on('ajax:success', '.remove-wish', function() {
-    changeWish($(this), 'добави в желани', 'add_wishlist');
+  // Close Bulma Notifications
+  forEach(document, '.notification .delete', function(deleter) {
+    var notification = deleter.parentNode;
+    deleter.addEventListener('click', function() {
+      notification.parentNode.removeChild(notification);
+    });
   });
 
-  // Stars
-  $(document).on('mousemove', '.stars.interactive', function(e) {
-    var $this = $(this);
-    var $input = $this.children('input');
-    var stars = (e.clientX - $this.offset().left) / 15;
-    stars = Math.round(stars * 2) / 2;
-    if (stars > 5) stars = 5;
-    if (stars < 0) stars = 0;
+  // Open Bulma Modals
+  forEach(document, '[data-toggle=modal]', function(toggler) {
+    toggler.addEventListener('click', function(event) {
+      event.preventDefault();
 
-    $this.removeClass();
-    $this
-      .addClass('s-' + stars)
-      .addClass('stars')
-      .addClass('interactive');
+      var modalId = this.getAttribute('href')
+        .split('#', 2)
+        .pop();
 
-    $input.val(stars);
+      var modal = document.getElementById(modalId);
+      var html = document.querySelector('html');
+
+      modal.classList.add('is-active');
+      html.classList.add('is-clipped');
+
+      forEach(modal, '[data-dismiss=modal], .modal-background', function(dismisser) {
+        dismisser.addEventListener('click', function(e) {
+          e.preventDefault();
+          modal.classList.remove('is-active');
+          html.classList.remove('is-clipped');
+        });
+      });
+    });
+  });
+
+  // Stars Selector
+  forEach(document, '.stars.interactive', function(starsSelector) {
+    starsSelector.addEventListener('mousemove', function(e) {
+      var stars = (e.clientX - this.getBoundingClientRect().left) / 15;
+      stars = Math.round(stars * 2) / 2;
+      if (stars > 5) stars = 5;
+      if (stars < 0) stars = 0;
+
+      this.className = '';
+      this.classList.add('s-' + stars);
+      this.classList.add('stars');
+      this.classList.add('interactive');
+
+      this.querySelector('input').value = stars;
+    });
+  });
+
+  // Wishlist selectors
+  forEach(document, '.add-wish', function(wishAdder) {
+    wishAdder.addEventListener('ajax:success', function() {
+      changeWish(this, true);
+    });
+  });
+
+  forEach(document, '.remove-wish', function(wishRemover) {
+    wishRemover.addEventListener('ajax:success', function() {
+      changeWish(this, false);
+    });
   });
 });

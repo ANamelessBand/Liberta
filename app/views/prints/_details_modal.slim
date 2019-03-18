@@ -1,17 +1,18 @@
-.modal.fade(id="modal_print_#{print.id}" role="dialog")
-  .modal-dialog(style='max-width: 700px')
-    .modal-content
-      .modal-header
-        h5.modal-title= print.title
-        button.close(aria-label="Close" data-dismiss="modal" type="button")
-          span aria-hidden="true" &times;
-      .modal-body
-        - if print.cover_url.present?
-          .pull-left.pr-4.pb-3
-            img(async="" src=print.cover_url style="height: 250px")
-        div.mb-4= print.description
-        = render partial: 'prints/details_table', locals: { print: print }
+.modal(id="modal_print_#{print.id}")
+  .modal-background.animated.fadeIn.fastest
+  .modal-card.animated.fadeInDown.fastest(style='width: 700px')
+    header.modal-card-head
+      h5.modal-card-title= print.title
+      button.delete(aria-label="Close" data-dismiss="modal" type="button")
 
-      .modal-footer
-        button.btn.btn-outline-primary(data-dismiss="modal" type="button")
-          = fa_icon 'times', text: 'Затвори'
+    section.modal-card-body
+      - if print.cover_url.present?
+        .pull-left.pr-20.pb-15
+          img(async="" src=print.cover_url style="height: 250px")
+      div.mb-10= print.description
+      .is-clearfix
+      = render partial: 'prints/details_table', locals: { print: print }
+
+    footer.modal-card-foot.justify-flex-end
+      button.button.is-outlined.is-link(data-dismiss="modal" type="button")
+        = icon_with_text 'times', 'Затвори'

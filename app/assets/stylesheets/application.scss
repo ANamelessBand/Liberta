@@ -1,54 +1,72 @@
-@import 'bootstrap';
-@import 'font-awesome';
+@import './shared';
 
-@import 'jquery-ui/core';
-@import 'jquery-ui/theme';
-@import 'jquery-ui/autocomplete';
+.animated.fastest {
+  -webkit-animation-duration: 300ms;
+  animation-duration: 300ms;
+}
+
+.justify-flex-end {
+  justify-content: flex-end;
+}
 
 body {
-  padding-top: 4rem;
-  padding-bottom: 4rem;
+  padding: 3rem 0;
   font-size: 14px;
 }
 
-.navbar {
-  padding: 0.2rem 0.5rem;
-}
+.button {
+  &.is-xsmall {
+    @include button-small;
+    font-size: 0.75rem;
+    height: 2em;
 
-.footer {
-  z-index: 100;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 40px;
-  line-height: 40px;
-  background-color: #f5f5f5;
-}
-
-.btn-group-xs > .btn,
-.btn-xs {
-  padding: 1px 5px;
-  font-size: 12px;
-
-  &.icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 24px;
-    width: 24px;
+    &.is-icon-only {
+      width: 24px;
+      height: 24px;
+      padding: 0;
+    }
   }
 }
 
-.table th {
-  border-top: 0;
+.navbar {
+  padding: 0 20px;
 }
 
-.card-body .table {
+.navbar-item > .icon:not(:last-child) {
+  margin-left: -0.25em;
+  margin-right: 0.25em;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.table th,
+.table td {
+  vertical-align: middle;
+}
+
+.table.print-details {
+  min-width: 400px !important;
+}
+
+.card-content .table {
   margin-bottom: 0;
 }
 
 .free-copies {
-  font-size: 3em;
+  border: 1px solid $danger;
+  padding: 20px 40px;
+
+  &.has-free-copies {
+    border: 1px solid $success;
+  }
+
+  .free-copies-count {
+    font-size: 3em;
+  }
 }
 
 img.cover {
@@ -59,19 +77,23 @@ td.cover > img {
   height: 80px;
 }
 
-table.book-details {
-  min-width: 400px !important;
-}
-
-table td {
-  vertical-align: middle !important;
-}
-
 .ui-autocomplete {
-  z-index: 1051; // above bootstrap modal
   list-style: none;
   padding: 0;
   margin: 0;
+
+  .ui-menu-item-wrapper {
+    cursor: pointer;
+    padding: 5px;
+  }
+}
+
+.tab-pane {
+  display: none;
+
+  &.is-active {
+    display: initial;
+  }
 }
 
 /**

@@ -4,9 +4,9 @@
       locals: { path: authors_path, autocomplete_path: autocomplete_author_name_authors_path, placeholder: "J. R. R. Tolkien" }
 
 - if @authors.empty?
-  .alert.alert-info.mb-0 Няма намерени автори
+  p Няма намерени автори.
 - else
-  table.table.table-striped
+  table.table.is-hoverable.is-fullwidth
     thead
       tr
         th Име
@@ -22,8 +22,8 @@
             td
               - if author.prints.empty?
                 = link_to author_path(author),
-                  method: :delete,
-                  class: "btn btn-xs btn-outline-danger",
-                  data: { confirm: "Are you sure?" } do
-                  - fa_icon "times", text: "изтрий"
+                    method: :delete,
+                    class: 'button is-outlined is-danger is-xsmall',
+                    data: { confirm: "Are you sure?" } do
+                  - icon_with_text 'times', 'изтрий'
   = paginate @authors

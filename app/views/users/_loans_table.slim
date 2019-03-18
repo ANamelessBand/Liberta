@@ -1,7 +1,7 @@
 - if @user.loans.empty?
-  .alert.alert-info Няма история за взети книги
+  p Няма история за взети книги.
 - else
-  table.table.table-striped
+  table.table.is-hoverable.is-fullwidth
     thead
       tr
         th Публикация
@@ -19,12 +19,12 @@
           td= authors_html(loan.print)
           td преди #{time_ago_in_words(loan.time_loaned)}
           - if @user == current_user || admin?
-            td(class=(loan.overdue? ? 'text-danger' : ''))=loan.time_supposed_return.strftime("%B %e, %Y")
+            td(class=(loan.overdue? ? 'has-text-danger' : ''))=loan.time_supposed_return.strftime("%B %e, %Y")
           td
             - if loan.returned?
               | преди #{time_ago_in_words(loan.time_returned)}
             - else
               | не е върната
           - if admin?
-            th= link_to print_copy_path(loan.print, loan.copy), class: 'btn btn-xs btn-outline-primary' do
-              - fa_icon 'share', text: 'към копието'
+            th= link_to print_copy_path(loan.print, loan.copy), class: 'button is-outlined is-link is-xsmall' do
+              - icon_with_text 'share', 'към копието'

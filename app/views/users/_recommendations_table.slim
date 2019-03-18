@@ -1,7 +1,7 @@
 - if recommendations.empty?
-  .alert.alert-info Няма намерени препоръки
+  p Няма намерени препоръки.
 - else
-  table.table.table-striped
+  table.table.is-hoverable.is-fullwidth
     thead
       tr
         th Публикация
@@ -19,24 +19,24 @@
           td
             - if recommendation.comment.length > 30
               = truncate(recommendation.comment)
-              a(data-toggle="modal" href="#modal_#{recommendation.id}" class="ml-1") виж още
+              a(data-toggle="modal" href="#modal_#{recommendation.id}" class="ml-5") виж още
             - else
               = recommendation.comment
-            .modal.fade(id="modal_#{recommendation.id}")
-              .modal-dialog
-                .modal-content
-                  .modal-header
-                    h5.modal-title Коментар
-                    button.close(aria-label="Close" data-dismiss="modal" type="button")
-                      span(aria-hidden="true") &times;
-                  .modal-body
-                    p= recommendation.comment
-                  .modal-footer
-                    button.btn.btn-outline-primary(data-dismiss="modal" type="button") Затвори
+            .modal(id="modal_#{recommendation.id}")
+              .modal-background.animated.fadeIn.fastest
+              .modal-card.animated.fadeInDown.fastest
+                header.modal-card-head
+                  h5.modal-card-title Коментар
+                  button.delete(aria-label="Close" data-dismiss="modal" type="button")
+                section.modal-card-body
+                  p= recommendation.comment
+                footer.modal-card-foot.justify-flex-end
+                  button.button.is-outlined.is-link(data-dismiss="modal" type="button") Затвори
+
           - if @user == current_user || admin?
             td= link_to print_recommendation_path(recommendation.print, recommendation),
                 method: :delete,
                 data: { confirm: 'Are you sure?' },
-                class: 'btn btn-xs btn-outline-danger' do
-              - fa_icon 'times', text: 'изтрий'
+                class: 'button is-outlined is-danger is-xsmall' do
+              - icon_with_text 'times', 'изтрий'
 

@@ -1,46 +1,58 @@
-- content_for :title, "Редакция на профил"
-
 = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
-  .row
-    .col-md-auto= render "devise/shared/error_messages", resource: resource
+  .columns
+    .column.is-6
+      h3.title.is-3 Редакция на профил
+      = render "devise/shared/error_messages", resource: resource
+      .box
+        .field
+          = f.label :email, 'Email:', class: 'label'
+          .control.has-icons-left
+            = f.email_field :email, autofocus: true, autocomplete: "email", class: 'input'
+            span.icon.is-small.is-left= fa_icon 'envelope'
 
-  .row
-    .col-md-auto
-      .form-group
-        = f.label :email, 'Email:'
-        = f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control'
+        - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+          div Currently waiting confirmation for: #{resource.unconfirmed_email}
 
-      - if devise_mapping.confirmable? && resource.pending_reconfirmation?
-        div Currently waiting confirmation for: #{resource.unconfirmed_email}
+        .field
+          = f.label :name, 'Име:', class: 'label'
+          .control.has-icons-left
+            = f.text_field :name, class: 'input'
+            span.icon.is-small.is-left= fa_icon 'user'
 
-      .form-group
-        = f.label :name, 'Име:'
-        = f.text_field :name, class: 'form-control'
+        .field
+          = f.label :password, 'Нова парола:', class: 'label'
+          .control.has-icons-left
+            = f.password_field :password, autocomplete: "new-password", class: 'input'
+            span.icon.is-small.is-left= fa_icon 'lock'
+          - if @minimum_password_length
+            p.help
+              i остави празно ако не искаш промяна
+              br
+                | минимум #{@minimum_password_length} знака
 
-      .form-group
-        = f.label :password, 'Нова парола:'
-        i &nbsp;(остави празно ако не искаш промяна)
-        br
-        = f.password_field :password, autocomplete: "new-password", class: 'form-control'
-        - if @minimum_password_length
-          em минимум #{@minimum_password_length} знака
+        .field
+          = f.label :password_confirmation, 'Повтори паролата:', class: 'label'
+          .control.has-icons-left
+            = f.password_field :password_confirmation, autocomplete: "new-password", class: 'input'
+            span.icon.is-small.is-left= fa_icon 'lock'
 
-      .form-group
-        = f.label :password_confirmation, 'Повтори паролата:'
-        = f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control'
+        .field
+          = f.label :current_password, 'Текуща парола: *', class: 'label'
+          .control.has-icons-left
+            = f.password_field :current_password, autocomplete: "current-password", class: 'input'
+            span.icon.is-small.is-left= fa_icon 'lock'
+          p.help
+            i задължителна за да потвърдим промените
 
-      .form-group
-        = f.label :current_password, 'Текуща парола: *'
-        i &nbsp;(задължителна за да потвърдим промените)
-        = f.password_field :current_password, autocomplete: "current-password", class: 'form-control'
+        .field
+          = f.submit "Редактирай", class: 'button is-success'
 
-      .form-group
-        = f.submit "Редактирай", class: 'btn btn-success'
-
-.mt-4
-  h3 Изтриване на профил
-  div= button_to "Изтрий",
-      registration_path(resource_name),
-      method: :delete,
-      data: { confirm: "Are you sure?" },
-      class: 'btn btn-danger'
+    .column.is-6
+      h3.title.is-3 Изтриване на профил
+      .box
+        p.mb-10 Изтрий профила си завинаги?
+        = button_to "Изтрий",
+          registration_path(resource_name),
+          method: :delete,
+          data: { confirm: "Are you sure?" },
+          class: 'button is-danger'

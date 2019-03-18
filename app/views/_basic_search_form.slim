@@ -1,5 +1,8 @@
-form.d-inline-flex.form-inline(action=path method="get" role="form")
-  .input-group
-    = autocomplete_field_tag 'search', params[:search], autocomplete_path, class: 'form-control', placeholder: placeholder
-    .input-group-append
-      button.btn.btn-secondary(type="submit")= fa_icon 'search'
+form(action=path method="get" role="form")
+  .control.has-icons-left
+    = autocomplete_field_tag 'search',
+        params[:search],
+        autocomplete_path,
+        class: 'input',
+        placeholder: placeholder
+    span.icon.is-left=fa_icon 'search'

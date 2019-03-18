@@ -2,17 +2,20 @@
   - content_for :title, "Моите книги"
 - else
   - content_for :title, "Книгите на #{@user.email}"
-ul.nav.nav-tabs
-  li.nav-item
-    a.nav-link.active(data-toggle="tab" href="#history") История
-  li.nav-item
-    a.nav-link(data-toggle="tab" href="#recommended") Препоръчани
-  li.nav-item
-    a.nav-link(data-toggle="tab" href="#wishlist") Желани
-.tab-content
-  #history.tab-pane.active
-    = render 'loans_table'
-  #recommended.tab-pane
-    = render partial: 'recommendations_table', locals: { recommendations: @user.recommendations }
-  #wishlist.tab-pane
-    = render partial: 'prints/prints_table', locals: { prints: @user.wishlists.map(&:print) }
+
+.tabs-wrapper
+  .tabs
+    ul
+      li.tab-link.is-active
+        a(data-toggle="tab" href="#history") История
+      li.tab-link
+        a(data-toggle="tab" href="#recommended") Препоръчани
+      li.tab-link
+        a(data-toggle="tab" href="#wishlist") Желани
+  .tab-content
+    #history.tab-pane.is-active
+      = render 'loans_table'
+    #recommended.tab-pane
+      = render partial: 'recommendations_table', locals: { recommendations: @user.recommendations }
+    #wishlist.tab-pane
+      = render partial: 'prints/prints_table', locals: { prints: @user.wishlists.map(&:print) }

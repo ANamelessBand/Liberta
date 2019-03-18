@@ -1,5 +1,5 @@
-  h3.mt-5 Просрочени копия
-  table.table.table-striped
+  h3.title.is-3 Просрочени копия
+  table.table.is-fullwidth
     thead
       th Потребител
       th Публикация
@@ -13,21 +13,21 @@
         tr
           td= link_to copy.current_loan.user.email, copy.current_loan.user
           td= link_to copy.print.title, copy.print
-          td.text-danger= copy.current_loan.time_supposed_return.strftime("%B %e, %Y")
+          td.has-text-danger= copy.current_loan.time_supposed_return.strftime("%B %e, %Y")
           td
-            = link_to print_copy_path(copy.print, copy), class: 'btn btn-xs btn-outline-primary' do
-              - fa_icon 'share', text: 'към копието'
+            = link_to print_copy_path(copy.print, copy), class: 'button is-outlined is-link is-xsmall' do
+              - icon_with_text 'share', 'към копието'
             = link_to extend_print_copy_loan_path(copy.print, copy, copy.current_loan),
                 method: :post,
-                class: 'btn btn-xs btn-outline-primary ml-2' do
-              - fa_icon 'mail-forward', text: 'още 7 дни'
+                class: 'button is-outlined is-link is-xsmall ml-5' do
+              - icon_with_text 'mail-forward', 'още 7 дни'
             = link_to return_print_copy_loan_path(copy.print, copy, copy.current_loan),
                 method: :post,
-                class: 'btn btn-xs btn-outline-success ml-2' do
-              - fa_icon 'refresh', text: 'върни'
+                class: 'button is-outlined is-success is-xsmall ml-5' do
+              - icon_with_text 'refresh', 'върни'
 
-  h3.mt-5 Желани публкации
-  table.table.table-striped
+  h3.title.is-3 Желани публкации
+  table.table.is-fullwidth
     thead
       th Потребител
       th Публикация

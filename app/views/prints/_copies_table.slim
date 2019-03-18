@@ -1,9 +1,9 @@
 - if admin?
-  .card.my-4
-    .card-header
-      h6.card-title.mb-0 Копия
-    .card-body
-      table.table.table-striped
+  .card.mb-20
+    header.card-header
+      .card-header-title Копия
+    .card-content
+      table.table.is-hoverable.is-fullwidth
         thead
           tr
             th Библиотечен номер
@@ -19,23 +19,26 @@
               td
                 - if copy.taken?
                   = link_to return_print_copy_loan_path(@print, copy, copy.current_loan),
-                      class: 'btn btn-xs btn-outline-primary' do
-                    - fa_icon 'refresh', text: 'върни'
+                      method: :post,
+                      class: 'button is-outlined is-link is-xsmall ' do
+                    - icon_with_text 'refresh', 'върни'
                 - else
-                  a.btn.btn-outline-primary.btn-xs(data-toggle="modal" href="#modal_loan_copy_#{copy.id}")
-                    = fa_icon 'share', text: 'отдай'
+                  a.button.is-xsmall.is-outlined.is-link(data-toggle="modal" href="#modal_loan_copy_#{copy.id}")
+                    = icon_with_text 'share', 'отдай'
                   = render partial: 'copies/loan_modal', locals: { copy: copy }
                 = link_to print_copy_path(@print, copy),
                     method: :delete,
                     data: { confirm: 'Are you sure?' },
-                    class: 'btn btn-xs btn-outline-danger ml-2' do
-                  - fa_icon 'times', text: 'изтрий'
+                    class: 'button is-outlined is-danger is-xsmall ml-5' do
+                  - icon_with_text 'times', 'изтрий'
           tr
             td(colspan='3')
-              = form_for [@print, Copy.new], html: { class: 'form-inline' } do |f|
-                .form-group
-                  = f.number_field :inventory_number,
-                      placeholder: '1234',
-                      required: true,
-                      class: 'form-control'
-                  = f.submit 'ново копие', class: 'btn btn-sm btn-outline-success ml-2'
+              = form_for [@print, Copy.new] do |f|
+                .field.has-addons
+                  .control
+                    = f.number_field :inventory_number,
+                        placeholder: '1234',
+                        required: true,
+                        class: 'input'
+                  .control
+                    = f.submit 'ново копие', class: 'button is-success'

@@ -1,25 +1,25 @@
 - content_for :title, @print.title
 - if admin?
   - content_for :actions do
-    = link_to edit_print_path(@print), class: 'btn btn-outline-primary' do
-      - fa_icon 'pencil-square-o', text: 'редактирай'
+    = link_to edit_print_path(@print), class: 'button is-link is-outlined' do
+      - icon_with_text 'pencil-square-o', 'редактирай'
     = link_to print_path(@print),
         method: :delete,
         data: { confirm: 'Are you sure?' },
-        class: 'btn btn-outline-danger ml-2' do
-      - fa_icon 'times', text: 'изтрий'
+        class: 'button is-danger is-outlined ml-5' do
+      - icon_with_text 'times', 'изтрий'
 
 = render 'copies_table'
 
 - if @print.cover_url.present?
-  img.float-left(async="" src=@print.cover_url style="height: 320px; min-width: 220px")
-.float-left.ml-4
+  img.is-pulled-left(async="" src=@print.cover_url style="height: 320px; min-width: 220px")
+.is-pulled-left(class=(@print.cover_url.present? ? 'ml-20' : ''))
   = render partial: 'details_table', locals: { print: @print }
 
-.float-left.ml-4
-  .card.bg-light.text-center.p-3.mb-2(class=(@print.free_copies.count > 0 ? 'border-success' : 'border-danger'))
+.is-pulled-left.ml-20
+  .card.free-copies.has-background-white-ter.has-text-centered.mb-10(class=(@print.free_copies.count > 0 ? 'has-free-copies' : ''))
     | Свободни копия
-    .free-copies
+    .free-copies-count
       | #{@print.free_copies.count} от #{@print.copies.count}
 
   - if user_signed_in?
@@ -28,25 +28,25 @@
           remote: true,
           method: :post,
           data: { print_id: @print.id, text: true },
-          class: 'btn btn-danger remove-wish' do
-        - fa_icon 'minus', text: 'премахни от желани'
+          class: 'button is-danger remove-wish' do
+        - icon_with_text 'minus', 'премахни от желани'
     - else
       = link_to add_wishlist_print_path(@print),
           remote: true,
           method: :post,
           data: { print_id: @print.id, text: true },
-          class: 'btn btn-success add-wish' do
-        - fa_icon 'plus', text: 'добави в желани'
+          class: 'button is-success add-wish' do
+        - icon_with_text 'plus', 'добави в желани'
   - else
     = link_to new_user_session_path, class: 'btn btn-outline-success' do
       - fa_icon 'plus', text: 'добави в желани'
-.clearfix
+.is-clearfix
 
 - if @print.description.present?
-  .card
+  .card.mt-20
     .card-header
-      h6.card-title.mb-0 Описание
-    .card-body
+      .card-header-title Описание
+    .card-content
       = @print.description
 
 = render 'recommendations_table'

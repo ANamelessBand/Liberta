@@ -4,9 +4,9 @@
       locals: { path: tags_path, autocomplete_path: autocomplete_tag_name_tags_path, placeholder: 'Programming' }
 
 - if @tags.empty?
-  .alert.alert-info.mb-0 Няма намерени тагове
+  p Няма намерени тагове.
 - else
-  table.table.table-striped
+  table.table.is-hoverable.is-fullwidth
     thead
       tr
         th Име
@@ -23,7 +23,7 @@
               - if tag.prints.empty?
                 = link_to tag_path(tag),
                     method: :delete,
-                    class: 'btn btn-xs btn-outline-danger',
+                    class: 'button is-outlined is-danger is-xsmall',
                     data: { confirm: "Are you sure?" } do
-                  - fa_icon 'times', text: 'изтрий'
+                  - icon_with_text 'times', 'изтрий'
   = paginate @tags

@@ -1,21 +1,21 @@
 - content_for :title, "#{@copy.print.title} - #{@copy.inventory_number}"
 - content_for :actions do
   - if @copy.free?
-    a.mr-3.btn.btn-outline-primary(data-toggle="modal" href="#modal_loan_copy_#{@copy.id}")
-      = fa_icon 'share', text: 'отдай'
+    a.mr-15.button.is-outlined.is-link(data-toggle="modal" href="#modal_loan_copy_#{@copy.id}")
+      = icon_with_text 'share', 'отдай'
     = render partial: 'copies/loan_modal', locals: { copy: @copy }
-  h3.d-inline-block.align-middle
+  .is-inline-block.has-text-centered
     - if @copy.taken?
-      span.py-2.px-3.bg-danger.text-white.align-middle Заето
+      span.py-10.px-15.has-background-danger.has-text-white Заето
     - else
-      span.py-2.px-3.bg-success.text-white.align-middle Свободно
+      span.py-10.px-15.has-background-success.has-text-white Свободно
 
 .card
   .card-header
-    h6.card-title.mb-0 История
-  .card-body
+    .card-header-title История
+  .card-content
     - unless @copy.loans.empty?
-      table.table.table-striped
+      table.table.is-hoverable.is-fullwidth
         thead
           tr
             th Отдаденo на
@@ -28,7 +28,7 @@
             tr
               td= link_to loan.user.name, loan.user
               td= loan.time_loaned.strftime("%B %e, %Y")
-              td(class=(loan.overdue? ? 'text-danger' : ''))= loan.time_supposed_return.strftime("%B %e, %Y")
+              td(class=(loan.overdue? ? 'has-text-danger' : ''))= loan.time_supposed_return.strftime("%B %e, %Y")
               - if loan.time_returned
                 td= loan.time_returned.strftime("%B %e, %Y")
                 td
@@ -37,11 +37,11 @@
                 td
                   = link_to extend_print_copy_loan_path(@copy.print, @copy, loan),
                       method: :post,
-                      class: 'btn btn-xs btn-outline-primary' do
-                    - fa_icon 'mail-forward', text: 'още 7 дни'
+                      class: 'button is-outlined is-link is-xsmall' do
+                    - icon_with_text 'mail-forward', 'още 7 дни'
                   = link_to return_print_copy_loan_path(@copy.print, @copy, loan),
                       method: :post,
-                      class: 'btn btn-xs btn-outline-success ml-2' do
-                    - fa_icon 'refresh', text: 'върни'
+                      class: 'button is-outlined is-success is-xsmall ml-10' do
+                    - icon_with_text 'refresh', 'върни'
     - else
       div Това копие на "#{@copy.print.title}" все още не е отдавано.

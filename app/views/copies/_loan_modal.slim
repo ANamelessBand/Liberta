@@ -1,20 +1,21 @@
-.modal.fade(id="modal_loan_copy_#{copy.id}" role="dialog")
-  .modal-dialog
-    .modal-content
-      = form_for [copy.print, copy, Loan.new] do |f|
-        .modal-header
-          h5.modal-title Oтдай копие
-          button.close(aria-label="Close" data-dismiss="modal" type="button")
-            span aria-hidden="true" &times;
-        .modal-body
-            = label_tag :email, 'Потребител:'
-            = autocomplete_field_tag :user,
-                nil,
-                autocomplete_user_email_users_path,
-                placeholder: 'email@example.com',
-                class: 'form-control',
-                required: true
+.modal(id="modal_loan_copy_#{copy.id}")
+  .modal-background.animated.fadeIn.fastest
+  .modal-card.animated.fadeInDown.fastest
+    header.modal-card-head
+      h5.modal-card-title Oтдай копие
+      button.delete(aria-label="Close" data-dismiss="modal" type="button")
 
-        .modal-footer
-          button.btn.btn-outline-primary(data-dismiss="modal" type="button") затвори
-          = f.submit 'отдай', class: 'btn btn-success'
+    = form_for [copy.print, copy, Loan.new] do |f|
+      section.modal-card-body
+        .field
+          = label_tag :email, 'Потребител:', class: 'label'
+          = autocomplete_field_tag :user,
+              nil,
+              autocomplete_user_email_users_path,
+              placeholder: 'email@example.com',
+              class: 'input',
+              required: true
+
+      footer.modal-card-foot.justify-flex-end
+        button.button.is-outlined.is-link(data-dismiss="modal" type="button") затвори
+        = f.submit 'отдай', class: 'button is-success'

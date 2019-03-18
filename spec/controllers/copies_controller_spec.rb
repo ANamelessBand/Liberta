@@ -23,7 +23,7 @@ RSpec.describe CopiesController, type: :controller do
     end
 
     it "shows an error when the copy isn't found" do
-      expect{ subject }.to raise_error ActiveRecord::RecordNotFound
+      expect { subject }.to raise_error ActiveRecord::RecordNotFound
     end
   end
 
@@ -47,7 +47,7 @@ RSpec.describe CopiesController, type: :controller do
         redirect_back
 
         let (:params) do
-          { print_id: print.id, copy: { inventory_number: 1} }
+          { print_id: print.id, copy: { inventory_number: 1 } }
         end
 
         before { allow(Copy).to receive(:new).and_return(copy) }

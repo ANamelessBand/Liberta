@@ -3,9 +3,9 @@
   = render partial: '/basic_search_form', locals: { path: users_path, autocomplete_path: autocomplete_user_email_users_path, placeholder: 'ivan@ivanov.name' }
 
 - if @users.empty?
-  .alert.alert-info.from-top-2 Няма намерени потребители
+  p Няма намерени потребители.
 - else
-  table.table.table-striped.table-hover.from-top-2
+  table.table.is-hoverable.is-fullwidth
     thead
       tr
         th Email
@@ -21,9 +21,13 @@
             td
               - if user != current_user
                 - if user.admin
-                  = link_to revoke_admin_user_path(user), method: :post, class: 'btn btn-xs btn-outline-danger' do
-                    - fa_icon 'minus', text: 'премахни админ права'
+                  = link_to revoke_admin_user_path(user),
+                      method: :post,
+                      class: 'button is-outlined is-danger is-xsmall' do
+                    - icon_with_text 'minus', 'премахни админ права'
                 - else
-                  = link_to make_admin_user_path(user), method: :post, class: 'btn btn-xs btn-outline-success' do
-                    - fa_icon 'plus', text: 'дай админ права'
+                  = link_to make_admin_user_path(user),
+                      method: :post,
+                      class: 'button is-outlined is-success is-xsmall' do
+                    - icon_with_text 'plus', 'дай админ права'
   = paginate @users

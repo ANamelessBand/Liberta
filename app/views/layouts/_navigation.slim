@@ -1,63 +1,63 @@
-nav.navbar.navbar-expand-md.navbar-dark.bg-dark.fixed-top(role="navigation")
-  = link_to 'Libertà', root_path, class: 'navbar-brand ml-4'
-  .collapse.navbar-collapse
-    ul.navbar-nav.mr-auto
+nav.navbar.has-shadow.is-dark.is-fixed-top(role="navigation" aria-label="main navigation")
+  .navbar-brand
+    = link_to 'Libertà', root_path, class: 'navbar-item'
+    a.navbar-burger.burger(role="button" aria-label="menu" aria-expanded="false" data-target="navbar-menu")
+      span(aria-hidden="true")
+      span(aria-hidden="true")
+      span(aria-hidden="true")
+  .navbar-menu#navbar-menu
+    .navbar-start
       - if admin?
-        li.nav-item(class=('active' if current_page? admin_path))
-          = link_to admin_path, class: 'nav-link' do
-            - fa_icon 'cog', text: 'Администрация'
-      li.nav-item(class=('active' if current_page? root_path))
-        = link_to root_path, class: 'nav-link' do
-          - fa_icon 'newspaper-o', text: 'Новини'
-      li.nav-item(class=('active' if current_page? prints_path))
-        = link_to prints_path, class: 'nav-link' do
-          - fa_icon 'book', text: 'Библиотека'
-      li.nav-item(class=('active' if current_page? prints_most_liked_path))
-        = link_to prints_most_liked_path, class: 'nav-link' do
-          - fa_icon 'star-o', text: 'Топ 10'
-      li.nav-item.dropdown
-        a.nav-link.dropdown-toggle(data-toggle="dropdown" href="#") Други
-        .dropdown-menu
-          = link_to 'Автори',      authors_path,    class: 'dropdown-item'
-          = link_to 'Издателства', publishers_path, class: 'dropdown-item'
-          = link_to 'Тагове',      tags_path,       class: 'dropdown-item'
-          = link_to 'Потребители', users_path,      class: 'dropdown-item'
+        = link_to admin_path, class: navbar_item_class(admin_path) do
+          - icon_with_text 'cog', 'Администрация'
 
-    .navbar
-      ul.navbar-nav
-        / Notifications
-        - if user_signed_in?
-          li.nav-item
-            a.nav-link.dropdown-toggle(data-toggle="dropdown" href="#")
-              - if current_user.unread_notifications?
-                span#notifications-count.bg-danger.text-white.px-1
-                  = current_user.notifications.unread.count
-              = fa_icon 'flag-o', class: 'mx-1'
-            .dropdown-menu.dropdown-menu-right
-              - if current_user.unread_notifications?
-                = link_to mark_notifications_as_read_user_path(current_user), method: :post, class: 'dropdown-item' do
-                  - fa_icon 'check', text: 'Маркирай всички като прочетени'
-                .dropdown-divider
-                h6.dropdown-header Известия
-                - current_user.notifications.unread.each do |notification|
-                  .dropdown-item.disabled= notification.message
-              - else
-                .dropdown-item.disabled Няма непрочетени известия
+      = link_to root_path, class: navbar_item_class(root_path) do
+        - icon_with_text 'newspaper-o', 'Новини'
+      = link_to prints_path, class: navbar_item_class(prints_path) do
+        - icon_with_text 'book', 'Библиотека'
+      = link_to prints_most_liked_path, class: navbar_item_class(prints_most_liked_path) do
+        - icon_with_text 'star-o', 'Tоп 10'
 
-        / Profile links
-        - if user_signed_in?
-          li.nav-item
-            a.nav-link.dropdown-toggle(data-toggle="dropdown" href="javascript:void;")
-              = fa_icon 'user-circle-o', class: 'mr-1'
-              = current_user.email.split("@").first
-              b.caret
-            .dropdown-menu.dropdown-menu-right
-              = link_to "Моите книги", current_user, class: 'dropdown-item'
-              = link_to 'Профил', edit_user_registration_path, class: 'dropdown-item'
-              .dropdown-divider
-              = link_to 'Изход', destroy_user_session_path, method: :delete, class: 'dropdown-item'
-        - else
-          li.nav-item= link_to new_user_registration_path, class: 'nav-link' do
-            - fa_icon 'plus', text: 'Регистрация'
-          li.nav-item= link_to new_user_session_path, class: 'nav-link' do
-            - fa_icon 'user-circle-o', text: 'Вход'
+      .navbar-item.has-dropdown.is-hoverable
+        .navbar-link Други
+        .navbar-dropdown.is-boxed
+          = link_to 'Автори',      authors_path,    class: navbar_item_class(authors_path)
+          = link_to 'Издателства', publishers_path, class: navbar_item_class(publishers_path)
+          = link_to 'Тагове',      tags_path,       class: navbar_item_class(tags_path)
+          = link_to 'Потребители', users_path,      class: navbar_item_class(users_path)
+
+    .navbar-end
+      / Notifications
+      - if user_signed_in?
+        .navbar-item.has-dropdown.is-hoverable
+          .navbar-link.is-arrowless
+            - if current_user.unread_notifications?
+              span#notifications-count.has-text-white.has-background-danger.px-5
+                = current_user.notifications.unread.count
+            span.icon= fa_icon 'bell-o'
+
+          .navbar-dropdown.is-boxed.is-right
+            - if current_user.unread_notifications?
+              = link_to mark_notifications_as_read_user_path(current_user), method: :post, class: 'dropdown-item' do
+                - icon_with_text 'check', 'Маркирай всички като прочетени'
+              .navbar-divider
+              - current_user.notifications.unread.each do |notification|
+                .navbar-item.disabled= notification.message
+            - else
+              .navbar-item.disabled Няма непрочетени известия
+
+      / Profile links
+      - if user_signed_in?
+        .navbar-item.has-dropdown.is-hoverable
+          .navbar-link
+            = icon_with_text 'user-circle-o', current_user.email.split("@").first
+          .navbar-dropdown.is-boxed.is-right
+            = link_to "Моите книги", current_user, class: navbar_item_class(user_path(current_user))
+            = link_to 'Профил', edit_user_registration_path, class: navbar_item_class(edit_user_registration_path)
+            .navbar-divider
+            = link_to 'Изход', destroy_user_session_path, method: :delete, class: 'navbar-item'
+      - else
+        = link_to new_user_registration_path, class: navbar_item_class(new_user_registration_path) do
+          - icon_with_text 'plus', 'Регистрация'
+        = link_to new_user_session_path, class: navbar_item_class(new_user_session_path) do
+          - icon_with_text 'user-circle-o', 'Вход'

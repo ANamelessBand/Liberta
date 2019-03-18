@@ -9,12 +9,13 @@ gem "rails", "~> 5.2.2"
 gem "sqlite3", "~> 1.3.6"
 gem "puma", "~> 3.11"
 
-gem "bootstrap"
-gem "jquery-rails"
 gem "sassc-rails"
 gem "uglifier", "~> 2.7.0"
 gem "font-awesome-rails"
 
+gem "bulma-rails"
+
+gem "jquery-rails"
 gem "jquery-ui-rails"
 gem "rails-jquery-autocomplete"
 
@@ -45,7 +46,7 @@ group :development do
   gem "spring-watcher-listen", "~> 2.0.0"
   gem "rubocop", require: false
   gem "rubocop-rails_config", require: false
-  gem 'guard-rspec', require: false
+  gem "guard-rspec", require: false
 end
 
 group :test do

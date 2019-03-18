@@ -9,7 +9,7 @@ RSpec.describe NewsController, type: :controller do
     describe "POST create" do
       context "with valid params" do
         let (:params) do
-          { news: { title: 'test', content: 'test content' } }
+          { news: { title: "test", content: "test content" } }
         end
 
         it { should permit(:title, :content).for(:create, params: params).on(:news) }
@@ -26,7 +26,7 @@ RSpec.describe NewsController, type: :controller do
       end
 
       it "throws an error with invalid parameters" do
-        expect { post :create, params: { news: { title: 'test' } } }.to raise_error ActiveRecord::RecordInvalid
+        expect { post :create, params: { news: { title: "test" } } }.to raise_error ActiveRecord::RecordInvalid
       end
     end
 
@@ -59,7 +59,7 @@ RSpec.describe NewsController, type: :controller do
 
     describe "DELETE destroy" do
       it "denies access" do
-        delete :destroy, params: { id: '1' }
+        delete :destroy, params: { id: "1" }
         expect(response).to deny_access
       end
     end

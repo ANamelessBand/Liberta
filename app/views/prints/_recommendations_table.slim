@@ -1,15 +1,15 @@
-.card.mt-4
+.card.mt-20
   .card-header
-    h6.card-title.mb-0 Препоръки
-  .card-body
+    .card-header-title Препоръки
+  .card-content
     - if user_signed_in? && !current_user.has_recommended?(@print)
-      a.btn.btn-primary.btn-sm(data-toggle="modal" href="#recommendation_modal")
-        = fa_icon 'star-o', text: 'Препоръчай'
+      a.button.is-link(data-toggle="modal" href="#recommendation_modal")
+        = icon_with_text 'star-o', 'Препоръчай'
 
     - if @print.last_recommendations.empty?
-      p.mt-4 Бъди пръв да препоръчаш тази книга!
+      p.mt-20 Бъди пръв да препоръчаш тази книга!
     - else
-      table.table.table-striped.mt-4
+      table.table.is-hoverable.is-fullwidth.mt-20
         thead
           tr
             th Потребител
@@ -27,7 +27,7 @@
                   = link_to print_recommendation_path(@print, recommendation),
                       method: :delete,
                       data: { confirm: 'Are you sure?' },
-                      class: 'btn btn-xs btn-outline-danger' do
-                    - fa_icon 'times', text: 'изтрий'
+                      class: 'button is-outlined is-danger is-xsmall' do
+                    - icon_with_text 'times', 'изтрий'
 
     = render partial: 'recommendation_modal', locals: { print: @print } if user_signed_in?

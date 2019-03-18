@@ -4,9 +4,9 @@
       locals: { path: publishers_path, autocomplete_path: autocomplete_publisher_name_publishers_path, placeholder: 'The Pragmatic Bookshelf' }
 
 - if @publishers.empty?
-  .alert.alert-info.mb-0 Няма намерени издателства
+  p Няма намерени издателства.
 - else
-  table.table.table-striped
+  table.table.is-hoverable.is-fullwidth
     thead
       tr
         th Име
@@ -23,7 +23,7 @@
               - if publisher.prints.empty?
                 = link_to publisher_path(publisher),
                     method: :delete,
-                    class: 'btn btn-xs btn-outline-danger',
+                    class: 'button is-outlined is-danger is-xsmall',
                     data: { confirm: "Are you sure?" } do
-                  - fa_icon 'times', text: 'изтрий'
+                  - icon_with_text 'times', 'изтрий'
   = paginate @publishers
