@@ -8,11 +8,10 @@
 
         section.print.media-content
           .content(style='height: 100%')
-            .level
-              .level-left(style='max-width: 80%')
-                p.title.is-4
+            .level.mb-0
+              .level-left.is-block(style='max-width: 80%')
+                h4.title.is-4.mb-10
                   = link_to print.title, print, class: 'has-text-dark'
-
               - if admin?
                 .level-right
                   = link_to edit_print_path(print), class: 'button is-outlined is-link is-xsmall is-icon-only ml-10', title: 'редактирай' do
@@ -23,7 +22,17 @@
                       title: 'изтрий',
                       class: 'button is-outlined is-danger is-xsmall is-icon-only ml-10' do
                     span.icon.is-small= fa_icon 'times'
-            p= stars_span(print.rating)
+            h6.subtitle.is-6=authors_html(print)
+            p
+              = stars_span(print.rating)
+              span.ml-20(style='position: relative; top: -3px')
+                - if print.has_copies?
+                  = fa_icon 'check', class: 'has-text-success'
+                  span.ml-5 Налична
+                - else
+                  = fa_icon 'times', class: 'has-text-danger'
+                  span.ml-5 Не е налична
+
             p= truncate(print.description, length: 120)
           div
             = link_to print, class: 'button is-link is-outlined'
