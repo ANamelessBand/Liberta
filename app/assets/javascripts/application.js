@@ -56,12 +56,12 @@ document.addEventListener('DOMContentLoaded', function() {
       var tabContent = document.getElementsByClassName('tab-pane');
       var tablinks = document.getElementsByClassName('tab-link');
 
-      for (var item of tabContent) {
-        item.classList.remove('is-active');
+      for (var i = 0; i < tabContent.length; i++) {
+        tabContent[i].classList.remove('is-active');
       }
 
-      for (var item of tablinks) {
-        item.classList.remove('is-active');
+      for (var i = 0; i < tablinks.length; i++) {
+        tablinks[i].classList.remove('is-active');
       }
 
       document.getElementById(this.getAttribute('href').substr(1)).classList.add('is-active');
