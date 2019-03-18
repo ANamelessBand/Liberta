@@ -1,51 +1,52 @@
-= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
   .columns
     .column.is-6
-      h3.title.is-3 Редакция на профил
-      = render "devise/shared/error_messages", resource: resource
-      .box
-        .field
-          = f.label :email, 'Email:', class: 'label'
-          .control.has-icons-left
-            = f.email_field :email, autofocus: true, autocomplete: "email", class: 'input'
-            span.icon.is-small.is-left= fa_icon 'envelope'
+      = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+        h3.title.is-3 Редакция на профил
+        .box
+          = render "devise/shared/error_messages", resource: resource
 
-        - if devise_mapping.confirmable? && resource.pending_reconfirmation?
-          div Currently waiting confirmation for: #{resource.unconfirmed_email}
+          .field
+            = f.label :email, 'Email:', class: 'label'
+            .control.has-icons-left
+              = f.email_field :email, autofocus: true, autocomplete: "email", class: 'input'
+              span.icon.is-small.is-left= fa_icon 'envelope'
 
-        .field
-          = f.label :name, 'Име:', class: 'label'
-          .control.has-icons-left
-            = f.text_field :name, class: 'input'
-            span.icon.is-small.is-left= fa_icon 'user'
+          - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+            div Currently waiting confirmation for: #{resource.unconfirmed_email}
 
-        .field
-          = f.label :password, 'Нова парола:', class: 'label'
-          .control.has-icons-left
-            = f.password_field :password, autocomplete: "new-password", class: 'input'
-            span.icon.is-small.is-left= fa_icon 'lock'
-          - if @minimum_password_length
+          .field
+            = f.label :name, 'Име:', class: 'label'
+            .control.has-icons-left
+              = f.text_field :name, class: 'input'
+              span.icon.is-small.is-left= fa_icon 'user'
+
+          .field
+            = f.label :password, 'Нова парола:', class: 'label'
+            .control.has-icons-left
+              = f.password_field :password, autocomplete: "new-password", class: 'input'
+              span.icon.is-small.is-left= fa_icon 'lock'
+            - if @minimum_password_length
+              p.help
+                i остави празно ако не искаш промяна
+                br
+                  | минимум #{@minimum_password_length} знака
+
+          .field
+            = f.label :password_confirmation, 'Повтори паролата:', class: 'label'
+            .control.has-icons-left
+              = f.password_field :password_confirmation, autocomplete: "new-password", class: 'input'
+              span.icon.is-small.is-left= fa_icon 'lock'
+
+          .field
+            = f.label :current_password, 'Текуща парола: *', class: 'label'
+            .control.has-icons-left
+              = f.password_field :current_password, autocomplete: "current-password", class: 'input'
+              span.icon.is-small.is-left= fa_icon 'lock'
             p.help
-              i остави празно ако не искаш промяна
-              br
-                | минимум #{@minimum_password_length} знака
+              i задължителна за да потвърдим промените
 
-        .field
-          = f.label :password_confirmation, 'Повтори паролата:', class: 'label'
-          .control.has-icons-left
-            = f.password_field :password_confirmation, autocomplete: "new-password", class: 'input'
-            span.icon.is-small.is-left= fa_icon 'lock'
-
-        .field
-          = f.label :current_password, 'Текуща парола: *', class: 'label'
-          .control.has-icons-left
-            = f.password_field :current_password, autocomplete: "current-password", class: 'input'
-            span.icon.is-small.is-left= fa_icon 'lock'
-          p.help
-            i задължителна за да потвърдим промените
-
-        .field
-          = f.submit "Редактирай", class: 'button is-success'
+          .field
+            = f.submit "Редактирай", class: 'button is-success'
 
     .column.is-6
       h3.title.is-3 Изтриване на профил
