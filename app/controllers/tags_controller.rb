@@ -3,7 +3,7 @@
 class TagsController < ApplicationController
   before_action :require_admin, only: [:destroy]
 
-  autocomplete :tag, :name
+  autocomplete :tag, :name, full: true
   add_breadcrumb "Тагове", :tags_path
 
   def index

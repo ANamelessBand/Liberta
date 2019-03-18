@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  autocomplete :user, :email
+  autocomplete :user, :email, full: true
 
   before_action :require_signed_in, only: [:mark_notifications_as_read]
   before_action :require_admin, only: [:make_admin, :revoke_admin]

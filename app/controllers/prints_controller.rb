@@ -5,7 +5,7 @@ class PrintsController < ApplicationController
   before_action :require_admin,     only: [:new, :create, :edit, :update, :destroy]
   before_action :require_signed_in, only: [:add_wishlist, :remove_wishlist]
 
-  autocomplete :print, :title
+  autocomplete :print, :title, full: true
   add_breadcrumb "Библиотека", :prints_path
 
   def index

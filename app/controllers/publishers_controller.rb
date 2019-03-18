@@ -3,7 +3,7 @@
 class PublishersController < ApplicationController
   before_action :require_admin, only: [:destroy]
 
-  autocomplete :publisher, :name
+  autocomplete :publisher, :name, full: true
   add_breadcrumb "Издателства", :publishers_path
 
   def index

@@ -3,7 +3,7 @@
 class AuthorsController < ApplicationController
   before_action :require_admin, only: [:destroy]
 
-  autocomplete :author, :name
+  autocomplete :author, :name, full: true
   add_breadcrumb "Автори", :authors_path
 
   def index
