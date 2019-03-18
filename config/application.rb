@@ -35,5 +35,7 @@ module Liberta
     config.generators.system_tests = nil
 
     config.i18n.default_locale = :bg
+
+    config.default_loan_time = 20.days
   end
 end

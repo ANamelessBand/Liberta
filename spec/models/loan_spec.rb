@@ -8,6 +8,17 @@ RSpec.describe Loan, type: :model do
 
   subject { create(:loan) }
 
+  before do
+    allow(Rails.configuration).to receive(:default_loan_time).and_return(7.days)
+  end
+
+  describe "#new" do
+    it "gets default configuration" do
+      expect(Rails.configuration).to receive(:default_loan_time)
+      subject
+    end
+  end
+
   describe "#time_supposed_return" do
     it "defaults to 7 days from now" do
       expect(subject.time_supposed_return).to be_within(7.days).of(Time.now)
