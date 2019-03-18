@@ -11,9 +11,9 @@
 
 = render 'copies_table'
 
-- if @print.cover_url.present?
-  img.is-pulled-left(async="" src=@print.cover_url style="height: 320px; min-width: 220px")
-.is-pulled-left(class=(@print.cover_url.present? ? 'ml-20' : ''))
+.is-pulled-left
+  = print_cover(@print, :cover_large)
+.is-pulled-left.ml-20
   = render partial: 'details_table', locals: { print: @print }
 
 .is-pulled-left.ml-20

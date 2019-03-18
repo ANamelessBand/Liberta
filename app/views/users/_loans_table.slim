@@ -15,7 +15,7 @@
     tbody
       - @user.loans.each do |loan|
         tr
-          td= print_link_with_cover(loan.print)
+          td= link_to loan.print.title, loan.print
           td= authors_html(loan.print)
           td преди #{time_ago_in_words(loan.time_loaned)}
           - if @user == current_user || admin?

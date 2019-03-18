@@ -6,10 +6,9 @@
       button.delete(aria-label="Close" data-dismiss="modal" type="button")
 
     section.modal-card-body
-      - if print.cover_url.present?
-        .pull-left.pr-20.pb-15
-          img(async="" src=print.cover_url style="height: 250px")
-      div.mb-10= print.description
+      .pull-left.pr-20.pb-15(style="height: 250px")
+        = print_cover(print)
+      .mb-10= print.description
       .is-clearfix
       = render partial: 'prints/details_table', locals: { print: print }
 

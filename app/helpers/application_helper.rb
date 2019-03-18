@@ -31,19 +31,11 @@ module ApplicationHelper
     end
   end
 
-  def print_link_with_cover(print)
+  def print_cover(print, class_name = :cover)
     if print.cover_url.present?
-      link_to print.title,
-          print,
-          data: {
-            toggle: "popover",
-            placement: "bottom",
-            trigger: "hover",
-            content: image_tag(print.cover_url, class: "cover"),
-            html: true
-          }
+      image_tag(print.cover_url, async: true, class: class_name)
     else
-      link_to print.title, print
+      image_tag asset_path("book-cover-placeholder.jpg", type: :image, skip_pipeline: true), class: class_name
     end
   end
 end

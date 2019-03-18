@@ -2,10 +2,9 @@
   - prints.each do |print|
     .column.is-6.is-flex
       article.media.box
-        - if print.cover_url.present?
-          figure.media-left
-            p.image.is-128x128
-              = image_tag print.cover_url
+        figure.media-left
+          p.iamge.is-128x128
+            = print_cover(print)
 
         section.print.media-content
           .content(style='height: 100%')

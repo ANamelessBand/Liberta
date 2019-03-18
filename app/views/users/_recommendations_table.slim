@@ -13,7 +13,7 @@
     tbody
       - recommendations.each do |recommendation|
         tr
-          td= print_link_with_cover(recommendation.print)
+          td= link_to recommendation.print.title, recommendation.print
           td= authors_html recommendation.print
           td= stars_span   recommendation.rating
           td
