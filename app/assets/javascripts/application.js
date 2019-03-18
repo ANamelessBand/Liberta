@@ -15,13 +15,13 @@ function changeWish(oldElement, isAdd) {
   var newHref;
 
   if (isAdd) {
-    newTitle = 'премахни от желани';
+    newTitle = 'желани';
     newHref = 'remove_wishlist';
     element.addEventListener('click', function() {
       changeWish(element, false);
     });
   } else {
-    newTitle = 'добави в желани';
+    newTitle = 'желани';
     newHref = 'add_wishlist';
     element.addEventListener('click', function() {
       changeWish(element, true);
@@ -32,7 +32,11 @@ function changeWish(oldElement, isAdd) {
   element.classList.toggle('is-success');
   element.classList.toggle('remove-wish');
   element.classList.toggle('is-danger');
-  element.setAttribute('title', newTitle);
+
+  if (!element.dataset.text) {
+    element.setAttribute('title', newTitle);
+  }
+
   element.setAttribute('href', '/prints/' + element.dataset.printId + '/' + newHref);
 
   var icon = element.querySelector('.fa');

@@ -1,3 +1,15 @@
 - content_for :title, "Издателство: #{@publisher.name}"
-= render partial: 'prints/prints_table', locals: { prints: @prints }
+
+.field.has-addons
+  .control
+    = link_to publisher_path(@publisher.id, { display: :grid }), class: 'button' do
+      - fa_icon 'image'
+  .control
+    = link_to publisher_path(@publisher.id, { display: :table }), class: 'button' do
+      = fa_icon 'table'
+
+- if params[:display] == 'table'
+  = render partial: 'prints/prints_table', locals: { prints: @prints }
+- else
+  = render partial: 'prints/prints_grid', locals: { prints: @prints }
 = paginate @prints

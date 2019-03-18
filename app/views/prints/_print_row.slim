@@ -21,7 +21,7 @@ tr
         = link_to remove_wishlist_print_path(print),
             remote: true,
             method: :post,
-            title: 'премахни от желани',
+            title: 'желани',
             data: { print_id: print.id },
             class: "button is-danger is-xsmall is-icon-only remove-wish" do
           span.icon.is-small= fa_icon 'minus'
@@ -29,7 +29,7 @@ tr
         = link_to add_wishlist_print_path(print),
             remote: true,
             method: :post,
-            title: 'добави в желани',
+            title: 'желани',
             data: { print_id: print.id },
             class: 'button is-success is-xsmall is-icon-only add-wish' do
           span.icon.is-small= fa_icon 'plus'

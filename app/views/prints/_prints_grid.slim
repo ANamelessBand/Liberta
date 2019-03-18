@@ -1,0 +1,32 @@
+.columns.is-multiline
+  - prints.each do |print|
+    .column.is-6.is-flex
+      article.media.box
+        - if print.cover_url.present?
+          figure.media-left
+            p.image.is-128x128
+              = image_tag print.cover_url
+
+        section.print.media-content
+          .content(style='height: 100%')
+            p.title.is-4= link_to print.title, print, class: 'has-text-dark'
+            p= stars_span(print.rating)
+            p= truncate(print.description, length: 120)
+          div
+            = link_to print, class: 'button is-link is-outlined'
+              - icon_with_text 'share', "виж повече"
+            - if user_signed_in?
+              - if current_user.wish? print
+                = link_to remove_wishlist_print_path(print),
+                    remote: true,
+                    method: :post,
+                    data: { print_id: print.id, text: true },
+                    class: "button is-danger remove-wish ml-10" do
+                  - icon_with_text 'minus', 'желани'
+              - else
+                = link_to add_wishlist_print_path(print),
+                    remote: true,
+                    method: :post,
+                    data: { print_id: print.id, text: true },
+                    class: 'button is-success add-wish ml-10' do
+                  - icon_with_text 'plus', 'желани'

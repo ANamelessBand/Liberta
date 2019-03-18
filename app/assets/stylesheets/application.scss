@@ -56,6 +56,14 @@ body {
   margin-bottom: 0;
 }
 
+.print.media-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  min-height: 200px;
+}
+
 .free-copies {
   border: 1px solid $danger;
   padding: 20px 40px;

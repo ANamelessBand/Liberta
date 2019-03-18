@@ -32,7 +32,7 @@ nav.navbar.has-shadow.is-dark.is-fixed-top(role="navigation" aria-label="main na
         .navbar-item.has-dropdown.is-hoverable
           .navbar-link.is-arrowless
             - if current_user.unread_notifications?
-              span#notifications-count.has-text-white.has-background-danger.px-5
+              span.has-text-white.has-background-danger.px-5
                 = current_user.notifications.unread.count
             span.icon= fa_icon 'bell-o'
 

@@ -1,3 +1,16 @@
 - content_for :title, "Автор: #{@author.name}"
-= render partial: 'prints/prints_table', locals: { prints: @prints }
+
+.field.has-addons
+  .control
+    = link_to author_path(@author.id, { display: :grid }), class: 'button' do
+      - fa_icon 'image'
+  .control
+    = link_to author_path(@author.id, { display: :table }), class: 'button' do
+      = fa_icon 'table'
+
+- if params[:display] == 'table'
+  = render partial: 'prints/prints_table', locals: { prints: @prints }
+- else
+  = render partial: 'prints/prints_grid', locals: { prints: @prints }
+
 = paginate @prints

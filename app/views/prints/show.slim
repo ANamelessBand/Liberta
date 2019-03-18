@@ -29,17 +29,17 @@
           method: :post,
           data: { print_id: @print.id, text: true },
           class: 'button is-danger remove-wish' do
-        - icon_with_text 'minus', 'премахни от желани'
+        - icon_with_text 'minus', 'желани'
     - else
       = link_to add_wishlist_print_path(@print),
           remote: true,
           method: :post,
           data: { print_id: @print.id, text: true },
           class: 'button is-success add-wish' do
-        - icon_with_text 'plus', 'добави в желани'
+        - icon_with_text 'plus', 'желани'
   - else
     = link_to new_user_session_path, class: 'btn btn-outline-success' do
-      - fa_icon 'plus', text: 'добави в желани'
+      - icon_with_text 'plus', 'желани'
 .is-clearfix
 
 - if @print.description.present?
