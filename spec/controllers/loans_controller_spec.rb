@@ -10,13 +10,13 @@ RSpec.describe LoansController, type: :controller do
       context "when copy doesn't exist" do
         it "raises an error" do
           create :user, email: "user@user.com"
-          expect { post :create, params: { user: 'user@user.com', copy_id: 1, print_id: 1 } }.to raise_error ActiveRecord::RecordNotFound
+          expect { post :create, params: { user: "user@user.com", copy_id: 1, print_id: 1 } }.to raise_error ActiveRecord::RecordNotFound
         end
       end
 
       context "when user doesn't exist" do
         it "raises an error" do
-          expect { post :create, params: { user: 'invalid', copy_id: 1, print_id: 1 } }.to raise_error ActiveRecord::RecordNotFound
+          expect { post :create, params: { user: "invalid", copy_id: 1, print_id: 1 } }.to raise_error ActiveRecord::RecordNotFound
         end
       end
 
@@ -28,7 +28,7 @@ RSpec.describe LoansController, type: :controller do
 
         before :each do
           allow(Copy).to receive(:find).with(copy.id.to_s).and_return(copy)
-          allow(User).to receive(:find_by).with({ email: user.email }).and_return(user)
+          allow(User).to receive(:find_by).with(email: user.email).and_return(user)
         end
 
         subject { post :create, params: params }

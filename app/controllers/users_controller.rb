@@ -49,7 +49,7 @@ class UsersController < ApplicationController
     if @user.save!
       redirect_back fallback_location: users_path, success: "Потребителят беше създаден успешно!"
     else
-      redirect_back fallback_location: users_Path, warning: "Възникна грешка при създаване на потребителя!"
+      redirect_back fallback_location: users_path, warning: "Възникна грешка при създаване на потребителя!"
     end
   end
 

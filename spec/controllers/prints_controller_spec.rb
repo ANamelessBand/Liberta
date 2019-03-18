@@ -18,6 +18,10 @@ RSpec.describe PrintsController, type: :controller do
       subject
       expect(assigns(:prints)).to eq prints
     end
+
+    it "renders index template" do
+      expect(subject).to render_template :index
+    end
   end
 
   describe "GET best" do
@@ -54,6 +58,13 @@ RSpec.describe PrintsController, type: :controller do
       expect(assigns(:print)).to eq print
     end
 
+    it "renders show template" do
+      allow(Print).to receive(:find).and_return(print)
+      subject
+
+      expect(subject).to render_template :show
+    end
+
     it "raises an error if print doesn't exist" do
       expect { subject }.to raise_error ActiveRecord::RecordNotFound
     end
@@ -81,7 +92,7 @@ RSpec.describe PrintsController, type: :controller do
 
       it "creates wishlist" do
         allow(Print).to receive(:find).and_return(print)
-        expect(Wishlist).to receive(:create!).with({ user: current_user, print: print})
+        expect(Wishlist).to receive(:create!).with(user: current_user, print: print)
         subject
       end
     end
@@ -105,13 +116,13 @@ RSpec.describe PrintsController, type: :controller do
       let (:wishlist) { create :wishlist }
 
       it "looks for wishlist" do
-        expect(Wishlist).to receive(:find_by_user_id_and_print_id).with(current_user.id, '42').and_return(wishlist)
+        expect(Wishlist).to receive(:find_by_user_id_and_print_id).with(current_user.id, "42").and_return(wishlist)
         subject
       end
 
       context "when wishlist found" do
         before :each do
-          allow(Wishlist).to receive(:find_by_user_id_and_print_id).with(current_user.id, '42').and_return(wishlist)
+          allow(Wishlist).to receive(:find_by_user_id_and_print_id).with(current_user.id, "42").and_return(wishlist)
         end
 
         it "destroys wishlist" do
@@ -165,13 +176,13 @@ RSpec.describe PrintsController, type: :controller do
       let (:params) do
         {
           print: {
-            title: 'test title',
-            language: 'en',
-            format: 'hard cover',
-            description: 'lorem ipsum',
-            isbn: '1234',
+            title: "test title",
+            language: "en",
+            format: "hard cover",
+            description: "lorem ipsum",
+            isbn: "1234",
             pages: 123,
-            cover_url: 'http://url'
+            cover_url: "http://url"
           },
           authors_names: "Author1, Author2",
           publisher_name: "Publisher",
@@ -221,11 +232,11 @@ RSpec.describe PrintsController, type: :controller do
         let (:print) { create :print }
 
         before :each do
-          allow(Print).to receive(:find).with('1').and_return(print)
+          allow(Print).to receive(:find).with("1").and_return(print)
         end
 
         it "assigns @print" do
-          expect(Print).to receive(:find).with('1').and_return(print)
+          expect(Print).to receive(:find).with("1").and_return(print)
           subject
           expect(assigns(:print)).to eq print
         end
@@ -259,15 +270,15 @@ RSpec.describe PrintsController, type: :controller do
         let (:print) { create :print }
         let (:params) do
           {
-            id: '1',
+            id: "1",
             print: {
-              title: 'test title',
-              language: 'en',
-              format: 'hard cover',
-              description: 'lorem ipsum',
-              isbn: '1234',
+              title: "test title",
+              language: "en",
+              format: "hard cover",
+              description: "lorem ipsum",
+              isbn: "1234",
               pages: 123,
-              cover_url: 'http://url'
+              cover_url: "http://url"
             },
             authors_names: "Author1, Author2",
             publisher_name: "Publisher",
@@ -285,7 +296,7 @@ RSpec.describe PrintsController, type: :controller do
         end
 
         before :each do
-          allow(Print).to receive(:find).with('1').and_return(print)
+          allow(Print).to receive(:find).with("1").and_return(print)
         end
 
         it do
@@ -322,7 +333,7 @@ RSpec.describe PrintsController, type: :controller do
         let (:print) { create :print }
 
         before :each do
-          allow(Print).to receive(:find).with('1').and_return(print)
+          allow(Print).to receive(:find).with("1").and_return(print)
         end
 
         it "destroys print" do
