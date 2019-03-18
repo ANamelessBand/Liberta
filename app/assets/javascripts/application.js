@@ -5,6 +5,8 @@
 //= require autocomplete-rails
 //= require_tree .
 
+jQuery.railsAutocomplete.options.showNoMatches = false;
+
 function forEach(parent, selector, fn) {
   return (parent.querySelectorAll(selector) || []).forEach(fn);
 }
