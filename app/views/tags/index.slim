@@ -16,7 +16,8 @@
     tbody
       - @tags.each do |tag|
         tr
-          td= link_to tag.name, tag
+          td= link_to tag, class: 'button is-outlined is-link is-xsmall mr-5'
+            - icon_with_text 'tag', tag.name
           td= tag.prints.count
           - if admin?
             td
