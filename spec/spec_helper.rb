@@ -16,7 +16,9 @@ unless ARGV.any? { |e| e =~ /guard-rspec/ }
     Coveralls::SimpleCov::Formatter
   ])
 
-  SimpleCov.start "rails"
+  SimpleCov.start "rails" do
+    add_filter "lib/monkey_patches/bulma_breadcrumbs_builder.rb"
+  end
 end
 
 RSpec.configure do |config|

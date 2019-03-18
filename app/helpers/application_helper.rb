@@ -20,6 +20,7 @@ module ApplicationHelper
   end
 
   def stars_span(rating, interactive = false)
+    rating = rating.to_f
     rounded = (rating * 2).round / 2.0
     rounded = rounded.to_i if rounded == rounded.floor
 
