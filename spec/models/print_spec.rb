@@ -68,7 +68,7 @@ RSpec.describe Print, type: :model do
       expect(print.pages).to eq api_print.page_count
       expect(print.language).to eq api_print.language
       expect(print.authors.to_a.count).to eq api_print.authors_array.count
-      expect(print.tags.to_a.count).to eq api_print.categories.split(',').count
+      expect(print.tags.to_a.count).to eq api_print.categories.split(",").count
     end
   end
 
