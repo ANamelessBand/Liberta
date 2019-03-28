@@ -39,7 +39,7 @@ class Print < ApplicationRecord
     print.pages       = api_print.page_count
     print.language    = api_print.language
     print.format      = api_print.print_type
-    print.cover_url   = api_print.image_link
+    print.cover_url   = api_print.image_link(zoom: 2)
 
     print
   end
