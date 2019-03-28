@@ -11,11 +11,11 @@
 
 .field.has-addons
   .control
-    = link_to prints_path({ display: :grid }), class: 'button' do
+    = link_to url_for(params.permit(:search).merge({ display: :grid })), class: 'button' do
       - fa_icon 'image'
   .control
-    = link_to prints_path({ display: :table }), class: 'button' do
-      = fa_icon 'table'
+    = link_to url_for(params.permit(:search).merge({ display: :table })), class: 'button' do
+      - fa_icon 'table'
 
 - if params[:display] == 'table'
   = render partial: 'prints/prints_table', locals: { prints: @prints }
