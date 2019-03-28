@@ -1,0 +1,28 @@
+- content_for :title, 'Избери вариант за добавяне'
+
+.columns.is-multiline
+  - @prints.each do |print|
+    .column.is-6.is-flex
+      article.media.box
+        figure.media-left
+          p.iamge.is-128x128
+            = print_cover(print)
+
+        section.print.media-content
+          .content(style='height: 100%')
+            .level.mb-0
+              .level-left.is-block(style='max-width: 80%')
+                h4.title.is-4.mb-10
+                  = link_to print.title, print, class: 'has-text-dark'
+            h6.subtitle.is-6=print.authors.map(&:name).join(', ')
+            div
+              strong Publisher:&nbsp;
+              = print.publisher.name
+            div.mb-10
+              strong Pages:&nbsp;
+              = print.pages
+
+            p= truncate(print.description, length: 240)
+            div
+              = link_to add_from_api_prints_path(print.isbn), method: :post, class: 'button is-success'
+                - icon_with_text 'plus', "избери"

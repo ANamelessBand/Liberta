@@ -14,7 +14,6 @@ RSpec.describe Print, type: :model do
 
   it { is_expected.to validate_presence_of :title }
   it { is_expected.to validate_presence_of :language }
-  it { is_expected.to validate_presence_of :publisher_id }
 
   subject { create(:print) }
 
@@ -53,6 +52,23 @@ RSpec.describe Print, type: :model do
       print4 = create(:print, tags: [tag1, tag2])
 
       expect(Print.for_tag(tag1.id)).to match_array [print1, print2, print4]
+    end
+  end
+
+  describe "::from_google_api" do
+    let (:api_print) { google_print }
+
+    it "creates a print from a google print" do
+      print = Print.from_google_api(api_print)
+
+      expect(print.title).to eq api_print.title
+      expect(print.description).to eq api_print.description
+      expect(print.publisher.name).to eq api_print.publisher
+      expect(print.title).to eq api_print.title
+      expect(print.pages).to eq api_print.page_count
+      expect(print.language).to eq api_print.language
+      expect(print.authors.to_a.count).to eq api_print.authors_array.count
+      expect(print.tags.to_a.count).to eq api_print.categories.split(',').count
     end
   end
 

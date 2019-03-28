@@ -348,4 +348,117 @@ RSpec.describe PrintsController, type: :controller do
       end
     end
   end
+
+  describe "POST choose_from_api" do
+    context "when not admin" do
+      sign_in_as :user
+
+      it "denies access" do
+        expect(post :choose_from_api).to deny_access
+      end
+    end
+
+    context "when admin" do
+      sign_in_as :admin
+
+      subject { post :choose_from_api, params: { name: "test" } }
+
+      it "makes a request to GoogleBooks" do
+        expect(GoogleBooks).to receive(:search).and_return([])
+        subject
+      end
+
+      it "uses name from params for request" do
+        expect(GoogleBooks).to receive(:search).with("test").and_return([])
+        subject
+      end
+
+      context "and the book is found" do
+        let (:print_1) { google_print }
+        let (:print_2) { google_print }
+
+        before :each do
+          allow(GoogleBooks).to receive(:search).and_return([print_1, print_2])
+        end
+
+        it "assings @prints" do
+          subject
+
+          expect(assigns(:prints).first).to be_a Print
+          expect(assigns(:prints).first.title).to eq print_1.title
+        end
+
+        it "renders choose_from_api" do
+          expect(subject).to render_template :choose_from_api
+        end
+      end
+
+      context "and the book is not found" do
+        before :each do
+          allow(GoogleBooks).to receive(:search).and_return([])
+        end
+
+        it "redirects to all prints" do
+          subject
+          expect(response.redirect_url).to end_with prints_path
+        end
+      end
+    end
+  end
+
+  describe "POST add_from_api" do
+    subject { post :add_from_api, params: { isbn: "1234" } }
+
+    context "when not admin" do
+      sign_in_as :user
+
+      it "denies access" do
+        expect(subject).to deny_access
+      end
+    end
+
+    context "when admin" do
+      sign_in_as :admin
+
+      let (:g_print) { google_print }
+      let (:print) { create(:print) }
+
+      it "makes a request to GoogleBooks" do
+        expect(GoogleBooks).to receive(:search).and_return([g_print])
+        subject
+      end
+
+      it "uses name from params for request" do
+        expect(GoogleBooks).to receive(:search).with("isbn:1234").and_return([g_print])
+        subject
+      end
+
+      context "and the book is found" do
+        before :each do
+          allow(GoogleBooks).to receive(:search).and_return([g_print])
+        end
+
+        it "converts to Print" do
+          expect(Print).to receive(:from_google_api).with(g_print).and_return(print)
+          subject
+        end
+
+        it "redirects to a;; prints if unable to save" do
+          allow(Print).to receive(:from_google_api).with(g_print).and_return(print)
+          expect(print).to receive(:save).and_return(false)
+
+          subject
+          expect(response.redirect_url).to end_with prints_path
+        end
+
+        it "redirects to saved print if saved" do
+          allow(Print).to receive(:from_google_api).with(g_print).and_return(print)
+          expect(print).to receive(:save).and_return(true)
+
+          subject
+          expect(response.redirect_url).to end_with print_path(print.id)
+        end
+      end
+    end
+  end
 end

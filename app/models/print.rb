@@ -10,13 +10,39 @@ class Print < ApplicationRecord
   has_and_belongs_to_many :tags
   has_and_belongs_to_many :authors
 
-  validates_presence_of :title, :language, :publisher_id
+  validates_presence_of :title, :language
 
   scope :for_author,    -> (author_id) { joins(:authors).where("authors.id == :id", id: author_id) }
   scope :for_publisher, -> (publisher_id) { where("publisher_id == :id", id: publisher_id) }
   scope :for_tag,       -> (tag_id) { joins(:tags).where("tags.id == :id", id: tag_id) }
 
   paginates_per 10
+
+  def self.from_google_api(api_print)
+    print = Print.new
+
+    publisher_name = api_print.publisher.delete_prefix('"').delete_suffix('"')
+
+    print.publisher = Publisher.find_or_initialize_by name: publisher_name.strip
+    print.authors = api_print.authors_array
+        .filter(&:present?)
+        .map { |name| Author.find_or_initialize_by name: name.strip }
+
+    print.tags = api_print.categories
+        .split(",")
+        .filter(&:present?)
+        .map! { |name| Tag.find_or_initialize_by name: name.strip }
+
+    print.title       = api_print.title
+    print.description = api_print.description
+    print.isbn        = api_print.isbn_13
+    print.pages       = api_print.page_count
+    print.language    = api_print.language
+    print.format      = api_print.print_type
+    print.cover_url   = api_print.image_link
+
+    print
+  end
 
   def self.best
     all.sort_by(&:rating).reverse

@@ -4,7 +4,10 @@
       locals: { path: prints_path, autocomplete_path: autocomplete_print_title_prints_path, placeholder: 'Lord of the Rings' }
   - if admin?
     = link_to new_print_path, class: 'button is-success ml-10' do
-      - icon_with_text 'plus', 'добави'
+      - icon_with_text 'plus', 'добави ръчно'
+    a.button.is-success.ml-10(data-toggle="modal" href="#print_automatic_add")
+      = icon_with_text 'plus', 'добави автоматично'
+    = render partial: 'prints/automatic_add_modal'
 
 .field.has-addons
   .control

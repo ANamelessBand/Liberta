@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PrintsController < ApplicationController
-  before_action :require_admin,     only: [:new, :create, :edit, :update, :destroy]
+  before_action :require_admin,     only: [:new, :create, :edit, :update, :destroy, :choose_from_api, :add_from_api]
   before_action :require_signed_in, only: [:add_wishlist, :remove_wishlist]
   before_action :set_print,         only: [:show, :edit, :update, :destroy, :add_wishlist]
 
@@ -47,7 +47,7 @@ class PrintsController < ApplicationController
     set_print_associations(@print)
 
     if @print.save
-      redirect_to print_path(@print), notice: "Публикацията беше запазена успешно!"
+      redirect_to print_path(@print), success: "Публикацията беше запазена успешно!"
     else
       render :new
     end
@@ -71,6 +71,29 @@ class PrintsController < ApplicationController
   def destroy
     @print.destroy!
     redirect_to prints_path, success: "Публикацията беше изтрита успешно! "
+  end
+
+  def choose_from_api
+    prints = GoogleBooks.search(params[:name]).filter { |print| print.isbn.present? && print.publisher.present? }
+
+    if prints.count.zero?
+      redirect_to prints_path, alert: "Не беше намерена публикация с такова име. Sorry :("
+    else
+      @prints = prints.map { |print| Print.from_google_api(print) }
+      render :choose_from_api
+    end
+  end
+
+  def add_from_api
+    api_print = GoogleBooks.search("isbn:#{params[:isbn]}").first
+
+    print = Print.from_google_api(api_print)
+
+    if print.save
+      redirect_to print_path(print), success: "Публикацията беше запазена успешно!"
+    else
+      redirect_to prints_path, alert: "Възникна грешка при записване на публикацията."
+    end
   end
 
 private

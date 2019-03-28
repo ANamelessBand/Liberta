@@ -22,6 +22,8 @@ Rails.application.routes.draw do
 
   resources :prints do
     get :autocomplete_print_title, on: :collection
+    post :choose_from_api,         on: :collection
+    post "add_from_api/:isbn" => "prints#add_from_api", as: :add_from_api, on: :collection
 
     post :add_wishlist,    on: :member
     post :remove_wishlist, on: :member

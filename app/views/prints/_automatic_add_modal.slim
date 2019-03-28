@@ -1,0 +1,18 @@
+.modal#print_automatic_add
+  .modal-background.animated.fadeIn.fastest
+  .modal-card.animated.fadeInDown.fastest
+    header.modal-card-head
+      h5.modal-card-title Автоматично добавяне
+      button.delete(aria-label="Close" data-dismiss="modal" type="button")
+
+    = form_tag choose_from_api_prints_path do
+
+      section.modal-card-body
+        p.mb-10 "Автоматично добавяне" опитва да намери публикацията по име в Google Books.
+        .field
+          = label_tag :name, 'Име: ', class: 'label'
+          = text_field_tag :name, nil, class: 'input', placeholder: 'A Game of Thrones'
+
+      footer.modal-card-foot.justify-flex-end
+        button.button.is-outlined.is-link(data-dismiss="modal" type="button") затвори
+        = submit_tag 'търси', class: 'button is-link'

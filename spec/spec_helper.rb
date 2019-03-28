@@ -7,6 +7,7 @@ require "coveralls"
 require "devise"
 
 require_relative "support/controller_helpers.rb"
+require_relative "support/general_helpers.rb"
 
 unless ARGV.any? { |e| e =~ /guard-rspec/ }
   Coveralls.wear! "rails"
@@ -51,4 +52,5 @@ RSpec.configure do |config|
   config.order = :random
 
   config.extend ControllerHelpers, type: :controller
+  config.include GeneralHelpers
 end
