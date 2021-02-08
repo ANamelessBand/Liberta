@@ -83,4 +83,10 @@ class Print < ApplicationRecord
   def notify_copy_returned!
     wished_by.each { |user| user.notify! "Върнато е копие на \"#{title}\". Свободни копия: #{free_copies.count}" }
   end
+
+  def cover_url
+    uri = URI.parse(self[:cover_url])
+    uri.scheme = "https"
+    uri.to_s
+  end
 end
