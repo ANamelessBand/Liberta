@@ -85,6 +85,9 @@ class Print < ApplicationRecord
   end
 
   def cover_url
+    if not self[:cover_url]
+      return self[:cover_url]
+    end
     uri = URI.parse(self[:cover_url])
     uri.scheme = "https"
     uri.to_s
