@@ -5,7 +5,8 @@ RUN apk add --no-cache build-base \
   sqlite-dev \
   nodejs \
   npm \
-  tzdata
+  tzdata \
+  postgresql-dev
 
 ENV RAILS_ROOT /var/www/liberta
 
