@@ -6,7 +6,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "2.6.0"
 
 gem "rails", "~> 5.2.2"
-gem "sqlite3", "~> 1.3.6"
+gem 'supabase', '~> 0.1.0'
 gem "puma", "~> 3.11"
 
 gem "sassc-rails"
@@ -34,6 +34,7 @@ gem "googlebooks"
 gem "bootsnap", "~> 1.1.0", require: false
 
 group :development, :test do
+  gem "sqlite3", "~> 1.3.6"
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
   gem "rspec-rails"
   gem "factory_bot_rails"
