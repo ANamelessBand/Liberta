@@ -7,6 +7,7 @@ ruby "2.6.0"
 
 gem "rails", "~> 5.2.2"
 gem 'supabase', '~> 0.1.0'
+gem "pg"
 gem "puma", "~> 3.11"
 
 gem "sassc-rails"
